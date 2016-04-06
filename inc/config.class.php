@@ -117,7 +117,7 @@ class PluginAirwatchConfig extends CommonDBTM {
                      `password` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `api_key` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `skip_ssl_check` tinyint(1) NOT NULL default '0',
-                     PRIMARY KEY  (`id`)` 
+                     PRIMARY KEY  (`id`)
                   ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
          $DB->query($query) or die ($DB->error());
 

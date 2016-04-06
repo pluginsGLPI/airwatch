@@ -26,6 +26,7 @@
  @link      https://github.com/pluginsglpi/airwatch
  @link      http://www.glpi-project.org/
  @since     2016
+r
  ---------------------------------------------------------------------- */
 
 if (!defined('GLPI_ROOT')){
@@ -37,14 +38,17 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    /**
    * Cron method to export devices to XML files
    */
-   static function cronItopExport($task) {
+   static function cronairwatchImport($task) {
 
       //Total of export lines
       $index = 0;
 
       $devices = PluginAirwatchRest::getDevices();
-      if (isset($devices['devices'])) {
-         foreach ($devices['devices'] as $device) {
+      if (!empty($devices) && isset($devices['Devices'])) {
+         foreach ($devices['Devices'] as $device) {
+            if (empty($device)) {
+               continue;
+            }
             self::importDevice($device);
             $index++;
          }
@@ -76,6 +80,63 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       //Array to store device inventory, as requested by FusionInventory
       $inventory = array();
 
+      //ACCOUNTINFO section
+      //Use LocationGroupName as TAG
+      if (isset($aw_data['LocationGroupName'])) {
+         $inventory['ACCOUNTINFO'][] = array('KEYNAME' => 'TAG',
+                                             'KEYVALUE' => $aw_data['LocationGroupName']);
+      }
 
+      if (isset($aw_data['Platform'])) {
+         $inventory['BIOS']['MMANUFACTURER'] = $aw_data['Platform'];
+      }
+
+      if (isset($aw_data['Model'])) {
+         $inventory['BIOS']['SMODEL'] = $aw_data['Model'];
+      }
+
+      //BIOS section
+      if (isset($aw_data['Serial'])) {
+         $inventory['BIOS']['SSN'] = $aw_data['Serial'];
+      }
+
+      //HARDWARE section
+      if (isset($aw_data['DeviceFriendlyName'])) {
+         $inventory['HARDWARE']['NAME'] = $aw_data['DeviceFriendlyName'];
+      }
+
+      if (isset($aw_data['OperatingSystem'])) {
+         switch ($aw_data['Platform']) {
+            case 'Apple':
+               $inventory['HARDWARE']['OSNAME'] = 'iOS';
+               break;
+            case 'Android':
+               $inventory['HARDWARE']['OSNAME'] = 'Android';
+               break;
+
+         }
+
+         $inventory['HARDWARE']['OSVERSION'] = $aw_data['OperatingSystem'];
+      }
+
+      if (isset($aw_data['UserName'])) {
+         $inventory['HARDWARE']['USERID'] = $aw_data['UserName'];
+      }
+
+      //NETWORK section
+      if (isset($aw_data['MacAddress'])) {
+         $inventory['NETWORKS'][] = array('MACADDR' => $aw_data['MacAddress']);
+      }
+
+
+      $fields = array('Id' => 'AIRWATCHID', 'PhoneNumber' => 'PHONENUMBER', 'LastSeen' => 'LASTCONTACT', 
+                      'EnrollmentStatus' => 'ENROLLMENTSATUS',  "LastEnrolledOn" => 'LASTENROLLEDON',
+                      'ComplianceStatus' => 'COMPLIANCESTATUS', 'CompromisedStatus' => 'COMPRIMISEDSTATUS');
+      foreach ($fields as $aw => $fusion) {
+         if (isset($aw_data[$aw])) {
+            $inventory['AIRWATCH'][$fusion] = $aw_data[$aw]; 
+         }
+      }
+      Toolbox::logDebug($inventory);
    }
 }

@@ -73,7 +73,6 @@ class PluginAirwatchRest {
       if (!$ch_result) {
          $results['status'] = AIRWATCH_API_RESULT_ERROR;
          $results['error']  = curl_error($ch);
-         Toolbox::logDebug(curl_error($ch));
       } else {
          $result['status'] = AIRWATCH_API_RESULT_OK;
          $result['data'] = $ch_result;
@@ -92,7 +91,12 @@ class PluginAirwatchRest {
    static function getDevices() {
 
       $results = self::callApi('/mdm/devices/search');
-      $data = json_decode($results, true);
+      if ($results['status'] == AIRWATCH_API_RESULT_OK 
+          && isset($results['data']) && !empty($results['data'])) {
+         $data = json_decode($results['data'], true);
+      } else {
+         $data = array();
+      }
       return $data;
    }
 
