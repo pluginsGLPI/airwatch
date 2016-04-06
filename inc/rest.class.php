@@ -38,6 +38,17 @@ class PluginAirwatchRest {
       return self::callApi('/help');
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Call Airwatch REST API
+   *
+   * @param endpoint endpoint to call
+   * @return an array which contains:
+   *         - an execution status code : OK or KO
+   *         - the error message if execution fails
+   *         - data if execution is a success
+   */
    static function callApi($endpoint) {
 
       //Array to return API call informations
@@ -89,15 +100,11 @@ class PluginAirwatchRest {
    * @return devices informations as an array
    */
    static function getDevices() {
+      return self::callApiAndGetData('/mdm/devices/search');
+   }
 
-      $results = self::callApi('/mdm/devices/search');
-      if ($results['status'] == AIRWATCH_API_RESULT_OK 
-          && isset($results['data']) && !empty($results['data'])) {
-         $data = json_decode($results['data'], true);
-      } else {
-         $data = array();
-      }
-      return $data;
+   static function getDeviceNetworkInfo($device_id) {
+      return self::callApiAndGetData('/mdm/devices/'.$device_id.'/network');
    }
 
    /**
@@ -106,10 +113,15 @@ class PluginAirwatchRest {
    * Get details for one device using the Airwatch rest API
    * @return the device informations as an array
    */
-   static function getDeviceByID($aw_device_id) {
+   static function callApiAndGetData($endpoint) {
 
-      $results = self::callApi('/mdm/devices/$aw_device_id');
-      $data = json_decode($results, true);
+      $results = self::callApi($endpoint);
+      if ($results['status'] == AIRWATCH_API_RESULT_OK
+          && isset($results['data']) && !empty($results['data'])) {
+         $data = json_decode($results['data'], true);
+      } else {
+         $data = array();
+      }
       return $data;
    }
 

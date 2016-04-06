@@ -80,63 +80,61 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       //Array to store device inventory, as requested by FusionInventory
       $inventory = array();
 
-      //ACCOUNTINFO section
-      //Use LocationGroupName as TAG
-      if (isset($aw_data['LocationGroupName'])) {
-         $inventory['ACCOUNTINFO'][] = array('KEYNAME' => 'TAG',
-                                             'KEYVALUE' => $aw_data['LocationGroupName']);
-      }
+      $inventory['DEVICEID']      = $aw_data['Imei'];
+      $inventory['VERSIONCLIENT'] = 'Airwatch-Connector-1.0';
+      $inventory['type'] = 'Smartphone';
 
-      if (isset($aw_data['Platform'])) {
-         $inventory['BIOS']['MMANUFACTURER'] = $aw_data['Platform'];
-      }
-
-      if (isset($aw_data['Model'])) {
-         $inventory['BIOS']['SMODEL'] = $aw_data['Model'];
-      }
-
-      //BIOS section
-      if (isset($aw_data['Serial'])) {
-         $inventory['BIOS']['SSN'] = $aw_data['Serial'];
-      }
-
-      //HARDWARE section
-      if (isset($aw_data['DeviceFriendlyName'])) {
-         $inventory['HARDWARE']['NAME'] = $aw_data['DeviceFriendlyName'];
+      $fields = array('LocationGroupName' => 'tag',
+                      'Platform' => 'manufacturer',
+                      'Model' => 'model',
+                      'SerialNumber' => 'serial',
+                      'PhoneNumber' => 'phonenumber',
+                      'LastSeen' => 'lastcontact',
+                      'EnrollmentStatus' => 'enrollmentstatus',
+                      "LastEnrolledOn" => 'LASTENROLLEDON',
+                      'ComplianceStatus' => 'COMPLIANCESTATUS',
+                      'CompromisedStatus' => 'COMPRIMISEDSTATUS',
+                      'Imei' => 'imei',
+                      'DeviceFriendlyName' => 'name',
+                      'OperatingSystem' => 'osversion',
+                      'UserName' => 'userid',
+                      'Udid' => 'uuid');
+      foreach ($fields as $aw => $fusion) {
+         if (isset($aw_data[$aw])) {
+            $inventory[$fusion] = $aw_data[$aw];
+         } else {
+            $inventory[$fusion] = '';
+         }
       }
 
       if (isset($aw_data['OperatingSystem'])) {
          switch ($aw_data['Platform']) {
             case 'Apple':
-               $inventory['HARDWARE']['OSNAME'] = 'iOS';
+               $inventory['osname'] = 'iOS';
                break;
             case 'Android':
-               $inventory['HARDWARE']['OSNAME'] = 'Android';
+               $inventory['osname'] = 'Android';
                break;
 
          }
-
-         $inventory['HARDWARE']['OSVERSION'] = $aw_data['OperatingSystem'];
       }
-
-      if (isset($aw_data['UserName'])) {
-         $inventory['HARDWARE']['USERID'] = $aw_data['UserName'];
+  
+      if (is_array($aw_data['Id'])) {
+         $inventory['airwatchid'] = $aw_data['Id']['Value'];
       }
+      //Toolbox::logDebug(PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']));
 
-      //NETWORK section
-      if (isset($aw_data['MacAddress'])) {
-         $inventory['NETWORKS'][] = array('MACADDR' => $aw_data['MacAddress']);
-      }
+      //Generate an inventory XML file
+      $aw_xml   = new PluginAirwatchXml($inventory);
+      $xml_data = $aw_xml->sxml;
 
+      //Save the file
+      $path     = '/tmp/'.$inventory['DEVICEID'].'.ocs';
+      $xml_data->asXML($path);
 
-      $fields = array('Id' => 'AIRWATCHID', 'PhoneNumber' => 'PHONENUMBER', 'LastSeen' => 'LASTCONTACT', 
-                      'EnrollmentStatus' => 'ENROLLMENTSATUS',  "LastEnrolledOn" => 'LASTENROLLEDON',
-                      'ComplianceStatus' => 'COMPLIANCESTATUS', 'CompromisedStatus' => 'COMPRIMISEDSTATUS');
-      foreach ($fields as $aw => $fusion) {
-         if (isset($aw_data[$aw])) {
-            $inventory['AIRWATCH'][$fusion] = $aw_data[$aw]; 
-         }
-      }
-      Toolbox::logDebug($inventory);
+      //Send the file to FusionInventory
+      $communication = new PluginFusioninventoryCommunication();
+      $result = $communication->handleOCSCommunication($xml_data);
+      Toolbox::logDebug($result);
    }
 }
