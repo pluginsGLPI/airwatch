@@ -92,7 +92,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                       'EnrollmentStatus'   => 'ENROLLMENTSTATUS',
                       "LastEnrolledOn"     => 'LASTENROLLEDON',
                       'ComplianceStatus'   => 'COMPLIANCESTATUS',
-                      'CompromisedStatus'  => 'COMPRIMISEDSTATUS',
+                      'CompromisedStatus'  => 'COMPROMISEDSTATUS',
                       'Imei'               => 'IMEI',
                       'DeviceFriendlyName' => 'name',
                       'OperatingSystem'    => 'osversion',
