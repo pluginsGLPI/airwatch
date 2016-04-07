@@ -82,8 +82,8 @@ class PluginAirwatchRest {
 
       $ch_result = curl_exec($ch);
       if (!$ch_result) {
-         $results['status'] = AIRWATCH_API_RESULT_ERROR;
-         $results['error']  = curl_error($ch);
+         $result['status'] = AIRWATCH_API_RESULT_ERROR;
+         $result['error']  = curl_error($ch);
       } else {
          $result['status'] = AIRWATCH_API_RESULT_OK;
          $result['data'] = $ch_result;
@@ -103,9 +103,29 @@ class PluginAirwatchRest {
       return self::callApiAndGetData('/mdm/devices/search');
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Get a device network informations using the Airwatch rest API
+   * @param the Airwatch Device ID
+   * @return network informations as an array
+   */
    static function getDeviceNetworkInfo($device_id) {
       return self::callApiAndGetData('/mdm/devices/'.$device_id.'/network');
    }
+
+   /**
+   * @since 0.90+1.0
+   *
+   * Get a device applications using the Airwatch rest API
+   * @param the Airwatch Device ID
+   * @return applications as an array
+   */
+   static function getDeviceApplications($device_id) {
+      return self::callApiAndGetData('/mdm/devices/'.$device_id.'/apps');
+   }
+
+
 
    /**
    * @since 0.90+1.0

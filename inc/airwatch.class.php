@@ -122,8 +122,15 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       if (is_array($aw_data['Id'])) {
          $inventory['airwatchid'] = $aw_data['Id']['Value'];
       }
-      //Toolbox::logDebug(PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']));
 
+      $inventory['applications'] = array();
+      $applications = PluginAirwatchRest::getDeviceApplications($inventory['airwatchid']);
+      if (isset($applications['DeviceApps']) && is_array($applications['DeviceApps'])) {
+         foreach ($applications['DeviceApps'] as $application) { 
+            $inventory['applications'][] = array('name' => $application['ApplicationName'], 
+                                                 'version' => $application['Version']);
+         }
+      }
       //Generate an inventory XML file
       $aw_xml   = new PluginAirwatchXml($inventory);
       $xml_data = $aw_xml->sxml;
@@ -133,8 +140,8 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $xml_data->asXML($path);
 
       //Send the file to FusionInventory
-      $communication = new PluginFusioninventoryCommunication();
-      $result = $communication->handleOCSCommunication($xml_data);
-      Toolbox::logDebug($result);
+      //$communication = new PluginFusioninventoryCommunication();
+      //$result = $communication->handleOCSCommunication($xml_data);
+      //Toolbox::logDebug($result);
    }
 }

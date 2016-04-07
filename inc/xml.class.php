@@ -57,6 +57,7 @@ class PluginAirwatchXml {
       $this->setBios();
       $this->setHardware();
       $this->setOS();
+      $this->setSoftwares();
    }
 
    function setAccessLog() {
@@ -110,5 +111,23 @@ class PluginAirwatchXml {
       $BIOS->addChild('SMODEL'          ,$this->data['model']);
       $BIOS->addChild('SMANUFACTURER'   ,$this->data['manufacturer']);
       $BIOS->addChild('SSN'             ,$this->data['serial']);
+   }
+
+   function setSoftwares() {
+      $i = 0;
+      $CONTENT = $this->sxml->CONTENT[0];
+      foreach ($this->data['applications'] as $application) {
+         $application = Toolbox::addslashes_deep($application);
+         if (!isset($application['name']) || ! isset($application['version'])) {
+            continue;
+         }
+         $CONTENT->addChild('SOFTWARES');
+         $SOFTWARES = $this->sxml->CONTENT[0]->SOFTWARES[$i];
+         $SOFTWARES->addChild('NAME', $application['name']);
+         $SOFTWARES->addChild('VERSION', $application['version']);
+         $SOFTWARES->addChild('PUBLISHER', '');
+         $i++;
+      }
+
    }
 }
