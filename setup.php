@@ -42,6 +42,9 @@ function plugin_init_airwatch() {
          = array('PluginAirwatchAirwatch', 'updateInventory');
       $PLUGIN_HOOKS['fusioninventory_addinventoryinfos']['airwatch']
          = array('PluginAirwatchAirwatch', 'addInventoryInfos');
+
+      Plugin::registerClass('PluginAirwatchDetail', array('addtabon' => array('Computer')));
+
    }
 }
 

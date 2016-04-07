@@ -182,7 +182,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          $tmp['compromisedstatus'] = $data['AIRWATCH']['COMPROMISEDSTATUS'];
          $tmp['enrollmentstatus']  = $data['AIRWATCH']['ENROLLMENTSTATUS'];
 
-         $sql_condition = "`imei`='".$data['AIRWATCH']['IMEI']."'AND `computers_id`='$computers_id'";
+         $sql_condition = "`computers_id`='$computers_id'";
          //Are there any airwatch data for a device. Use imei as unique identifier
          if (!countElementsInTable('glpi_plugin_airwatch_details',
                                    $sql_condition)) {
@@ -201,7 +201,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
       if (isset($params['source'])
          && is_array($params['source'])
-            && !empty($params['source'])) {
+            && !empty($params['source']) && isset($params['source']['imei'])) {
          //Add airwatch info to the list of data to be processed
          foreach ($params['source'] as $field => $value) {
             $values['AIRWATCH'][$field] = $value;

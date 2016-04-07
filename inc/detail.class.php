@@ -52,12 +52,13 @@ class PluginAirwatchDetail extends CommonDBChild {
          // can exists for template
          if (($item->getType() == 'Computer')
              && Computer::canView()) {
-            $nb = 0;
-            if ($_SESSION['glpishow_count_on_tabs']) {
-               $nb = countElementsInTable('glpi_plugin_airwatch_details',
-                                          "computers_id = '".$item->getID()."' AND `is_deleted`='0'");
+            $nb = countElementsInTable('glpi_plugin_airwatch_details',
+                                       "computers_id = '".$item->getID()."'");
+            if (!$nb) {
+               return '';
+            } else {
+               return self::createTabEntry(self::getTypeName(Session::getPluralNumber()), $nb);
             }
-            return self::createTabEntry(self::getTypeName(Session::getPluralNumber()), $nb);
          }
          return '';
       }
@@ -69,7 +70,6 @@ class PluginAirwatchDetail extends CommonDBChild {
        * @param $withtemplate    (default 0)
        */
       static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
-
          self::showForComputer($item, $withtemplate);
          return true;
       }
@@ -87,6 +87,81 @@ class PluginAirwatchDetail extends CommonDBChild {
          $this->addStandardTab('Log', $ong, $options);
 
          return $ong;
+      }
+
+      function getFromDBbComputerID($computers_id) {
+         global $DB;
+
+         $query = "SELECT `id` FROM `glpi_plugin_airwatch_details`
+                   WHERE `computers_id`='$computers_id'";
+
+         $result = $DB->query($query);
+         if ($DB->numrows($result)) {
+            $id = $DB->result($result, 0, 'id');
+            $this->getFromDB($id);
+            return true;
+         } else {
+            return false;
+         }
+      }
+      static function showForComputer(CommonDBTM $item, $withtemplate='') {
+
+         $detail = new self();
+         if (!$detail->getFromDBbComputerID($item->getID())) {
+            return true;
+         }
+
+         echo "<div class='center'>";
+         echo "<form name='form' method='post' action='" . $detail->getFormURL() . "'>";
+
+         echo "<table class='tab_cadre_fixe'>";
+
+         echo "<tr><th colspan='4'>" . __("Airwatch informations", "airwatch") . "</th></tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Imei", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['imei'];
+         echo "</td>";
+
+         echo "<td>" . __("Phone number", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['phone_number'];
+         echo "</td>";
+         echo "</tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Enrollment status", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['enrollmentstatus'];
+         echo "</td>";
+         echo "<td>" . __("Compliance status", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['compliancestatus'];
+         echo "</td>";
+         echo "</tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Comprimsed status", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['compromisedstatus'];
+         echo "</td>";
+         echo "<td>" . __("Last seen", "airwatch") . "</td>";
+         echo "<td>";
+         echo Html::convDateTime($detail->fields['last_seen']);
+         echo "</td>";
+         echo "</tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td colspan='4' align='center'>";
+         echo "<input type='submit' name='update' value=\"" . _sx("button", "Update") . "\" class='submit' >";
+         echo"</td>";
+         echo "</tr>";
+
+         echo "</table>";
+         Html::closeForm();
+         echo "</div>";
+
       }
 
       //----------------- Install & uninstall -------------------//
