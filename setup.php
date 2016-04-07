@@ -38,6 +38,10 @@ function plugin_init_airwatch() {
    $plugin = new Plugin();
    if ($plugin->isActivated('airwatch')) {
       $PLUGIN_HOOKS['config_page']['airwatch'] = 'front/config.form.php';
+      $PLUGIN_HOOKS['fusioninventory_inventory']['airwatch']
+         = array('PluginAirwatchAirwatch', 'updateInventory');
+      $PLUGIN_HOOKS['fusioninventory_addinventoryinfos']['airwatch']
+         = array('PluginAirwatchAirwatch', 'addInventoryInfos');
    }
 }
 

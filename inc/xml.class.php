@@ -43,14 +43,15 @@ class PluginAirwatchXml {
    function PluginAirwatchXml($data) {
       $this->data = $data;
 
-      $this->deviceid = $data['DEVICEID'];
+      $this->deviceid         = $data['DEVICEID'];
       $this->agentbuildnumber = $data['VERSIONCLIENT'];
+
       $SXML="<?xml version='1.0' encoding='UTF-8'?> \n<REQUEST>\n<CONTENT>";
       $SXML.="<VERSIONCLIENT>{$this->agentbuildnumber}</VERSIONCLIENT>\n";
       $SXML.="</CONTENT>\n";
-      $SXML.="<DEVICEID>{$this->deviceid}</DEVICEID><QUERY>INVENTORY</QUERY>";
-      $SXML.="<PROLOG></PROLOG></REQUEST>";
-     
+      $SXML.="<DEVICEID>{$this->deviceid}</DEVICEID>\n<QUERY>INVENTORY</QUERY>\n";
+      $SXML.="<PROLOG></PROLOG>\n</REQUEST>";
+
       $this->sxml = new SimpleXMLElement($SXML);
       $this->setAccessLog();
       $this->setAccountInfos();
@@ -58,6 +59,7 @@ class PluginAirwatchXml {
       $this->setHardware();
       $this->setOS();
       $this->setSoftwares();
+      $this->setAirwatchInfos();
    }
 
    function setAccessLog() {
@@ -126,8 +128,26 @@ class PluginAirwatchXml {
          $SOFTWARES->addChild('NAME', $application['name']);
          $SOFTWARES->addChild('VERSION', $application['version']);
          $SOFTWARES->addChild('PUBLISHER', '');
+         $SOFTWARES->addChild('DATEINSTALL', '');
          $i++;
       }
-
    }
+
+   function setAirwatchInfos() {
+
+      if (isset($this->data['tag'])) {
+         $CONTENT = $this->sxml->CONTENT[0];
+         $CONTENT->addChild('AIRWATCH');
+
+         $fields = array('PHONENUMBER', 'LASTSEEN', 'ENROLLMENTSTATUS', "LASTENROLLEDON",
+                         'COMPLIANCESTATUS', 'COMPROMISEDSTATUS', 'IMEI', 'airwatchid');
+
+         $ACCOUNTINFO = $this->sxml->CONTENT[0]->AIRWATCH;
+
+         foreach ($fields as $field) {
+            $ACCOUNTINFO->addChild($field, $this->data[$field]);
+         }
+      }
+   }
+
 }

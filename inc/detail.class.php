@@ -111,11 +111,12 @@ class PluginAirwatchDetail extends CommonDBChild {
                         `last_seen` datetime DEFAULT NULL,
                         `enrollmentstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                         `compliancestatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                        `comprimisedstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+                        `compromisedstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                         PRIMARY KEY  (`id`)
                      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             $DB->query($query) or die ($DB->error());
       }
+   }
 
       public static function uninstall() {
          global $DB;
