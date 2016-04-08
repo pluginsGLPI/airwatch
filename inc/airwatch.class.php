@@ -57,6 +57,18 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       return true;
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Perform an inventory for one device
+   *
+   * @param aw_device_id the device's Airwatch ID
+   */
+   static function doOneDeviceInventory($aw_device_id) {
+      $device = PluginAirwatchRest::getDevice($aw_device_id);
+      self::importDevice($device);
+   }
+
    static function cronInfo($name) {
       return array('description' => __("Import devices informations from Airwatch", "airwatch"));
    }
@@ -90,9 +102,13 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                       'PhoneNumber'        => 'PHONENUMBER',
                       'LastSeen'           => 'LASTSEEN',
                       'EnrollmentStatus'   => 'ENROLLMENTSTATUS',
-                      "LastEnrolledOn"     => 'LASTENROLLEDON',
                       'ComplianceStatus'   => 'COMPLIANCESTATUS',
                       'CompromisedStatus'  => 'COMPROMISEDSTATUS',
+                      "LastEnrolledOn"     => 'LASTENROLLEDON',
+                      "LastCompromisedCheckOn" => 'LASTCOMPROMISEDCHECKEDON',
+                      "LastEnrollmentCheckOn"  => 'LASTENROLLMENTCHECKEDON',
+                      "LastComplianceCheckOn"  => 'LASTCOMPLIANCECHECKEDON',
+                      'DataEncryptionYN'   => 'DATAENCRYPTION',
                       'Imei'               => 'IMEI',
                       'DeviceFriendlyName' => 'name',
                       'OperatingSystem'    => 'osversion',
@@ -164,7 +180,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
    static function updateInventory($params = array()) {
       global $DB;
-
+Toolbox::logDebug($params['inventory_data']);
       if (!empty($params)
          && isset($params['inventory_data']) && !empty($params['inventory_data'])) {
 
@@ -172,33 +188,42 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          $data         = $params['inventory_data']['source'];
          $computers_id = $params['computers_id'];
 
+         //Always delete details
          $detail = new PluginAirwatchDetail();
+         $detail->deletebyCriteria(array('computers_id' => $computers_id));
 
-         $tmp                      = array();
          $tmp['computers_id']      = $computers_id;
          $tmp['imei']              = $data['AIRWATCH']['IMEI'];
          $tmp['phone_number']      = $data['AIRWATCH']['PHONENUMBER'];
          $tmp['compliancestatus']  = $data['AIRWATCH']['COMPLIANCESTATUS'];
          $tmp['compromisedstatus'] = $data['AIRWATCH']['COMPROMISEDSTATUS'];
          $tmp['enrollmentstatus']  = $data['AIRWATCH']['ENROLLMENTSTATUS'];
-
-         $sql_condition = "`computers_id`='$computers_id'";
-         //Are there any airwatch data for a device. Use imei as unique identifier
-         if (!countElementsInTable('glpi_plugin_airwatch_details',
-                                   $sql_condition)) {
-            $detail->add($tmp);
-         } else {
-            $dbdetail  = getAllDatasFromTable('glpi_plugin_airwatch_details', $sql_condition);
-            $mydetail  = array_pop($dbdetail);
-            $tmp['id'] = $mydetail['id'];
-            $detail->update($tmp);
+         $tmp['aw_device_id']      = $data['AIRWATCH']['AIRWATCHID'];
+         if (isset($data['AIRWATCH']['DATAENCRYPTION'])) {
+            if ($data['AIRWATCH']['DATAENCRYPTION']) {
+               $tmp['is_dataencryption'] = '1';
+            } else {
+               $tmp['is_dataencryption'] = '0';
+            }
          }
+
+         $dates = array('LASTSEEN'                 => 'date_last_seen',
+                        'LASTENROLLEDON'           => 'date_last_enrollment',
+                        'LASTENROLLMENTCHECKEDON'  => 'date_last_enrollment_check',
+                        'LASTCOMPLIANCECHECKEDON'  => 'date_last_compliance_check',
+                        'LASTCOMPROMISEDCHECKEDON' => 'date_last_compromised_check');
+         foreach ($dates as $xmldate => $glpidate) {
+            if (isset($data['AIRWATCH'][$xmldate])) {
+               $tmp[$glpidate] = self::convertAirwatchDate($data['AIRWATCH'][$xmldate]);
+            }
+         }
+         $detail->add($tmp);
       }
    }
 
    static function addInventoryInfos($params = array()) {
       $values = array();
-
+Toolbox::logDebug("addInventoryInfos", $params);
       if (isset($params['source'])
          && is_array($params['source'])
             && !empty($params['source']) && isset($params['source']['imei'])) {
@@ -208,5 +233,10 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          }
       }
       return $values;
+   }
+
+   static function convertAirwatchDate($aw_date) {
+      $date = new DateTime($aw_date);
+      return date_format($date, 'Y-m-d H:i:s');
    }
 }

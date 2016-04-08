@@ -106,6 +106,17 @@ class PluginAirwatchRest {
    /**
    * @since 0.90+1.0
    *
+   * Get a device informations using the Airwatch rest API
+   * @param the Airwatch Device ID
+   * @return device informations as an array
+   */
+   static function getDevice($device_id) {
+      return self::callApiAndGetData('/mdm/devices/'.$device_id);
+   }
+
+   /**
+   * @since 0.90+1.0
+   *
    * Get a device network informations using the Airwatch rest API
    * @param the Airwatch Device ID
    * @return network informations as an array

@@ -37,7 +37,7 @@ class PluginAirwatchDetail extends CommonDBChild {
       // From CommonDBChild
       static public $itemtype = 'Computer';
       static public $items_id = 'computers_id';
-      public $dohistory       = true;
+      public $dohistory       = false;
 
 
       static function getTypeName($nb=0) {
@@ -116,45 +116,86 @@ class PluginAirwatchDetail extends CommonDBChild {
 
          echo "<table class='tab_cadre_fixe'>";
 
-         echo "<tr><th colspan='4'>" . __("Airwatch informations", "airwatch") . "</th></tr>";
+         echo "<tr><th colspan='4'>" . __("General", "airwatch") . "</th></tr>";
 
+         echo "<input type='hidden' name='aw_device_id' value='".$detail->fields['aw_device_id']."'>";
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Imei", "airwatch") . "</td>";
          echo "<td>";
          echo $detail->fields['imei'];
          echo "</td>";
 
+         echo "<td>" . __("Airwatch ID", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['aw_device_id'];
+         echo "</td>";
+         echo "</tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Phone number", "airwatch") . "</td>";
          echo "<td>";
          echo $detail->fields['phone_number'];
+         echo "<td>" . __("Last seen", "airwatch") . "</td>";
+         echo "<td>";
+         echo Html::convDateTime($detail->fields['date_last_seen']);
          echo "</td>";
          echo "</tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Data encryption enabled", "airwatch") . "</td>";
+         echo "<td>";
+         echo Dropdown::getYesNo($detail->fields['is_dataencryption']);
+         echo "</td><td colspan='2'></td>";
+         echo "</tr>";
+
+         echo "<tr><th colspan='4'>" . __("Enrollment process", "airwatch") . "</th></tr>";
 
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Enrollment status", "airwatch") . "</td>";
          echo "<td>";
          echo $detail->fields['enrollmentstatus'];
          echo "</td>";
-         echo "<td>" . __("Compliance status", "airwatch") . "</td>";
+         echo "<td>" . __("Last enrollment date", "airwatch") . "</td>";
          echo "<td>";
-         echo $detail->fields['compliancestatus'];
+         echo Html::convDateTime($detail->fields['date_last_enrollment']);
          echo "</td>";
          echo "</tr>";
 
          echo "<tr class='tab_bg_1' align='center'>";
-         echo "<td>" . __("Comprimsed status", "airwatch") . "</td>";
+         echo "<td>" . __("Last enrollment date", "airwatch") . "</td>";
+         echo "<td>";
+         echo Html::convDateTime($detail->fields['date_last_enrollment']);
+         echo "</td>";
+         echo "</td><td colspan='2'></td>";
+         echo "</tr>";
+
+         echo "<tr><th colspan='4'>" . __("Other status checks", "airwatch") . "</th></tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Compliance status", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['compliancestatus'];
+         echo "</td>";
+         echo "<td>" . __("Last compliance check date", "airwatch") . "</td>";
+         echo "<td>";
+         echo Html::convDateTime($detail->fields['date_last_compliance_check']);
+         echo "</td>";
+         echo "</tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Compromised status", "airwatch") . "</td>";
          echo "<td>";
          echo $detail->fields['compromisedstatus'];
          echo "</td>";
-         echo "<td>" . __("Last seen", "airwatch") . "</td>";
+         echo "<td>" . __("Last compromised check date", "airwatch") . "</td>";
          echo "<td>";
-         echo Html::convDateTime($detail->fields['last_seen']);
+         echo Html::convDateTime($detail->fields['date_last_compromised_check']);
          echo "</td>";
          echo "</tr>";
 
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td colspan='4' align='center'>";
-         echo "<input type='submit' name='update' value=\"" . _sx("button", "Update") . "\" class='submit' >";
+         echo "<input type='submit' name='update' value=\"" . _sx("button", "Force inventory") . "\" class='submit' >";
          echo"</td>";
          echo "</tr>";
 
@@ -177,16 +218,21 @@ class PluginAirwatchDetail extends CommonDBChild {
             //Install
             $query = "CREATE TABLE `glpi_plugin_airwatch_details` (
                         `id` int(11) NOT NULL auto_increment,
-                        `computers_id` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+                        `computers_id` int(11) NOT NULL DEFAULT '0',
+                        `aw_device_id` int(11) NOT NULL DEFAULT '0',
                         `imei` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                         `phone_number` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                         `date_mod` datetime DEFAULT NULL,
                         `date_creation` datetime DEFAULT NULL,
-                        `last_contact` datetime DEFAULT NULL,
-                        `last_seen` datetime DEFAULT NULL,
+                        `date_last_seen` datetime DEFAULT NULL,
+                        `date_last_enrollment` datetime DEFAULT NULL,
+                        `date_last_enrollment_check` datetime DEFAULT NULL,
+                        `date_last_compliance_check` datetime DEFAULT NULL,
+                        `date_last_compromised_check` datetime DEFAULT NULL,
                         `enrollmentstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                         `compliancestatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                         `compromisedstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+                        `is_dataencryption` tinyint(1) NOT NULL DEFAULT '0',
                         PRIMARY KEY  (`id`)
                      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             $DB->query($query) or die ($DB->error());
