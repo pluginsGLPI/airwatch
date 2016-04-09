@@ -37,14 +37,22 @@ function plugin_init_airwatch() {
 
    $plugin = new Plugin();
    if ($plugin->isActivated('airwatch')) {
+
+      Plugin::registerClass('PluginAirwatchDetail', array('addtabon' => array('Computer')));
+
       $PLUGIN_HOOKS['config_page']['airwatch'] = 'front/config.form.php';
+      $PLUGIN_HOOKS['item_purge']['order']  = array(
+            'Computer' => array('PluginAirwatchDetail', 'cleanOnPurge'));
+      $PLUGIN_HOOKS['import_item']['airwatch']
+         = array('Computer' => array('Plugin'));
+      $PLUGIN_HOOKS['autoinventory_information']['airwatch']
+         = array('Computer' =>  array('PluginAirwatchDetail', 'showInfo'));
+
+      //FusionInventory hooks
       $PLUGIN_HOOKS['fusioninventory_inventory']['airwatch']
          = array('PluginAirwatchAirwatch', 'updateInventory');
       $PLUGIN_HOOKS['fusioninventory_addinventoryinfos']['airwatch']
          = array('PluginAirwatchAirwatch', 'addInventoryInfos');
-
-      Plugin::registerClass('PluginAirwatchDetail', array('addtabon' => array('Computer')));
-
    }
 }
 

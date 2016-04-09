@@ -34,6 +34,16 @@ if (!defined('GLPI_ROOT')){
 
 class PluginAirwatchRest {
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Test API by calling the help page
+   *
+   * @return an array which contains:
+   *         - an execution status code : OK or KO
+   *         - the error message if execution fails
+   *         - data if execution is a success
+   */
    static function testConnection() {
       return self::callApi('/help');
    }
@@ -135,8 +145,6 @@ class PluginAirwatchRest {
    static function getDeviceApplications($device_id) {
       return self::callApiAndGetData('/mdm/devices/'.$device_id.'/apps');
    }
-
-
 
    /**
    * @since 0.90+1.0

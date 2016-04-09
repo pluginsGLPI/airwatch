@@ -129,7 +129,7 @@ class PluginAirwatchDetail extends CommonDBChild {
             $date1 = date_create($_SESSION['glpi_currenttime']);
             $date2 = date_create($detail->fields['date_last_seen']);
             $interval = date_diff($date1, $date2);
-            echo "&nbsp;(".$interval->format('%h Hours %i Minute %s Seconds').")";            
+            echo "&nbsp;(".$interval->format('%h:%i:%s').")";
          }
          echo "</td>";
          echo "</tr>";
@@ -236,6 +236,50 @@ class PluginAirwatchDetail extends CommonDBChild {
          Html::closeForm();
          echo "</div>";
 
+      }
+
+      static function cleanOnPurge(Computer $computer) {
+         $detail = new self();
+         $detail->deleteByCriteria(array('computers_id' => $computer->getID()));
+      }
+
+      /**
+       * Display informations about computer (bios...)
+       *
+       * @param type $computers_id
+       */
+      static function showInfo($item) {
+         global $CFG_GLPI;
+
+         $detail = new self();
+         if (!$detail->getFromDBbComputerID($item->getID())) {
+            return true;
+         }
+
+         echo '<table class="tab_glpi" width="100%">';
+         echo '<tr>';
+         echo '<th colspan="2">'.__('Airwatch', 'airwatch').'</th>';
+         echo '</tr>';
+
+         echo '<tr class="tab_bg_1">';
+         echo '<td>';
+         echo __('Phone number', 'airwatch');
+         echo '</td>';
+         echo '<td>';
+         echo $detail->fields['phone_number'];
+         echo '</td>';
+         echo '</tr>';
+
+         echo '<tr class="tab_bg_1">';
+         echo '<td>';
+         echo __('Last seen', 'airwatch');
+         echo '</td>';
+         echo '<td>';
+         echo Html::convDateTime($detail->fields['date_last_seen']);
+         echo '</td>';
+         echo '</tr>';
+
+         echo '</table>';
       }
 
       //----------------- Install & uninstall -------------------//

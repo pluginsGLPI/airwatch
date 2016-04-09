@@ -191,7 +191,6 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    static function updateInventory($params = array()) {
       global $DB;
 
-
       if (!empty($params)
          && isset($params['inventory_data']) && !empty($params['inventory_data'])) {
 
