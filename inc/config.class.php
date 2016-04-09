@@ -59,6 +59,13 @@ class PluginAirwatchConfig extends CommonDBTM {
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
+      echo "<td>" . __("Airwatch Console URL", "airwatch") . "</td>";
+      echo "<td>";
+      Html::autocompletionTextField($this, "airwatch_console_url");
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Username", "airwatch") . "</td>";
       echo "<td>";
       Html::autocompletionTextField($this, "username");
@@ -113,6 +120,7 @@ class PluginAirwatchConfig extends CommonDBTM {
          $query = "CREATE TABLE `glpi_plugin_airwatch_configs` (
                      `id` int(11) NOT NULL auto_increment,
                      `airwatch_service_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+                     `airwatch_console_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `password` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `api_key` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
@@ -123,6 +131,7 @@ class PluginAirwatchConfig extends CommonDBTM {
 
          $tmp = array('id'                   => 1,
                       'airwatch_service_url' => '',
+                      'airwatch_console_url' => '',
                       'username'             => '',
                       'password'             => '',
                       'api_key'              => '',

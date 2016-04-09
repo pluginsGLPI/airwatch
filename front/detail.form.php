@@ -30,9 +30,7 @@
 
 include ("../../../inc/includes.php");
 
-$config = new PluginAirwatchConfig();
-
-if (isset($_POST['update'])) {
+if (isset($_POST['update']) && isset($_POST['aw_device_id'])) {
    PluginAirwatchAirwatch::doOneDeviceInventory($_POST['aw_device_id']);
 }
 Html::back();

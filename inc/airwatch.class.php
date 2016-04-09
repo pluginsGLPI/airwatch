@@ -95,25 +95,25 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $inventory['VERSIONCLIENT'] = 'Airwatch-Connector-1.0';
       $inventory['type']          = 'Smartphone';
 
-      $fields = array('LocationGroupName'  => 'tag',
-                      'Platform'           => 'manufacturer',
-                      'Model'              => 'model',
-                      'SerialNumber'       => 'serial',
-                      'PhoneNumber'        => 'PHONENUMBER',
-                      'LastSeen'           => 'LASTSEEN',
-                      'EnrollmentStatus'   => 'ENROLLMENTSTATUS',
-                      'ComplianceStatus'   => 'COMPLIANCESTATUS',
-                      'CompromisedStatus'  => 'COMPROMISEDSTATUS',
-                      "LastEnrolledOn"     => 'LASTENROLLEDON',
+      $fields = array('LocationGroupName'      => 'tag',
+                      'Platform'               => 'manufacturer',
+                      'Model'                  => 'model',
+                      'SerialNumber'           => 'serial',
+                      'PhoneNumber'            => 'PHONENUMBER',
+                      'LastSeen'               => 'LASTSEEN',
+                      'EnrollmentStatus'       => 'ENROLLMENTSTATUS',
+                      'ComplianceStatus'       => 'COMPLIANCESTATUS',
+                      'CompromisedStatus'      => 'COMPROMISEDSTATUS',
+                      "LastEnrolledOn"         => 'LASTENROLLEDON',
                       "LastCompromisedCheckOn" => 'LASTCOMPROMISEDCHECKEDON',
                       "LastEnrollmentCheckOn"  => 'LASTENROLLMENTCHECKEDON',
                       "LastComplianceCheckOn"  => 'LASTCOMPLIANCECHECKEDON',
-                      'DataEncryptionYN'   => 'DATAENCRYPTION',
-                      'Imei'               => 'IMEI',
-                      'DeviceFriendlyName' => 'name',
-                      'OperatingSystem'    => 'osversion',
-                      'UserName'           => 'userid',
-                      'Udid'               => 'uuid');
+                      'DataEncryptionYN'       => 'DATAENCRYPTION',
+                      'Imei'                   => 'IMEI',
+                      'DeviceFriendlyName'     => 'name',
+                      'OperatingSystem'        => 'osversion',
+                      'UserName'               => 'userid',
+                      'Udid'                   => 'uuid');
       foreach ($fields as $aw => $fusion) {
          if (isset($aw_data[$aw])) {
             //Check if data is encodeded in utf8.
@@ -162,13 +162,23 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          }
       }
 
+      //Get Network informations
+      $network = PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']);
+
+      $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled', 'CurrentSIM');
+      foreach ($fields as $field) {
+         if (isset($network[$field])) {
+            $inventory[strtoupper($field)] = $network[$field];
+         }
+      }
+
       //Generate an inventory XML file
       $aw_xml   = new PluginAirwatchXml($inventory);
       $xml_data = $aw_xml->sxml;
 
       //Save the file
-      //$path     = '/tmp/'.$inventory['DEVICEID'].'.ocs';
-      //$xml_data->asXML($path);
+      $path     = '/tmp/'.$inventory['DEVICEID'].'.ocs';
+      $xml_data->asXML($path);
 
       //Try to set user agent
       $_SERVER['HTTP_USER_AGENT'] = $inventory['VERSIONCLIENT'];
@@ -180,7 +190,8 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
    static function updateInventory($params = array()) {
       global $DB;
-Toolbox::logDebug($params['inventory_data']);
+
+
       if (!empty($params)
          && isset($params['inventory_data']) && !empty($params['inventory_data'])) {
 
@@ -192,13 +203,23 @@ Toolbox::logDebug($params['inventory_data']);
          $detail = new PluginAirwatchDetail();
          $detail->deletebyCriteria(array('computers_id' => $computers_id));
 
-         $tmp['computers_id']      = $computers_id;
-         $tmp['imei']              = $data['AIRWATCH']['IMEI'];
-         $tmp['phone_number']      = $data['AIRWATCH']['PHONENUMBER'];
-         $tmp['compliancestatus']  = $data['AIRWATCH']['COMPLIANCESTATUS'];
-         $tmp['compromisedstatus'] = $data['AIRWATCH']['COMPROMISEDSTATUS'];
-         $tmp['enrollmentstatus']  = $data['AIRWATCH']['ENROLLMENTSTATUS'];
-         $tmp['aw_device_id']      = $data['AIRWATCH']['AIRWATCHID'];
+         $tmp['computers_id'] = $computers_id;
+         $fields = array('ROAMINGSTATUS'       => 'is_roaming_enabled',
+                         'DATAROAMINGENABLED'  => 'is_data_roaming_enabled',
+                         'VOICEROAMINGENABLED' => 'is_voice_roaming_enabled',
+                         'CURRENTSIM'          => 'simcard_serial',
+                         'IMEI'                => 'imei',
+                         'PHONENUMBER'         => 'phone_number',
+                         'COMPLIANCESTATUS'    => 'compliancestatus',
+                         'COMPROMISEDSTATUS'   => 'compromisedstatus',
+                         'ENROLLMENTSTATUS'    => 'enrollmentstatus',
+                         'AIRWATCHID'          => 'aw_device_id');
+         foreach ($fields as $xml_field => $glpifield) {
+            if (isset($data['AIRWATCH'][$xml_field])) {
+               $tmp[$glpifield] = $data['AIRWATCH'][$xml_field];
+            }
+         }
+
          if (isset($data['AIRWATCH']['DATAENCRYPTION'])) {
             if ($data['AIRWATCH']['DATAENCRYPTION']) {
                $tmp['is_dataencryption'] = '1';
@@ -223,7 +244,6 @@ Toolbox::logDebug($params['inventory_data']);
 
    static function addInventoryInfos($params = array()) {
       $values = array();
-Toolbox::logDebug("addInventoryInfos", $params);
       if (isset($params['source'])
          && is_array($params['source'])
             && !empty($params['source']) && isset($params['source']['imei'])) {

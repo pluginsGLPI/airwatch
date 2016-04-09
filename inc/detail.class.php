@@ -75,20 +75,6 @@ class PluginAirwatchDetail extends CommonDBChild {
       }
 
 
-      /**
-       * @see CommonGLPI::defineTabs()
-       *
-       * @since version 0.85
-      **/
-      function defineTabs($options=array()) {
-
-         $ong = array();
-         $this->addDefaultFormTab($ong);
-         $this->addStandardTab('Log', $ong, $options);
-
-         return $ong;
-      }
-
       function getFromDBbComputerID($computers_id) {
          global $DB;
 
@@ -104,6 +90,7 @@ class PluginAirwatchDetail extends CommonDBChild {
             return false;
          }
       }
+
       static function showForComputer(CommonDBTM $item, $withtemplate='') {
 
          $detail = new self();
@@ -118,7 +105,6 @@ class PluginAirwatchDetail extends CommonDBChild {
 
          echo "<tr><th colspan='4'>" . __("General", "airwatch") . "</th></tr>";
 
-         echo "<input type='hidden' name='aw_device_id' value='".$detail->fields['aw_device_id']."'>";
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Imei", "airwatch") . "</td>";
          echo "<td>";
@@ -128,6 +114,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<td>" . __("Airwatch ID", "airwatch") . "</td>";
          echo "<td>";
          echo $detail->fields['aw_device_id'];
+         echo "<input type='hidden' name='aw_device_id' value='".$detail->fields['aw_device_id']."'>";
          echo "</td>";
          echo "</tr>";
 
@@ -138,6 +125,12 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<td>" . __("Last seen", "airwatch") . "</td>";
          echo "<td>";
          echo Html::convDateTime($detail->fields['date_last_seen']);
+         if ($detail->fields['date_last_seen']) {
+            $date1 = date_create($_SESSION['glpi_currenttime']);
+            $date2 = date_create($detail->fields['date_last_seen']);
+            $interval = date_diff($date1, $date2);
+            echo "&nbsp;(".$interval->format('%h Hours %i Minute %s Seconds').")";            
+         }
          echo "</td>";
          echo "</tr>";
 
@@ -145,8 +138,25 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<td>" . __("Data encryption enabled", "airwatch") . "</td>";
          echo "<td>";
          echo Dropdown::getYesNo($detail->fields['is_dataencryption']);
-         echo "</td><td colspan='2'></td>";
+         echo "</td>";
+         echo "<td>" . __("Current SIM serial number", "airwatch") . "</td>";
+         echo "<td>";
+         echo $detail->fields['simcard_serial'];
+         echo "</td>";
          echo "</tr>";
+
+         //If airwatch console url is set, display a link
+         $config = new PluginAirwatchConfig();
+         $config->getFromDB(1);
+         if ($config->fields['airwatch_console_url'] > '' && $detail->fields['aw_device_id'] > 0) {
+            echo "<tr class='tab_bg_1' align='center'>";
+            $url = $config->fields['airwatch_console_url'].
+                   '/#/Airwatch/Device/Details/Summary/'.
+                   $detail->fields['aw_device_id'];
+            echo "<td colspan='4' align='center'>";
+            echo "<a href='$url' target=_blank>".__("See device in Airwatch console", "airwatch")."</td>";
+            echo "</tr>";
+         }
 
          echo "<tr><th colspan='4'>" . __("Enrollment process", "airwatch") . "</th></tr>";
 
@@ -162,7 +172,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</tr>";
 
          echo "<tr class='tab_bg_1' align='center'>";
-         echo "<td>" . __("Last enrollment date", "airwatch") . "</td>";
+         echo "<td>" . __("Last enrollment check", "airwatch") . "</td>";
          echo "<td>";
          echo Html::convDateTime($detail->fields['date_last_enrollment']);
          echo "</td>";
@@ -193,9 +203,32 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</td>";
          echo "</tr>";
 
+         echo "<tr><th colspan='4'>" . __("Roaming", "airwatch") . "</th></tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Roaming enabled", "airwatch") . "</td>";
+         echo "<td>";
+         echo Dropdown::getYesNo($detail->fields['is_roaming_enabled']);
+         echo "</td>";
+         echo "<td>" . __("Data roaming enabled", "airwatch") . "</td>";
+         echo "<td>";
+         echo Dropdown::getYesNo($detail->fields['is_data_roaming_enabled']);
+         echo "</td>";
+         echo "</tr>";
+
+         echo "<tr class='tab_bg_1' align='center'>";
+         echo "<td>" . __("Voice roaming enabled", "airwatch") . "</td>";
+         echo "<td>";
+         echo Dropdown::getYesNo($detail->fields['is_voice_roaming_enabled']);
+         echo "</td>";
+         echo "<td colspan='2'>";
+         echo "</td>";
+         echo "</tr>";
+
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td colspan='4' align='center'>";
-         echo "<input type='submit' name='update' value=\"" . _sx("button", "Force inventory") . "\" class='submit' >";
+         echo "<input type='submit' name='update' value=\"" .
+            _sx("button", "Refresh inventory now") . "\" class='submit' >";
          echo"</td>";
          echo "</tr>";
 
@@ -220,8 +253,9 @@ class PluginAirwatchDetail extends CommonDBChild {
                         `id` int(11) NOT NULL auto_increment,
                         `computers_id` int(11) NOT NULL DEFAULT '0',
                         `aw_device_id` int(11) NOT NULL DEFAULT '0',
-                        `imei` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                        `phone_number` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+                        `imei` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
+                        `simcard_serial` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
+                        `phone_number` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
                         `date_mod` datetime DEFAULT NULL,
                         `date_creation` datetime DEFAULT NULL,
                         `date_last_seen` datetime DEFAULT NULL,
@@ -229,10 +263,13 @@ class PluginAirwatchDetail extends CommonDBChild {
                         `date_last_enrollment_check` datetime DEFAULT NULL,
                         `date_last_compliance_check` datetime DEFAULT NULL,
                         `date_last_compromised_check` datetime DEFAULT NULL,
-                        `enrollmentstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                        `compliancestatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                        `compromisedstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+                        `enrollmentstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
+                        `compliancestatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
+                        `compromisedstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
                         `is_dataencryption` tinyint(1) NOT NULL DEFAULT '0',
+                        `is_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
+                        `is_data_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
+                        `is_voice_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
                         PRIMARY KEY  (`id`)
                      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             $DB->query($query) or die ($DB->error());
