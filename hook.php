@@ -115,6 +115,7 @@
          $sopt[6011]['datatype']      = 'bool';
          $sopt[6011]['joinparams']    = array('jointype' => 'child');
          $sopt[6011]['massiveaction'] = FALSE;
+         $sopt[6011]['searchtype']     = array('equals', 'notequals');
 
          $sopt[6012]['table']         = 'glpi_plugin_airwatch_details';
          $sopt[6012]['field']         = 'is_roaming_enabled';
@@ -122,6 +123,7 @@
          $sopt[6012]['datatype']      = 'bool';
          $sopt[6012]['joinparams']    = array('jointype' => 'child');
          $sopt[6012]['massiveaction'] = FALSE;
+         $sopt[6012]['searchtype']     = array('equals', 'notequals');
 
          $sopt[6013]['table']         = 'glpi_plugin_airwatch_details';
          $sopt[6013]['field']         = 'is_data_roaming_enabled';
@@ -129,6 +131,7 @@
          $sopt[6013]['datatype']      = 'bool';
          $sopt[6013]['joinparams']    = array('jointype' => 'child');
          $sopt[6013]['massiveaction'] = FALSE;
+         $sopt[6013]['searchtype']     = array('equals', 'notequals');
 
          $sopt[6014]['table']         = 'glpi_plugin_airwatch_details';
          $sopt[6014]['field']         = 'is_voice_roaming_enabled';
@@ -136,6 +139,7 @@
          $sopt[6014]['datatype']      = 'bool';
          $sopt[6014]['joinparams']    = array('jointype' => 'child');
          $sopt[6014]['massiveaction'] = FALSE;
+         $sopt[6014]['searchtype']     = array('equals', 'notequals');
 
        }
 

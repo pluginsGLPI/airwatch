@@ -238,6 +238,12 @@ class PluginAirwatchDetail extends CommonDBChild {
 
       }
 
+      /**
+      * @since 0.90+1.0
+      *
+      * Delete airwatch details when a computer is purged
+      * @param computer the Computer object
+      */
       static function cleanOnPurge(Computer $computer) {
          $detail = new self();
          $detail->deleteByCriteria(array('computers_id' => $computer->getID()));
@@ -314,7 +320,23 @@ class PluginAirwatchDetail extends CommonDBChild {
                         `is_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
                         `is_data_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
                         `is_voice_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
-                        PRIMARY KEY  (`id`)
+                        PRIMARY KEY  (`id`),
+                        KEY `computers_id` (`computers_id`),
+                        KEY `aw_device_id` (`aw_device_id`),
+                        KEY `imei` (`imei`),
+                        KEY `simcard_serial` (`simcard_serial`),
+                        KEY `date_last_seen` (`date_last_seen`),
+                        KEY `date_last_enrollment` (`date_last_enrollment`),
+                        KEY `date_last_enrollment_check` (`date_last_enrollment_check`),
+                        KEY `date_last_compliance_check` (`date_last_compliance_check`),
+                        KEY `date_last_compromised_check` (`date_last_compromised_check`),
+                        KEY `enrollmentstatus` (`enrollmentstatus`),
+                        KEY `compliancestatus` (`compliancestatus`),
+                        KEY `compromisedstatus` (`compromisedstatus`),
+                        KEY `is_dataencryption` (`is_dataencryption`),
+                        KEY `is_roaming_enabled` (`is_roaming_enabled`),
+                        KEY `is_data_roaming_enabled` (`is_data_roaming_enabled`),
+                        KEY `is_voice_roaming_enabled` (`is_voice_roaming_enabled`)                        
                      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             $DB->query($query) or die ($DB->error());
       }

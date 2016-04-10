@@ -127,7 +127,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          }
       }
 
-      $inventory['DEVICEID']      = $inventory['IMEI'];
+      $inventory['DEVICEID'] = $inventory['IMEI'];
 
       if (isset($aw_data['OperatingSystem'])) {
          switch ($aw_data['Platform']) {
@@ -165,7 +165,8 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       //Get Network informations
       $network = PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']);
 
-      $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled', 'CurrentSIM');
+      $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled',
+                      'CurrentSIM');
       foreach ($fields as $field) {
          if (isset($network[$field])) {
             $inventory[strtoupper($field)] = $network[$field];
@@ -184,10 +185,58 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $_SERVER['HTTP_USER_AGENT'] = $inventory['VERSIONCLIENT'];
 
       //Send the file to FusionInventory
-     $communication = new PluginFusioninventoryCommunication();
-     $communication->handleOCSCommunication($xml_data->asXML());
+      self::sendInventoryToPlugin($xml_data);
+
+     //$communication = new PluginFusioninventoryCommunication();
+     //$communication->handleOCSCommunication($xml_data->asXML());
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Send an XML inventory to FusionInventory over HTTP
+   * @param confg plugin configuration
+   * @param xml_data inventory in XML format
+   */
+   static function sendInventoryToPlugin($config, $xml_data) {
+      //Do not send inventory if no service url defined
+      if (!$config->getField('fusioninventory_url')) {
+         return true;
+      }
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $config->getField('fusioninventory_url'));
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $xml_data->asXML());
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+      curl_setopt($ch, CURLOPT_REFERER, $config->getField('fusioninventory_url'));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      $ch_result = curl_exec($ch);
+      curl_close($ch);
+   }
+
+
+   /**
+   * @since 0.90+1.0
+   *
+   * Convert Airwatch date to GLPi DB format
+   * @param airwatch date
+   * @return date in Y-m-d H:i:s format
+   */
+   static function convertAirwatchDate($aw_date) {
+      $date = new DateTime($aw_date);
+      return date_format($date, 'Y-m-d H:i:s');
+   }
+
+   /************** FusionInventory hooks ***************/
+
+   /**
+   * @since 0.90+1.0
+   *
+   * Add Airwatch informations coming from the XML inventory
+   * @param params Airwatch section in the XML file
+   */
    static function updateInventory($params = array()) {
       global $DB;
 
@@ -252,10 +301,5 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          }
       }
       return $values;
-   }
-
-   static function convertAirwatchDate($aw_date) {
-      $date = new DateTime($aw_date);
-      return date_format($date, 'Y-m-d H:i:s');
    }
 }

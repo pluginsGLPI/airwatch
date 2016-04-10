@@ -52,6 +52,13 @@ class PluginAirwatchConfig extends CommonDBTM {
       echo "<tr><th colspan='2'>" . __("Plugin configuration", "airwatch") . "</th></tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
+      echo "<td>" . __("Service URL", "fusioninventory") . "</td>";
+      echo "<td>";
+      Html::autocompletionTextField($this, "fusioninventory_url");
+      echo "</td>";
+      echo "</tr>";
+
+      echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Airwatch Service URL", "airwatch") . "</td>";
       echo "<td>";
       Html::autocompletionTextField($this, "airwatch_service_url");
@@ -119,17 +126,26 @@ class PluginAirwatchConfig extends CommonDBTM {
          //Install
          $query = "CREATE TABLE `glpi_plugin_airwatch_configs` (
                      `id` int(11) NOT NULL auto_increment,
+                     `fusioninventory_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `airwatch_service_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `airwatch_console_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `password` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `api_key` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `skip_ssl_check` tinyint(1) NOT NULL default '0',
-                     PRIMARY KEY  (`id`)
+                     PRIMARY KEY  (`id`),
+                     KEY `fusioninventory_url` (`fusioninventory_url`),
+                     KEY `airwatch_service_url` (`airwatch_service_url`),
+                     KEY `airwatch_console_url` (`airwatch_console_url`),
+                     KEY `username` (`username`),
+                     KEY `password` (`password`),
+                     KEY `api_key` (`api_key`),
+                     KEY `skip_ssl_check` (`skip_ssl_check`)
                   ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
          $DB->query($query) or die ($DB->error());
 
          $tmp = array('id'                   => 1,
+                      'fusioninventory_url' => 'http://localhost/glpi/plugins/fusioninventory/',
                       'airwatch_service_url' => '',
                       'airwatch_console_url' => '',
                       'username'             => '',
