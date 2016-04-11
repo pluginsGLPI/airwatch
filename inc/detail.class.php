@@ -126,10 +126,9 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<td>";
          echo Html::convDateTime($detail->fields['date_last_seen']);
          if ($detail->fields['date_last_seen']) {
-            $date1 = date_create($_SESSION['glpi_currenttime']);
-            $date2 = date_create($detail->fields['date_last_seen']);
-            $interval = date_diff($date1, $date2);
-            echo "&nbsp;(".$interval->format('%h:%i:%s').")";
+            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                                     $detail->fields['date_last_seen'],
+                                                     3).")";
          }
          echo "</td>";
          echo "</tr>";
@@ -168,13 +167,23 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<td>" . __("Last enrollment date", "airwatch") . "</td>";
          echo "<td>";
          echo Html::convDateTime($detail->fields['date_last_enrollment']);
+         if ($detail->fields['date_last_enrollment']) {
+            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                                     $detail->fields['date_last_enrollment'],
+                                                     3).")";
+         }
          echo "</td>";
          echo "</tr>";
 
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Last enrollment check", "airwatch") . "</td>";
          echo "<td>";
-         echo Html::convDateTime($detail->fields['date_last_enrollment']);
+         echo Html::convDateTime($detail->fields['date_last_enrollment_check']);
+         if ($detail->fields['date_last_enrollment_check']) {
+            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                                     $detail->fields['date_last_enrollment_check'],
+                                                     3).")";
+         }
          echo "</td>";
          echo "</td><td colspan='2'></td>";
          echo "</tr>";
@@ -189,6 +198,11 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<td>" . __("Last compliance check date", "airwatch") . "</td>";
          echo "<td>";
          echo Html::convDateTime($detail->fields['date_last_compliance_check']);
+         if ($detail->fields['date_last_compliance_check']) {
+            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                                     $detail->fields['date_last_compliance_check'],
+                                                     3).")";
+         }
          echo "</td>";
          echo "</tr>";
 
@@ -200,6 +214,11 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<td>" . __("Last compromised check date", "airwatch") . "</td>";
          echo "<td>";
          echo Html::convDateTime($detail->fields['date_last_compromised_check']);
+         if ($detail->fields['date_last_compromised_check']) {
+            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                                     $detail->fields['date_last_compromised_check'],
+                                                     3).")";
+         }
          echo "</td>";
          echo "</tr>";
 
@@ -281,11 +300,88 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo __('Last seen', 'airwatch');
          echo '</td>';
          echo '<td>';
-         echo Html::convDateTime($detail->fields['date_last_seen']);
+         echo self::HumanReadableDate($_SESSION['glpi_currenttime'],
+                                      $detail->fields['date_last_seen'], 3);
          echo '</td>';
          echo '</tr>';
 
          echo '</table>';
+      }
+
+      /**
+      * This code comes from : https://gist.githubusercontent.com/ozh/8169202/raw/9d025307f30c85434c6515887746a67d0e835efa/gistfile1.php
+       * Get human readable time difference between 2 dates
+       *
+       * Return difference between 2 dates in year, month, hour, minute or second
+       * The $precision caps the number of time units used: for instance if
+       * $time1 - $time2 = 3 days, 4 hours, 12 minutes, 5 seconds
+       * - with precision = 1 : 3 days
+       * - with precision = 2 : 3 days, 4 hours
+       * - with precision = 3 : 3 days, 4 hours, 12 minutes
+       *
+       * From: http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
+       *
+       * @param mixed $time1 a time (string or timestamp)
+       * @param mixed $time2 a time (string or timestamp)
+       * @param integer $precision Optional precision
+       * @return string time difference
+       */
+      static function getHumanReadableDate( $time1, $time2, $precision = 2 ) {
+      	// If not numeric then convert timestamps
+      	if( !is_int( $time1 ) ) {
+      		$time1 = strtotime( $time1 );
+      	}
+      	if( !is_int( $time2 ) ) {
+      		$time2 = strtotime( $time2 );
+      	}
+
+      	// If time1 > time2 then swap the 2 values
+      	if( $time1 > $time2 ) {
+      		list( $time1, $time2 ) = array( $time2, $time1 );
+      	}
+
+      	// Set up intervals and diffs arrays
+      	$intervals = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
+      	$diffs = array();
+
+      	foreach( $intervals as $interval ) {
+      		// Create temp time from time1 and interval
+      		$ttime = strtotime( '+1 ' . $interval, $time1 );
+      		// Set initial values
+      		$add = 1;
+      		$looped = 0;
+      		// Loop until temp time is smaller than time2
+      		while ( $time2 >= $ttime ) {
+      			// Create new temp time from time1 and interval
+      			$add++;
+      			$ttime = strtotime( "+" . $add . " " . $interval, $time1 );
+      			$looped++;
+      		}
+
+      		$time1 = strtotime( "+" . $looped . " " . $interval, $time1 );
+      		$diffs[ $interval ] = $looped;
+      	}
+
+      	$count = 0;
+      	$times = array();
+      	foreach( $diffs as $interval => $value ) {
+      		// Break if we have needed precission
+      		if( $count >= $precision ) {
+      			break;
+      		}
+      		// Add value and interval if value is bigger than 0
+      		if( $value > 0 ) {
+      			if( $value != 1 ){
+      				$interval .= "s";
+      			}
+      			// Add value and interval to times array
+      			$times[] = $value . " " . $interval;
+      			$count++;
+      		}
+      	}
+
+      	// Return string with times
+      	return implode( ", ", $times );
       }
 
       //----------------- Install & uninstall -------------------//
@@ -336,7 +432,7 @@ class PluginAirwatchDetail extends CommonDBChild {
                         KEY `is_dataencryption` (`is_dataencryption`),
                         KEY `is_roaming_enabled` (`is_roaming_enabled`),
                         KEY `is_data_roaming_enabled` (`is_data_roaming_enabled`),
-                        KEY `is_voice_roaming_enabled` (`is_voice_roaming_enabled`)                        
+                        KEY `is_voice_roaming_enabled` (`is_voice_roaming_enabled`)
                      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             $DB->query($query) or die ($DB->error());
       }

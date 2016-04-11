@@ -92,7 +92,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       //Array to store device inventory, as requested by FusionInventory
       $inventory = array();
 
-      $inventory['VERSIONCLIENT'] = 'Airwatch-Connector-1.0';
+      $inventory['VERSIONCLIENT'] = AIRWATCH_USER_AGENT;
       $inventory['type']          = 'Smartphone';
 
       $fields = array('LocationGroupName'      => 'tag',
@@ -182,7 +182,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $xml_data->asXML($path);
 
       //Try to set user agent
-      $_SERVER['HTTP_USER_AGENT'] = $inventory['VERSIONCLIENT'];
+      //$_SERVER['HTTP_USER_AGENT'] = $inventory['VERSIONCLIENT'];
 
       //Send the file to FusionInventory
       self::sendInventoryToPlugin($xml_data);
@@ -206,6 +206,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $config->getField('fusioninventory_url'));
       curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+      curl_setopt($ch, CURLOPT_USERAGENT, AIRWATCH_USER_AGENT);
       curl_setopt($ch, CURLOPT_HEADER, 0);
       curl_setopt($ch, CURLOPT_POST, 1);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $xml_data->asXML());

@@ -164,4 +164,3 @@ function plugin_airwatch_uninstall() {
    PluginairwatchDetail::uninstall();
    return true;
 }
-?>
