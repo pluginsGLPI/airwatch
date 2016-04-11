@@ -172,23 +172,29 @@ class PluginAirwatchAirwatch extends CommonDBTM {
             $inventory[strtoupper($field)] = $network[$field];
          }
       }
+      if (isset($network['WifiInfo']) && !empty($network['WifiInfo'])) {
+         $inventory['wifi_macaddress'] = $network['WifiInfo']['WifiMacAddress'];
+      }
+      if (isset($network['IPAddress']) && !empty($network['IPAddress'])) {
+         if (isset($network['IPAddress']['WifiIPAddress'])) {
+            $inventory['wifi_ipaddress'] = $network['IPAddress']['WifiIPAddress'];
+         }
+         if (isset($network['IPAddress']['CellularIPAddress'])) {
+            $inventory['wifi_ipaddress'] = $network['IPAddress']['CellularIPAddress'];
+         }
+      }
 
       //Generate an inventory XML file
       $aw_xml   = new PluginAirwatchXml($inventory);
-      $xml_data = $aw_xml->sxml;
-
-      //Save the file
-      $path     = '/tmp/'.$inventory['DEVICEID'].'.ocs';
-      $xml_data->asXML($path);
-
-      //Try to set user agent
-      //$_SERVER['HTTP_USER_AGENT'] = $inventory['VERSIONCLIENT'];
 
       //Send the file to FusionInventory
-      self::sendInventoryToPlugin($xml_data);
+      self::sendInventoryToPlugin($aw_xml->sxml);
 
-     //$communication = new PluginFusioninventoryCommunication();
-     //$communication->handleOCSCommunication($xml_data->asXML());
+      //$xml_data = $aw_xml->sxml;
+      //Save the file
+      //$path     = '/tmp/'.$inventory['DEVICEID'].'.ocs';
+      //$xml_data->asXML($path);
+
    }
 
    /**
@@ -198,7 +204,10 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    * @param confg plugin configuration
    * @param xml_data inventory in XML format
    */
-   static function sendInventoryToPlugin($config, $xml_data) {
+   static function sendInventoryToPlugin($xml_data) {
+      $config = new PluginAirwatchConfig();
+      $config->getFromDB(1);
+
       //Do not send inventory if no service url defined
       if (!$config->getField('fusioninventory_url')) {
          return true;

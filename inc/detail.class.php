@@ -300,7 +300,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo __('Last seen', 'airwatch');
          echo '</td>';
          echo '<td>';
-         echo self::HumanReadableDate($_SESSION['glpi_currenttime'],
+         echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
                                       $detail->fields['date_last_seen'], 3);
          echo '</td>';
          echo '</tr>';
@@ -309,7 +309,6 @@ class PluginAirwatchDetail extends CommonDBChild {
       }
 
       /**
-      * This code comes from : https://gist.githubusercontent.com/ozh/8169202/raw/9d025307f30c85434c6515887746a67d0e835efa/gistfile1.php
        * Get human readable time difference between 2 dates
        *
        * Return difference between 2 dates in year, month, hour, minute or second

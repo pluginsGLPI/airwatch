@@ -59,6 +59,7 @@ class PluginAirwatchXml {
       $this->setHardware();
       $this->setOS();
       $this->setSoftwares();
+      $this->setNetwork();
       $this->setAirwatchInfos();
    }
 
@@ -74,6 +75,31 @@ class PluginAirwatchXml {
       }
 
       $ACCESSLOG->addChild('USERID',$this->username);
+   }
+
+   function setNetwork() {
+      $CONTENT = $this->sxml->CONTENT[0];
+      $i = 0;
+
+      if (isset($this->data['wifi_ipaddress']) || isset($this->data['wifi_macaddress'])) {
+         $CONTENT->addChild('NETWORKS');
+         $NETWORK = $this->sxml->CONTENT[$i]->NETWORKS;
+         if (isset($this->data['wifi_ipaddress'])) {
+            $NETWORK->addChild('IPADDRESS',$this->data['wifi_ipaddress']);
+         }
+         if (isset($this->data['wifi_macaddress'])) {
+            $NETWORK->addChild('MACADDR',$this->data['wifi_macaddress']);
+         }
+         $NETWORK->addChild('TYPE','wifi');
+         $i++;
+      }
+      if (isset($this->data['cellular_ipaddress'])) {
+         $CONTENT->addChild('NETWORKS');
+
+         $NETWORK = $this->sxml->CONTENT[$i]->NETWORKS;
+         $NETWORK->addChild('IPADDRESS',$this->data['cellular_ipaddress']);
+         $NETWORK->addChild('TYPE','ethernet');
+      }
    }
 
    function setAccountInfos() {
