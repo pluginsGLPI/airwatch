@@ -159,8 +159,10 @@
    return $sopt;
 }
 
+/***************** Install / uninstall functions **************/
+
 function plugin_airwatch_install() {
-   $migration = new Migration("0.90+1.0");
+   $migration = new Migration(AIRWATCH_PLUGIN_VERSION);
    include (GLPI_ROOT."/plugins/airwatch/inc/config.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/airwatch.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/detail.class.php");

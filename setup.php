@@ -31,6 +31,7 @@
 define ('AIRWATCH_API_RESULT_OK',    'ok');
 define ('AIRWATCH_API_RESULT_ERROR', 'ko');
 define ('AIRWATCH_USER_AGENT', 'Airwatch-Connector-1.0');
+define ('AIRWATCH_PLUGIN_VERSION', '0.90+1.0');
 
 function plugin_init_airwatch() {
    global $PLUGIN_HOOKS,$CFG_GLPI,$LANG;
@@ -61,7 +62,7 @@ function plugin_version_airwatch() {
    global $LANG;
 
    return array ('name'           => __("GLPi Airwatch Connector", 'airwatch'),
-                   'version'        => '0.90+1.0',
+                   'version'        => AIRWATCH_PLUGIN_VERSION,
                    'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
                    'license'        => 'GPLv2+',
                    'homepage'       => 'https://github.com/pluginsglpi/airwatch',
