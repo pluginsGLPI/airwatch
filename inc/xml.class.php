@@ -58,7 +58,7 @@ class PluginAirwatchXml {
       $this->setBios();
       $this->setHardware();
       $this->setOS();
-      $this->setSoftwares();
+      //$this->setSoftwares();
       $this->setNetwork();
       $this->setAirwatchInfos();
    }
@@ -166,7 +166,10 @@ class PluginAirwatchXml {
          $CONTENT->addChild('AIRWATCH');
 
          $fields = array('PHONENUMBER', 'LASTSEEN', 'ENROLLMENTSTATUS', "LASTENROLLEDON",
-                         'COMPLIANCESTATUS', 'COMPROMISEDSTATUS', 'IMEI', 'airwatchid');
+                         'COMPLIANCESTATUS', 'COMPROMISEDSTATUS', 'IMEI', 'airwatchid',
+                         'CURRENTSIM', 'LASTENROLLMENTCHECKEDON', 'LASTCOMPLIANCECHECKEDON',
+                         'LASTCOMPROMISEDCHECKEDON', 'DATAENCRYPTION', 'ROAMINGSTATUS',
+                         'DATAROAMINGENABLED', 'VOICEROAMINGENABLED');
 
          $ACCOUNTINFO = $this->sxml->CONTENT[0]->AIRWATCH;
 

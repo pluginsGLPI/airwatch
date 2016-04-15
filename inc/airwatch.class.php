@@ -165,16 +165,21 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       //Get Network informations
       $network = PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']);
 
-      $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled',
-                      'CurrentSIM');
+      $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled');
       foreach ($fields as $field) {
          if (isset($network[$field])) {
             $inventory[strtoupper($field)] = $network[$field];
          }
       }
+      //Get the wifi card mac address
       if (isset($network['WifiInfo']) && !empty($network['WifiInfo'])) {
          $inventory['wifi_macaddress'] = $network['WifiInfo']['WifiMacAddress'];
       }
+      //Get the current simcard serial number
+      if (isset($network['CellularNetworkInfo']['CurrentSIM'])) {
+         $inventory['CURRENTSIM'] = $network['CellularNetworkInfo']['CurrentSIM'];
+      }
+      //Get ID addresses available
       if (isset($network['IPAddress']) && !empty($network['IPAddress'])) {
          if (isset($network['IPAddress']['WifiIPAddress'])) {
             $inventory['wifi_ipaddress'] = $network['IPAddress']['WifiIPAddress'];
