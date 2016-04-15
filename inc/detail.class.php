@@ -32,11 +32,16 @@ if (!defined('GLPI_ROOT')){
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+* Store and display Airwatch informations for a device
+*/
 class PluginAirwatchDetail extends CommonDBChild {
 
       // From CommonDBChild
       static public $itemtype = 'Computer';
       static public $items_id = 'computers_id';
+
+      //Do not record historical, because details are deleted and recreated at each inventory
       public $dohistory       = false;
 
 
@@ -153,7 +158,8 @@ class PluginAirwatchDetail extends CommonDBChild {
                    '/#/Airwatch/Device/Details/Summary/'.
                    $detail->fields['aw_device_id'];
             echo "<td colspan='4' align='center'>";
-            echo "<a href='$url' target=_blank>".__("See device in Airwatch console", "airwatch")."</td>";
+            echo "<a href='$url' target=_blank>"
+               .__("See device in Airwatch console", "airwatch")."</td>";
             echo "</tr>";
          }
 
@@ -244,12 +250,15 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</td>";
          echo "</tr>";
 
-         echo "<tr class='tab_bg_1' align='center'>";
-         echo "<td colspan='4' align='center'>";
-         echo "<input type='submit' name='update' value=\"" .
-            _sx("button", "Refresh inventory now") . "\" class='submit' >";
-         echo"</td>";
-         echo "</tr>";
+         //To refresh an inventory, you must be able to update a computer
+         if (Computer::canUpdate()) {
+            echo "<tr class='tab_bg_1' align='center'>";
+            echo "<td colspan='4' align='center'>";
+            echo "<input type='submit' name='update' value=\"" .
+               _sx("button", "Refresh inventory now") . "\" class='submit' >";
+            echo"</td>";
+            echo "</tr>";
+         }
 
          echo "</table>";
          Html::closeForm();
@@ -269,10 +278,10 @@ class PluginAirwatchDetail extends CommonDBChild {
       }
 
       /**
-       * Display informations about computer (bios...)
-       *
-       * @param type $computers_id
-       */
+      * Display informations about computer (bios...)
+      *
+      * @param type $computers_id
+      */
       static function showInfo($item) {
          global $CFG_GLPI;
 
@@ -340,7 +349,7 @@ class PluginAirwatchDetail extends CommonDBChild {
       	}
 
       	// Set up intervals and diffs arrays
-      	$intervals = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
+      	$intervals = array('year', 'month', 'day', 'hour', 'minute', 'second' );
       	$diffs = array();
 
       	foreach( $intervals as $interval ) {
@@ -370,11 +379,8 @@ class PluginAirwatchDetail extends CommonDBChild {
       		}
       		// Add value and interval if value is bigger than 0
       		if( $value > 0 ) {
-      			if( $value != 1 ){
-      				$interval .= "s";
-      			}
-      			// Add value and interval to times array
-      			$times[] = $value . " " . $interval;
+         			// Add value and interval to times array
+      			$times[] = Dropdown::getValueWithUnit($value, $interval);
       			$count++;
       		}
       	}
@@ -382,7 +388,7 @@ class PluginAirwatchDetail extends CommonDBChild {
       	// Return string with times
       	return implode( ", ", $times );
       }
-
+      
       //----------------- Install & uninstall -------------------//
       public static function install(Migration $migration) {
          global $DB;

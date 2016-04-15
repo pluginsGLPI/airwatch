@@ -33,6 +33,9 @@ if (!defined('GLPI_ROOT')){
    die("Sorry. You can't access directly to this file");
 }
 
+/**
+* Methods to generate an XML file compliant with the FusionInventory format
+*/
 class PluginAirwatchXml {
 
    var $data;
@@ -40,6 +43,11 @@ class PluginAirwatchXml {
    var $agentbuildnumber;
    var $deviceid;
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export Airwatch specific informations in XML format
+   */
    function PluginAirwatchXml($data) {
       $this->data = $data;
 
@@ -63,6 +71,11 @@ class PluginAirwatchXml {
       $this->setAirwatchInfos();
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export access informations in XML format
+   */
    function setAccessLog() {
       $CONTENT = $this->sxml->CONTENT[0];
       $CONTENT->addChild('ACCESSLOG');
@@ -77,6 +90,11 @@ class PluginAirwatchXml {
       $ACCESSLOG->addChild('USERID',$this->username);
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export network informations in XML format
+   */
    function setNetwork() {
       $CONTENT = $this->sxml->CONTENT[0];
       $i = 0;
@@ -102,8 +120,14 @@ class PluginAirwatchXml {
       }
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export TAG in XML format
+   */
    function setAccountInfos() {
 
+      //Use the LocationGroupName as TAG
       if (isset($this->data['tag'])) {
          $CONTENT = $this->sxml->CONTENT[0];
          $CONTENT->addChild('ACCOUNTINFO');
@@ -114,6 +138,11 @@ class PluginAirwatchXml {
       }
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export Hardware informations in XML format
+   */
    function setHardware() {
       $CONTENT = $this->sxml->CONTENT[0];
       $CONTENT->addChild('HARDWARE');
@@ -125,12 +154,22 @@ class PluginAirwatchXml {
       $HARDWARE->addChild('CHASSIS_TYPE',$this->data['type']);
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export OS informations in XML format
+   */
    function setOS() {
       $HARDWARE = $this->sxml->CONTENT[0]->HARDWARE;
       $HARDWARE->addChild('OSNAME'    ,$this->data['osname']);
       $HARDWARE->addChild('OSVERSION' ,$this->data['osversion']);
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export Bios informations in XML format
+   */
    function setBios() {
       $CONTENT = $this->sxml->CONTENT[0];
       $CONTENT->addChild('BIOS');
@@ -141,11 +180,18 @@ class PluginAirwatchXml {
       $BIOS->addChild('SSN'             ,$this->data['serial']);
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export softwares informations in XML format
+   */
    function setSoftwares() {
       $i = 0;
       $CONTENT = $this->sxml->CONTENT[0];
       foreach ($this->data['applications'] as $application) {
          $application = Toolbox::addslashes_deep($application);
+         //If, for one reason or another the name is not set
+         //do not export the software in the XML file
          if (!isset($application['name']) || ! isset($application['version'])) {
             continue;
          }
@@ -159,6 +205,11 @@ class PluginAirwatchXml {
       }
    }
 
+   /**
+   * @since 0.90+1.0
+   *
+   * Export Airwatch specific informations in XML format
+   */
    function setAirwatchInfos() {
 
       if (isset($this->data['tag'])) {
