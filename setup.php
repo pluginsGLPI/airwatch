@@ -62,7 +62,7 @@ function plugin_version_airwatch() {
 
    return array ('name'           => __("GLPi Airwatch Connector", 'airwatch'),
                    'version'        => '0.90+1.0',
-                   'author'         => "<a href='http://www.teclib.com'>Teclib'</a>",
+                   'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
                    'license'        => 'GPLv2+',
                    'homepage'       => 'https://github.com/pluginsglpi/airwatch',
                    'minGlpiVersion' => "0.90");
@@ -73,11 +73,6 @@ function plugin_airwatch_check_prerequisites() {
       echo "This plugin requires GLPI 0.90 or higher";
       return false;
    }
-
-   return true;
-}
-
-function plugin_airwatch_check_config() {
    if (!function_exists('curl_init')) {
       echo "cURL extension (PHP) is required.";
       return false;
@@ -87,6 +82,11 @@ function plugin_airwatch_check_config() {
       echo "Fusioninventory plugin must be enabled";
       return false;
    }
+
+   return true;
+}
+
+function plugin_airwatch_check_config() {
 
    return true;
 }
