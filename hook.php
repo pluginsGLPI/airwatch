@@ -1,6 +1,5 @@
 <?php
 /*
-/*
  * @version $Id$
  LICENSE
 
@@ -28,7 +27,6 @@
  @link      http://www.glpi-project.org/
  @link      http://www.teclib-edition.com/
  @since     2016
- ---------------------------------------------------------------------- */
  ---------------------------------------------------------------------- */
 
  function plugin_airwatch_getAddSearchOptions($itemtype) {

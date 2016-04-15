@@ -1,6 +1,5 @@
 <?php
 /*
-/*
  * @version $Id$
  LICENSE
 
@@ -28,7 +27,6 @@
  @link      http://www.glpi-project.org/
  @link      http://www.teclib-edition.com/
  @since     2016
- ---------------------------------------------------------------------- */
  ---------------------------------------------------------------------- */
 
 if (!defined('GLPI_ROOT')){
@@ -391,7 +389,7 @@ class PluginAirwatchDetail extends CommonDBChild {
       	// Return string with times
       	return implode( ", ", $times );
       }
-      
+
       //----------------- Install & uninstall -------------------//
       public static function install(Migration $migration) {
          global $DB;
