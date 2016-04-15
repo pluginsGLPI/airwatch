@@ -128,7 +128,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          if ($detail->fields['date_last_seen']) {
             echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
                                                      $detail->fields['date_last_seen'],
-                                                     3).")";
+                                                     1).")";
          }
          echo "</td>";
          echo "</tr>";
@@ -170,7 +170,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          if ($detail->fields['date_last_enrollment']) {
             echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
                                                      $detail->fields['date_last_enrollment'],
-                                                     3).")";
+                                                     1).")";
          }
          echo "</td>";
          echo "</tr>";
@@ -182,7 +182,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          if ($detail->fields['date_last_enrollment_check']) {
             echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
                                                      $detail->fields['date_last_enrollment_check'],
-                                                     3).")";
+                                                     1).")";
          }
          echo "</td>";
          echo "</td><td colspan='2'></td>";
@@ -201,7 +201,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          if ($detail->fields['date_last_compliance_check']) {
             echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
                                                      $detail->fields['date_last_compliance_check'],
-                                                     3).")";
+                                                     1).")";
          }
          echo "</td>";
          echo "</tr>";
@@ -217,7 +217,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          if ($detail->fields['date_last_compromised_check']) {
             echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
                                                      $detail->fields['date_last_compromised_check'],
-                                                     3).")";
+                                                     1).")";
          }
          echo "</td>";
          echo "</tr>";
@@ -301,7 +301,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo '</td>';
          echo '<td>';
          echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                      $detail->fields['date_last_seen'], 3);
+                                      $detail->fields['date_last_seen'], 1);
          echo '</td>';
          echo '</tr>';
 
