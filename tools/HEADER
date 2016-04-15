@@ -1,5 +1,3 @@
-<?php
-/*
 /*
  * @version $Id$
  LICENSE
@@ -29,33 +27,3 @@
  @link      http://www.teclib-edition.com/
  @since     2016
  ---------------------------------------------------------------------- */
- ---------------------------------------------------------------------- */
-
-include ("../../../inc/includes.php");
-
-$config = new PluginAirwatchConfig();
-
-if (isset($_POST['test'])) {
-   $result = PluginAirwatchRest::testConnection();
-   if ($result['status'] == AIRWATCH_API_RESULT_OK) {
-      Session::addMessageAfterRedirect("Connection successful", true, INFO, true);
-   } else {
-      $message = "Connection error: ".$result['message'];
-      Session::addMessageAfterRedirect($message, true, ERROR, true);
-   }
-   Html::back();
-}
-if (isset($_POST["update"])) {
-   $config->update($_POST);
-   Html::back();
-} else {
-
-Html::header(__("Airwatch", "airwatch"), $_SERVER['PHP_SELF'], "plugins", "airwatch",
-             "config");
-
-Session::checkRight("config", UPDATE);
-$config->showForm();
-
-Html::footer();
-
-}

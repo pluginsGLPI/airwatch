@@ -1,5 +1,6 @@
 <?php
 /*
+/*
  * @version $Id$
  LICENSE
 
@@ -25,7 +26,9 @@
             http://www.gnu.org/licenses/gpl.txt
  @link      https://github.com/pluginsglpi/airwatch
  @link      http://www.glpi-project.org/
+ @link      http://www.teclib-edition.com/
  @since     2016
+ ---------------------------------------------------------------------- */
  ---------------------------------------------------------------------- */
 
 include ("../../../inc/includes.php");
