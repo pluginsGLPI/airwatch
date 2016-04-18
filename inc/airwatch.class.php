@@ -58,6 +58,10 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       return true;
    }
 
+   static function cronInfo($name) {
+      return array('description' => __("Import devices informations from Airwatch", "airwatch"));
+   }
+
    /**
    * @since 0.90+1.0
    *
@@ -70,19 +74,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       if ($results['status'] == AIRWATCH_API_RESULT_OK) {
          self::importDevice($results['array_data']);
       } else {
-         Session::addMessageAfterRedirect($results['error'], true, ERROR, true);
-      }
-   }
-
-   static function cronInfo($name) {
-      return array('description' => __("Import devices informations from Airwatch", "airwatch"));
-   }
-
-   static function install(Migration $migration) {
-      $cron = new CronTask;
-      if (!$cron->getFromDBbyName(__CLASS__, 'airwatchImport')) {
-         CronTask::Register(__CLASS__, 'airwatchImport', DAY_TIMESTAMP,
-                            array('param' => 24, 'mode' => CronTask::MODE_EXTERNAL));
+         Session::addMessageAfterRedirect(__("Error on executing the action"), true, ERROR, true);
       }
    }
 
@@ -202,12 +194,6 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
       //Send the file to FusionInventory
       self::sendInventoryToPlugin($aw_xml->sxml);
-
-      //$xml_data = $aw_xml->sxml;
-      //Save the file
-      //$path     = '/tmp/'.$inventory['DEVICEID'].'.ocs';
-      //$xml_data->asXML($path);
-
    }
 
    /**
@@ -324,5 +310,13 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          }
       }
       return $values;
+   }
+
+   static function install(Migration $migration) {
+      $cron = new CronTask;
+      if (!$cron->getFromDBbyName(__CLASS__, 'airwatchImport')) {
+         CronTask::Register(__CLASS__, 'airwatchImport', DAY_TIMESTAMP,
+                            array('param' => 24, 'mode' => CronTask::MODE_EXTERNAL));
+      }
    }
 }
