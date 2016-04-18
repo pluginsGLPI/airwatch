@@ -92,9 +92,13 @@ class PluginAirwatchRest {
       }
 
       $ch_result = curl_exec($ch);
-      if (!$ch_result) {
+      //Get curl informations about the last call
+      $infos = curl_getinfo($ch);
+      
+      //If http_code is not 200, then there's an error
+      if ($infos['http_code'] != 200) {
          $result['status'] = AIRWATCH_API_RESULT_ERROR;
-         $result['error']  = curl_error($ch);
+         $result['error']  = $infos['http_code'];
       } else {
          $result['status'] = AIRWATCH_API_RESULT_OK;
          $result['data'] = $ch_result;
@@ -159,10 +163,11 @@ class PluginAirwatchRest {
       if ($results['status'] == AIRWATCH_API_RESULT_OK
           && isset($results['data']) && !empty($results['data'])) {
          $data = json_decode($results['data'], true);
+         $results['array_data'] = $data;
       } else {
-         $data = array();
+         $results['array_data'] = array();
       }
-      return $data;
+      return $results;
    }
 
 }

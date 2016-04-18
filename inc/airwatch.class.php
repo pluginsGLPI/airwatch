@@ -43,9 +43,10 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       //Total of export lines
       $index = 0;
 
-      $devices = PluginAirwatchRest::getDevices();
-      if (!empty($devices) && isset($devices['Devices'])) {
-         foreach ($devices['Devices'] as $device) {
+      $results = PluginAirwatchRest::getDevices();
+      if ($results['status'] == AIRWATCH_API_RESULT_OK
+         && !empty($results['array_data']) && isset($results['array_data']['Devices'])) {
+         foreach ($results['array_data']['Devices'] as $device) {
             if (empty($device)) {
                continue;
             }
@@ -65,8 +66,12 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    * @param aw_device_id the device's Airwatch ID
    */
    static function doOneDeviceInventory($aw_device_id) {
-      $device = PluginAirwatchRest::getDevice($aw_device_id);
-      self::importDevice($device);
+      $results = PluginAirwatchRest::getDevice($aw_device_id);
+      if ($results['status'] == AIRWATCH_API_RESULT_OK) {
+         self::importDevice($results['array_data']);
+      } else {
+         Session::addMessageAfterRedirect($results['error'], true, ERROR, true);
+      }
    }
 
    static function cronInfo($name) {
@@ -149,43 +154,46 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
       //Get applications from Airwatch
       $applications = PluginAirwatchRest::getDeviceApplications($inventory['airwatchid']);
-      if (isset($applications['DeviceApps']) && is_array($applications['DeviceApps'])) {
-         foreach ($applications['DeviceApps'] as $application) {
-            if (!Toolbox::seems_utf8($application['ApplicationName'])) {
-               $application['ApplicationName'] = Toolbox::encodeInUtf8($application['ApplicationName']);
+      if ($applications['status'] == AIRWATCH_API_RESULT_OK) {
+         if (isset($applications['array_data']['DeviceApps']) && is_array($applications['DeviceApps'])) {
+            foreach ($applications['array_data']['DeviceApps'] as $application) {
+               if (!Toolbox::seems_utf8($application['ApplicationName'])) {
+                  $application['ApplicationName'] = Toolbox::encodeInUtf8($application['ApplicationName']);
+               }
+               if (!Toolbox::seems_utf8($application['Version'])) {
+                  $application['Version'] = Toolbox::encodeInUtf8($application['Version']);
+               }
+               $inventory['applications'][] = array('name' => $application['ApplicationName'],
+                                                    'version' => $application['Version']);
             }
-            if (!Toolbox::seems_utf8($application['Version'])) {
-               $application['Version'] = Toolbox::encodeInUtf8($application['Version']);
-            }
-            $inventory['applications'][] = array('name' => $application['ApplicationName'],
-                                                 'version' => $application['Version']);
          }
       }
 
       //Get Network informations
       $network = PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']);
-
-      $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled');
-      foreach ($fields as $field) {
-         if (isset($network[$field])) {
-            $inventory[strtoupper($field)] = $network[$field];
+      if ($network['array_data'] == AIRWATCH_API_RESULT_OK) {
+         $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled');
+         foreach ($fields as $field) {
+            if (isset($network[$field])) {
+               $inventory[strtoupper($field)] = $network[$field];
+            }
          }
-      }
-      //Get the wifi card mac address
-      if (isset($network['WifiInfo']) && !empty($network['WifiInfo'])) {
-         $inventory['wifi_macaddress'] = $network['WifiInfo']['WifiMacAddress'];
-      }
-      //Get the current simcard serial number
-      if (isset($network['CellularNetworkInfo']['CurrentSIM'])) {
-         $inventory['CURRENTSIM'] = $network['CellularNetworkInfo']['CurrentSIM'];
-      }
-      //Get ID addresses available
-      if (isset($network['IPAddress']) && !empty($network['IPAddress'])) {
-         if (isset($network['IPAddress']['WifiIPAddress'])) {
-            $inventory['wifi_ipaddress'] = $network['IPAddress']['WifiIPAddress'];
+         //Get the wifi card mac address
+         if (isset($network['WifiInfo']) && !empty($network['WifiInfo'])) {
+            $inventory['wifi_macaddress'] = $network['WifiInfo']['WifiMacAddress'];
          }
-         if (isset($network['IPAddress']['CellularIPAddress'])) {
-            $inventory['wifi_ipaddress'] = $network['IPAddress']['CellularIPAddress'];
+         //Get the current simcard serial number
+         if (isset($network['CellularNetworkInfo']['CurrentSIM'])) {
+            $inventory['CURRENTSIM'] = $network['CellularNetworkInfo']['CurrentSIM'];
+         }
+         //Get ID addresses available
+         if (isset($network['IPAddress']) && !empty($network['IPAddress'])) {
+            if (isset($network['IPAddress']['WifiIPAddress'])) {
+               $inventory['wifi_ipaddress'] = $network['IPAddress']['WifiIPAddress'];
+            }
+            if (isset($network['IPAddress']['CellularIPAddress'])) {
+               $inventory['wifi_ipaddress'] = $network['IPAddress']['CellularIPAddress'];
+            }
          }
       }
 
