@@ -130,11 +130,11 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo $detail->fields['phone_number'];
          echo "<td>" . __("Last seen", "airwatch") . "</td>";
          echo "<td>";
-         echo Html::convDateTime($detail->fields['date_last_seen']);
+         //echo Html::convDateTime($detail->fields['date_last_seen']);
          if ($detail->fields['date_last_seen']) {
-            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                                     $detail->fields['date_last_seen'],
-                                                     1).")";
+            echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                            $detail->fields['date_last_seen'],
+                                            1);
          }
          echo "</td>";
          echo "</tr>";
@@ -173,11 +173,10 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</td>";
          echo "<td>" . __("Last enrollment date", "airwatch") . "</td>";
          echo "<td>";
-         echo Html::convDateTime($detail->fields['date_last_enrollment']);
          if ($detail->fields['date_last_enrollment']) {
-            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                                     $detail->fields['date_last_enrollment'],
-                                                     1).")";
+            echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                            $detail->fields['date_last_enrollment'],
+                                            1);
          }
          echo "</td>";
          echo "</tr>";
@@ -185,11 +184,10 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Last enrollment check", "airwatch") . "</td>";
          echo "<td>";
-         echo Html::convDateTime($detail->fields['date_last_enrollment_check']);
          if ($detail->fields['date_last_enrollment_check']) {
-            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                                     $detail->fields['date_last_enrollment_check'],
-                                                     1).")";
+            echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                            $detail->fields['date_last_enrollment_check'],
+                                            1);
          }
          echo "</td>";
          echo "</td><td colspan='2'></td>";
@@ -204,11 +202,10 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</td>";
          echo "<td>" . __("Last compliance check date", "airwatch") . "</td>";
          echo "<td>";
-         echo Html::convDateTime($detail->fields['date_last_compliance_check']);
          if ($detail->fields['date_last_compliance_check']) {
-            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                                     $detail->fields['date_last_compliance_check'],
-                                                     1).")";
+            echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                            $detail->fields['date_last_compliance_check'],
+                                            1);
          }
          echo "</td>";
          echo "</tr>";
@@ -220,11 +217,10 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</td>";
          echo "<td>" . __("Last compromised check date", "airwatch") . "</td>";
          echo "<td>";
-         echo Html::convDateTime($detail->fields['date_last_compromised_check']);
          if ($detail->fields['date_last_compromised_check']) {
-            echo "&nbsp(".self::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                                     $detail->fields['date_last_compromised_check'],
-                                                     1).")";
+            echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                            $detail->fields['date_last_compromised_check'],
+                                            1);
          }
          echo "</td>";
          echo "</tr>";
