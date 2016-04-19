@@ -169,7 +169,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Enrollment status", "airwatch") . "</td>";
          echo "<td>";
-         echo $detail->fields['enrollmentstatus'];
+         echo Dropdown::getYesNo($detail->fields['is_enrolled']);
          echo "</td>";
          echo "<td>" . __("Last enrollment date", "airwatch") . "</td>";
          echo "<td>";
@@ -198,7 +198,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Compliance status", "airwatch") . "</td>";
          echo "<td>";
-         echo $detail->fields['compliancestatus'];
+         echo Dropdown::getYesNo($detail->fields['is_compliant']);
          echo "</td>";
          echo "<td>" . __("Last compliance check date", "airwatch") . "</td>";
          echo "<td>";
@@ -213,7 +213,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Compromised status", "airwatch") . "</td>";
          echo "<td>";
-         echo $detail->fields['compromisedstatus'];
+         echo Dropdown::getYesNo($detail->fields['is_compromised']);
          echo "</td>";
          echo "<td>" . __("Last compromised check date", "airwatch") . "</td>";
          echo "<td>";
@@ -411,9 +411,9 @@ class PluginAirwatchDetail extends CommonDBChild {
                         `date_last_enrollment_check` datetime DEFAULT NULL,
                         `date_last_compliance_check` datetime DEFAULT NULL,
                         `date_last_compromised_check` datetime DEFAULT NULL,
-                        `enrollmentstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
-                        `compliancestatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
-                        `compromisedstatus` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
+                        `is_enrolled`  tinyint(1) NOT NULL DEFAULT '0',
+                        `is_compliant`  tinyint(1) NOT NULL DEFAULT '0',
+                        `is_compromised`  tinyint(1) NOT NULL DEFAULT '0',
                         `is_dataencryption` tinyint(1) NOT NULL DEFAULT '0',
                         `is_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
                         `is_data_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
@@ -428,9 +428,9 @@ class PluginAirwatchDetail extends CommonDBChild {
                         KEY `date_last_enrollment_check` (`date_last_enrollment_check`),
                         KEY `date_last_compliance_check` (`date_last_compliance_check`),
                         KEY `date_last_compromised_check` (`date_last_compromised_check`),
-                        KEY `enrollmentstatus` (`enrollmentstatus`),
-                        KEY `compliancestatus` (`compliancestatus`),
-                        KEY `compromisedstatus` (`compromisedstatus`),
+                        KEY `is_enrolled` (`is_enrolled`),
+                        KEY `is_compliant` (`is_compliant`),
+                        KEY `is_compromised` (`is_compromised`),
                         KEY `is_dataencryption` (`is_dataencryption`),
                         KEY `is_roaming_enabled` (`is_roaming_enabled`),
                         KEY `is_data_roaming_enabled` (`is_data_roaming_enabled`),

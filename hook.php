@@ -96,26 +96,26 @@
          $sopt[6007]['massiveaction'] = FALSE;
 
          $sopt[6008]['table']         = 'glpi_plugin_airwatch_details';
-         $sopt[6008]['field']         = 'enrollmentstatus';
+         $sopt[6008]['field']         = 'is_enrolled';
          $sopt[6008]['name']          = __('Airwatch', 'airwatch').'-'.
                                           __('Enrollment status', 'airwatch');
-         $sopt[6008]['datatype']      = 'string';
+         $sopt[6008]['datatype']      = 'bool';
          $sopt[6008]['joinparams']    = array('jointype' => 'child');
          $sopt[6008]['massiveaction'] = FALSE;
 
          $sopt[6009]['table']         = 'glpi_plugin_airwatch_details';
-         $sopt[6009]['field']         = 'compliancestatus';
+         $sopt[6009]['field']         = 'is_compliant';
          $sopt[6009]['name']          = __('Airwatch', 'airwatch').'-'.
                                           __('Compliance status', 'airwatch');
-         $sopt[6009]['datatype']      = 'string';
+         $sopt[6009]['datatype']      = 'bool';
          $sopt[6009]['joinparams']    = array('jointype' => 'child');
          $sopt[6009]['massiveaction'] = FALSE;
 
          $sopt[6010]['table']         = 'glpi_plugin_airwatch_details';
-         $sopt[6010]['field']         = 'compromisedstatus';
+         $sopt[6010]['field']         = 'is_compromised';
          $sopt[6010]['name']          = __('Airwatch', 'airwatch').'-'.
                                           __('Compromised status', 'airwatch');
-         $sopt[6010]['datatype']      = 'string';
+         $sopt[6010]['datatype']      = 'bool';
          $sopt[6010]['joinparams']    = array('jointype' => 'child');
          $sopt[6010]['massiveaction'] = FALSE;
 

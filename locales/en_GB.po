@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Walid Nouh, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPi Plugin - Airwatch\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-11 21:53+0200\n"
-"PO-Revision-Date: 2016-04-15 09:18+0000\n"
+"PO-Revision-Date: 2016-04-19 07:07+0000\n"
 "Last-Translator: Walid Nouh\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/teclib/glpi-plugin-airwatch/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -51,15 +52,15 @@ msgstr "Last compromised check date"
 
 #: hook.php:93 inc/detail.class.php:163
 msgid "Enrollment status"
-msgstr "Enrollment status"
+msgstr "Is enrolled"
 
 #: hook.php:100 inc/detail.class.php:194
 msgid "Compliance status"
-msgstr "Compliance status"
+msgstr "Is compliant"
 
 #: hook.php:107 inc/detail.class.php:210
 msgid "Compromised status"
-msgstr "Compromised status"
+msgstr "Is compromised"
 
 #: hook.php:114
 msgid "Data encryption"

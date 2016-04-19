@@ -98,9 +98,6 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                       'SerialNumber'           => 'serial',
                       'PhoneNumber'            => 'PHONENUMBER',
                       'LastSeen'               => 'LASTSEEN',
-                      'EnrollmentStatus'       => 'ENROLLMENTSTATUS',
-                      'ComplianceStatus'       => 'COMPLIANCESTATUS',
-                      'CompromisedStatus'      => 'COMPROMISEDSTATUS',
                       "LastEnrolledOn"         => 'LASTENROLLEDON',
                       "LastCompromisedCheckOn" => 'LASTCOMPROMISEDCHECKEDON',
                       "LastEnrollmentCheckOn"  => 'LASTENROLLMENTCHECKEDON',
@@ -125,6 +122,30 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       }
 
       $inventory['DEVICEID'] = $inventory['IMEI'];
+
+      if (isset($aw_data['EnrollmentStatus'])) {
+         if ($aw_data['EnrollmentStatus'] == 'Enrolled') {
+            $inventory['is_enrolled'] = true;
+         } else {
+            $inventory['is_enrolled'] = false;
+         }
+      }
+
+      if (isset($aw_data['CompromisedStatus'])) {
+         if ($aw_data['CompromisedStatus'] == 'true') {
+            $inventory['is_compromised'] = true;
+         } else {
+            $inventory['is_compromised'] = false;
+         }
+      }
+
+      if (isset($aw_data['ComplianceStatus'])) {
+         if ($aw_data['ComplianceStatus'] == 'Compliant') {
+            $inventory['is_compliant'] = true;
+         } else {
+            $inventory['is_compliant'] = false;
+         }
+      }
 
       if (isset($aw_data['OperatingSystem'])) {
          switch ($aw_data['Platform']) {
@@ -236,8 +257,13 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    * @return date in Y-m-d H:i:s format
    */
    static function convertAirwatchDate($aw_date) {
-      $date = new DateTime($aw_date);
-      return date_format($date, 'Y-m-d H:i:s');
+      //Do not process this kind of dates coming from Airwatch : not representative
+      if (preg_match("/^0001/", $aw_date)) {
+         return '';
+      } else {
+         $date = new DateTime($aw_date);
+         return date_format($date, 'Y-m-d H:i:s');
+      }
    }
 
    /************** FusionInventory hooks ***************/
@@ -269,9 +295,9 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                          'CURRENTSIM'          => 'simcard_serial',
                          'IMEI'                => 'imei',
                          'PHONENUMBER'         => 'phone_number',
-                         'COMPLIANCESTATUS'    => 'compliancestatus',
-                         'COMPROMISEDSTATUS'   => 'compromisedstatus',
-                         'ENROLLMENTSTATUS'    => 'enrollmentstatus',
+                         'COMPLIANCESTATUS'    => 'is_compliant',
+                         'COMPROMISEDSTATUS'   => 'is_compromised',
+                         'ENROLLMENTSTATUS'    => 'is_enrolled',
                          'AIRWATCHID'          => 'aw_device_id');
          foreach ($fields as $xml_field => $glpifield) {
             if (isset($data['AIRWATCH'][$xml_field])) {
@@ -294,7 +320,10 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                         'LASTCOMPROMISEDCHECKEDON' => 'date_last_compromised_check');
          foreach ($dates as $xmldate => $glpidate) {
             if (isset($data['AIRWATCH'][$xmldate])) {
-               $tmp[$glpidate] = self::convertAirwatchDate($data['AIRWATCH'][$xmldate]);
+               $tmpdate = self::convertAirwatchDate($data['AIRWATCH'][$xmldate]);
+               if ($tmpdate) {
+                  $tmp[$glpidate] = $tmpdate;
+               }
             }
          }
          $detail->add($tmp);
