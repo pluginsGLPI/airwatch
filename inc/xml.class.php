@@ -225,7 +225,9 @@ class PluginAirwatchXml {
          $ACCOUNTINFO = $this->sxml->CONTENT[0]->AIRWATCH;
 
          foreach ($fields as $field) {
-            $ACCOUNTINFO->addChild($field, $this->data[$field]);
+            if (isset($this->data[$field])) {
+               $ACCOUNTINFO->addChild($field, $this->data[$field]);
+            }
          }
       }
    }

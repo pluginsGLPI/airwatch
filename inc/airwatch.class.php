@@ -147,7 +147,8 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       //Get applications from Airwatch
       $applications = PluginAirwatchRest::getDeviceApplications($inventory['airwatchid']);
       if ($applications['status'] == AIRWATCH_API_RESULT_OK) {
-         if (isset($applications['array_data']['DeviceApps']) && is_array($applications['DeviceApps'])) {
+         if (isset($applications['array_data']['DeviceApps'])
+            && is_array($applications['array_data']['DeviceApps'])) {
             foreach ($applications['array_data']['DeviceApps'] as $application) {
                if (!Toolbox::seems_utf8($application['ApplicationName'])) {
                   $application['ApplicationName'] = Toolbox::encodeInUtf8($application['ApplicationName']);
@@ -162,9 +163,10 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       }
 
       //Get Network informations
-      $network = PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']);
-      if ($network['array_data'] == AIRWATCH_API_RESULT_OK) {
-         $fields = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled');
+      $networks = PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']);
+      if ($networks['status'] == AIRWATCH_API_RESULT_OK) {
+         $network = $networks['array_data'];
+         $fields  = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled');
          foreach ($fields as $field) {
             if (isset($network[$field])) {
                $inventory[strtoupper($field)] = $network[$field];
