@@ -194,7 +194,9 @@ class PluginAirwatchAirwatch extends CommonDBTM {
             }
          }
          //Get the wifi card mac address
-         if (isset($network['WifiInfo']) && !empty($network['WifiInfo'])) {
+         if (isset($network['WifiInfo'])
+            && !empty($network['WifiInfo'])
+               && isset($network['WifiInfo']['WifiMacAddress'])) {
             $inventory['wifi_macaddress'] = $network['WifiInfo']['WifiMacAddress'];
          }
          //Get the current simcard serial number

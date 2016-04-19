@@ -42,6 +42,7 @@ class PluginAirwatchXml {
    var $sxml;
    var $agentbuildnumber;
    var $deviceid;
+   var $username;
 
    /**
    * @since 0.90+1.0
@@ -83,11 +84,10 @@ class PluginAirwatchXml {
       $ACCESSLOG = $this->sxml->CONTENT[0]->ACCESSLOG;
       $ACCESSLOG->addChild('LOGDATE',date('Y-m-d h:i:s'));
 
-      if(!empty($this->data['userid'])) {
+      if(isset($this->data['userid']) && !empty($this->data['userid'])) {
          $this->username = $this->data['userid'];
+         $ACCESSLOG->addChild('USERID',$this->username);
       }
-
-      $ACCESSLOG->addChild('USERID',$this->username);
    }
 
    /**
@@ -149,7 +149,9 @@ class PluginAirwatchXml {
 
       $HARDWARE = $this->sxml->CONTENT[0]->HARDWARE;
       $HARDWARE->addChild('NAME',$this->data['name']);
-      $HARDWARE->addChild('LASTLOGGEDUSER',$this->username);
+      if (isset($this->username)) {
+         $HARDWARE->addChild('LASTLOGGEDUSER',$this->username);         
+      }
       $HARDWARE->addChild('UUID',$this->data['uuid']);
       $HARDWARE->addChild('CHASSIS_TYPE',$this->data['type']);
    }
