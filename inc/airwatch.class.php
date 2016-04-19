@@ -125,25 +125,25 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
       if (isset($aw_data['EnrollmentStatus'])) {
          if ($aw_data['EnrollmentStatus'] == 'Enrolled') {
-            $inventory['is_enrolled'] = true;
+            $inventory['ISENROLLED'] = 1;
          } else {
-            $inventory['is_enrolled'] = false;
+            $inventory['ISENROLLED'] = 0;
          }
       }
 
       if (isset($aw_data['CompromisedStatus'])) {
          if ($aw_data['CompromisedStatus'] == 'true') {
-            $inventory['is_compromised'] = true;
+            $inventory['ISCOMPROMISED'] = 1;
          } else {
-            $inventory['is_compromised'] = false;
+            $inventory['ISCOMPROMISED'] = 0;
          }
       }
 
       if (isset($aw_data['ComplianceStatus'])) {
          if ($aw_data['ComplianceStatus'] == 'Compliant') {
-            $inventory['is_compliant'] = true;
+            $inventory['ISCOMPLIANT'] = 1;
          } else {
-            $inventory['is_compliant'] = false;
+            $inventory['ISCOMPLIANT'] = 0;
          }
       }
 
@@ -295,9 +295,9 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                          'CURRENTSIM'          => 'simcard_serial',
                          'IMEI'                => 'imei',
                          'PHONENUMBER'         => 'phone_number',
-                         'COMPLIANCESTATUS'    => 'is_compliant',
-                         'COMPROMISEDSTATUS'   => 'is_compromised',
-                         'ENROLLMENTSTATUS'    => 'is_enrolled',
+                         'ISCOMPLIANT'         => 'is_compliant',
+                         'ISCOMPROMISED'       => 'is_compromised',
+                         'ISENROLLED'          => 'is_enrolled',
                          'AIRWATCHID'          => 'aw_device_id');
          foreach ($fields as $xml_field => $glpifield) {
             if (isset($data['AIRWATCH'][$xml_field])) {

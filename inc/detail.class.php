@@ -301,14 +301,11 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo '</td>';
          echo '</tr>';
 
-         echo '<tr class="tab_bg_1">';
-         echo '<td>';
-         echo __('Last seen', 'airwatch');
-         echo '</td>';
-         echo '<td>';
-         echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                      $detail->fields['date_last_seen'], 1);
-         echo '</td>';
+         echo "<tr class='tab_bg_1'>";
+         echo "<td>" . __("Compliance status", "airwatch") . "</td>";
+         echo "<td>";
+         echo Dropdown::getYesNo($detail->fields['is_compliant']);
+         echo "</td>";
          echo '</tr>';
 
          echo '</table>';
