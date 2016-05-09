@@ -155,6 +155,35 @@
          $sopt[6014]['massiveaction'] = FALSE;
          $sopt[6014]['searchtype']     = array('equals', 'notequals');
 
+         $sopt[6015]['table']         = 'glpi_plugin_airwatch_compliances';
+         $sopt[6015]['field']         = 'name';
+         $sopt[6015]['name']          = __('Airwatch', 'airwatch').'-'.
+                                          __('Profile', 'airwatch');
+         $sopt[6015]['datatype']      = 'string';
+         $sopt[6015]['joinparams']    = array('jointype' => 'child');
+         $sopt[6015]['massiveaction'] = false;
+         $sopt[6015]['forcegroupby']  = true;
+
+         $sopt[6016]['table']         = 'glpi_plugin_airwatch_compliances';
+         $sopt[6016]['field']         = 'is_compliant';
+         $sopt[6016]['name']          = __('Airwatch', 'airwatch').'-'.
+                                          __('Profile', 'airwatch').'-'.
+                                          __('Compliance status', 'airwatch');
+         $sopt[6016]['datatype']      = 'bool';
+         $sopt[6016]['joinparams']    = array('jointype' => 'child');
+         $sopt[6016]['massiveaction'] = false;
+         $sopt[6016]['forcegroupby']  = true;
+         $sopt[6016]['searchtype']    = array('equals', 'notequals');
+
+         $sopt[6017]['table']         = 'glpi_plugin_airwatch_compliances';
+         $sopt[6017]['field']         = 'last_check_date';
+         $sopt[6017]['name']          = __('Airwatch', 'airwatch').'-'.
+                                          __('Profile', 'airwatch').'-'.
+                                          __('Last check date', 'airwatch');
+         $sopt[6017]['datatype']      = 'datetime';
+         $sopt[6017]['joinparams']    = array('jointype' => 'child');
+         $sopt[6017]['forcegroupby']  = false;
+         $sopt[6017]['massiveaction'] = true;
        }
 
    return $sopt;
