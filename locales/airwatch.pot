@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-11 21:53+0200\n"
+"POT-Creation-Date: 2016-05-09 12:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,139 +17,151 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: hook.php:37 inc/detail.class.php:114
-msgid "Airwatch ID"
-msgstr ""
-
-#: hook.php:44
-msgid "IMEI"
-msgstr ""
-
-#: hook.php:51
-msgid "Simcard serial number"
-msgstr ""
-
-#: hook.php:58 inc/detail.class.php:125 inc/detail.class.php:300
-msgid "Last seen"
-msgstr ""
-
-#: hook.php:65 inc/detail.class.php:167
-msgid "Last enrollment date"
-msgstr ""
-
-#: hook.php:72
-msgid "Last enrollment check date"
-msgstr ""
-
-#: hook.php:79 inc/detail.class.php:198
-msgid "Last compliance check date"
-msgstr ""
-
-#: hook.php:86 inc/detail.class.php:214
-msgid "Last compromised check date"
-msgstr ""
-
-#: hook.php:93 inc/detail.class.php:163
-msgid "Enrollment status"
-msgstr ""
-
-#: hook.php:100 inc/detail.class.php:194
-msgid "Compliance status"
-msgstr ""
-
-#: hook.php:107 inc/detail.class.php:210
-msgid "Compromised status"
-msgstr ""
-
-#: hook.php:114
-msgid "Data encryption"
-msgstr ""
-
-#: hook.php:122 inc/detail.class.php:228
-msgid "Roaming enabled"
-msgstr ""
-
-#: hook.php:130 inc/detail.class.php:232
-msgid "Data roaming enabled"
-msgstr ""
-
-#: hook.php:138 inc/detail.class.php:239
-msgid "Voice roaming enabled"
-msgstr ""
-
-#: setup.php:63 inc/config.class.php:39
-msgid "GLPi Airwatch Connector"
-msgstr ""
-
-#: front/config.form.php:50 inc/detail.class.php:286
+#: hook.php:38 hook.php:45 hook.php:52 hook.php:60 hook.php:68 hook.php:76
+#: hook.php:84 hook.php:92 hook.php:100 hook.php:108 hook.php:116 hook.php:124
+#: hook.php:133 hook.php:142 hook.php:151 front/config.form.php:51
+#: inc/detail.class.php:288
 msgid "Airwatch"
 msgstr ""
 
-#: inc/airwatch.class.php:73
+#: hook.php:38 inc/detail.class.php:116
+msgid "Airwatch ID"
+msgstr ""
+
+#: hook.php:45
+msgid "IMEI"
+msgstr ""
+
+#: hook.php:53
+msgid "Simcard serial number"
+msgstr ""
+
+#: hook.php:61 inc/detail.class.php:127
+msgid "Last seen"
+msgstr ""
+
+#: hook.php:69 inc/detail.class.php:169
+msgid "Last enrollment date"
+msgstr ""
+
+#: hook.php:77
+msgid "Last enrollment check date"
+msgstr ""
+
+#: hook.php:85 inc/detail.class.php:198
+msgid "Last compliance check date"
+msgstr ""
+
+#: hook.php:93 inc/detail.class.php:213
+msgid "Last compromised check date"
+msgstr ""
+
+#: hook.php:101 inc/detail.class.php:165
+msgid "Enrollment status"
+msgstr ""
+
+#: hook.php:109 inc/compliance.class.php:76 inc/detail.class.php:194
+#: inc/detail.class.php:301
+msgid "Compliance status"
+msgstr ""
+
+#: hook.php:117 inc/detail.class.php:209
+msgid "Compromised status"
+msgstr ""
+
+#: hook.php:125
+msgid "Data encryption"
+msgstr ""
+
+#: hook.php:134 inc/detail.class.php:226
+msgid "Roaming enabled"
+msgstr ""
+
+#: hook.php:143 inc/detail.class.php:230
+msgid "Data roaming enabled"
+msgstr ""
+
+#: hook.php:152 inc/detail.class.php:237
+msgid "Voice roaming enabled"
+msgstr ""
+
+#: setup.php:65 inc/config.class.php:40
+msgid "GLPi Airwatch Connector"
+msgstr ""
+
+#: inc/airwatch.class.php:65
 msgid "Import devices informations from Airwatch"
 msgstr ""
 
-#: inc/config.class.php:52
+#: inc/compliance.class.php:64
+msgid "Compliance details"
+msgstr ""
+
+#: inc/compliance.class.php:70
+msgid "Profile"
+msgstr ""
+
+#: inc/compliance.class.php:84
+msgid "Last check date"
+msgstr ""
+
+#: inc/config.class.php:53
 msgid "Plugin configuration"
 msgstr ""
 
-#: inc/config.class.php:55
+#: inc/config.class.php:56
 msgid "Service URL"
 msgstr ""
 
-#: inc/config.class.php:62
+#: inc/config.class.php:63
 msgid "Airwatch Service URL"
 msgstr ""
 
-#: inc/config.class.php:69
+#: inc/config.class.php:70
 msgid "Airwatch Console URL"
 msgstr ""
 
-#: inc/config.class.php:76
+#: inc/config.class.php:77
 msgid "Username"
 msgstr ""
 
-#: inc/config.class.php:83
+#: inc/config.class.php:84
 msgid "Password"
 msgstr ""
 
-#: inc/config.class.php:90
+#: inc/config.class.php:91
 msgid "API Key"
 msgstr ""
 
-#: inc/config.class.php:97
+#: inc/config.class.php:98
 msgid "Skip SSL check"
 msgstr ""
 
-#: inc/detail.class.php:106
+#: inc/detail.class.php:108
 msgid "General"
 msgstr ""
 
-#: inc/detail.class.php:109
-msgid "Imei"
-msgstr ""
-
-#: inc/detail.class.php:122 inc/detail.class.php:291
+#: inc/detail.class.php:124 inc/detail.class.php:293
 msgid "Phone number"
 msgstr ""
 
-#: inc/detail.class.php:137
+#: inc/detail.class.php:138
 msgid "Data encryption enabled"
 msgstr ""
 
-#: inc/detail.class.php:141
+#: inc/detail.class.php:142
 msgid "Current SIM serial number"
 msgstr ""
 
-#: inc/detail.class.php:156
+#: inc/detail.class.php:158
 msgid "See device in Airwatch console"
 msgstr ""
 
-#: inc/detail.class.php:160
+#: inc/detail.class.php:162
 msgid "Enrollment process"
 msgstr ""
 
-#: inc/detail.class.php:179
+#: inc/detail.class.php:180
 msgid "Last enrollment check"
 msgstr ""
 
@@ -157,6 +169,6 @@ msgstr ""
 msgid "Other status checks"
 msgstr ""
 
-#: inc/detail.class.php:225
+#: inc/detail.class.php:223
 msgid "Roaming"
 msgstr ""

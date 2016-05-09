@@ -73,7 +73,7 @@ class PluginAirwatchCompliance extends CommonDBTM {
          echo $compliance['name'];
          echo '</td>';
 
-         echo "<td>" . __("Is compliant", "airwatch") . "</td>";
+         echo "<td>" . __("Compliance status", "airwatch") . "</td>";
          echo "<td>";
          echo Dropdown::getYesNo($compliance['is_compliant']);
          echo "</td>";
