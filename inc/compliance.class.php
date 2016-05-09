@@ -66,11 +66,13 @@ class PluginAirwatchCompliance extends CommonDBTM {
 
       foreach ($data as $compliance) {
          echo "<tr class='tab_bg_1' align='center'>";
-         echo '<td>';
-         echo __('Profile', 'airwatch');
-         echo '</td>';
-         echo '<td>';
+         echo "<td colspan='2'>";
          echo $compliance['name'];
+         echo "&nbsp;(".__("Last check date", "airwatch"). ": ".
+            PluginAirwatchDetail::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                                       $compliance['date_last_check'],
+                                                       1).")";
+
          echo '</td>';
 
          echo "<td>" . __("Compliance status", "airwatch") . "</td>";
@@ -78,16 +80,6 @@ class PluginAirwatchCompliance extends CommonDBTM {
          echo Dropdown::getYesNo($compliance['is_compliant']);
          echo "</td>";
          echo '</tr>';
-         echo '</tr>';
-
-         echo "<tr class='tab_bg_1' align='center'>";
-         echo "<td>" . __("Last check date", "airwatch") . "</td>";
-         echo "<td>";
-         echo PluginAirwatchDetail::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                         $compliance['date_last_check'],
-                                         1);
-         echo "</td>";
-         echo "<td colspan='2'></td>";
          echo '</tr>';
       }
 
