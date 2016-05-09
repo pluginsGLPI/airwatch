@@ -35,6 +35,9 @@ if (!defined('GLPI_ROOT')){
 
 class PluginAirwatchAirwatch extends CommonDBTM {
 
+   //Do not record historical, because details are deleted and recreated at each inventory
+   public $dohistory       = false;
+
    /**
    * Cron method to export devices to XML files
    */
@@ -95,7 +98,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $fields = array('LocationGroupName'      => 'tag',
                       'Platform'               => 'manufacturer',
                       'Model'                  => 'model',
-                      'SerialNumber'           => 'serial',
+                      'SerialNumber'           => 'IMEI',
                       'PhoneNumber'            => 'PHONENUMBER',
                       'LastSeen'               => 'LASTSEEN',
                       "LastEnrolledOn"         => 'LASTENROLLEDON',
@@ -103,7 +106,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                       "LastEnrollmentCheckOn"  => 'LASTENROLLMENTCHECKEDON',
                       "LastComplianceCheckOn"  => 'LASTCOMPLIANCECHECKEDON',
                       'DataEncryptionYN'       => 'DATAENCRYPTION',
-                      'Imei'                   => 'IMEI',
+                      'Imei'                   => 'serial',
                       'DeviceFriendlyName'     => 'name',
                       'OperatingSystem'        => 'osversion',
                       'UserName'               => 'userid',
@@ -214,6 +217,17 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          }
       }
 
+      //Get Network informations
+      $compliances = PluginAirwatchRest::getDeviceCompliance($inventory['airwatchid']);
+      if ($compliances['status'] == AIRWATCH_API_RESULT_OK) {
+         if (isset($compliances['array_data']['DeviceCompliance'])
+            && is_array($compliances['array_data']['DeviceCompliance'])) {
+            foreach ($compliances['array_data']['DeviceCompliance'] as $compliance) {
+               $inventory['AIRWATCHCOMPLIANCE'][] = $compliance;
+            }
+         }
+      }
+
       //Generate an inventory XML file
       $aw_xml   = new PluginAirwatchXml($inventory);
 
@@ -290,6 +304,9 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          $detail = new PluginAirwatchDetail();
          $detail->deletebyCriteria(array('computers_id' => $computers_id));
 
+         //Delete airwatch profiles
+         PluginAirwatchCompliance::deleteForComputer($computers_id);
+
          $tmp['computers_id'] = $computers_id;
          $fields = array('ROAMINGSTATUS'       => 'is_roaming_enabled',
                          'DATAROAMINGENABLED'  => 'is_data_roaming_enabled',
@@ -302,7 +319,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                          'ISENROLLED'          => 'is_enrolled',
                          'AIRWATCHID'          => 'aw_device_id');
          foreach ($fields as $xml_field => $glpifield) {
-            if (isset($data['AIRWATCH'][$xml_field])) {
+            if (isset($data['AIRWATCH'][$xml_field]) && $data['AIRWATCH'][$xml_field]) {
                $tmp[$glpifield] = $data['AIRWATCH'][$xml_field];
             }
          }
@@ -329,6 +346,15 @@ class PluginAirwatchAirwatch extends CommonDBTM {
             }
          }
          $detail->add($tmp);
+
+         if (isset($data['AIRWATCHCOMPLIANCE']) && is_array($data['AIRWATCHCOMPLIANCE'])) {
+            foreach ($data['AIRWATCHCOMPLIANCE'] as $compliance) {
+               PluginAirwatchCompliance::addProfile($computers_id,
+                                                    $compliance['NAME'],
+                                                    $compliance['COMPLIANCESTATUS'],
+                                                    $compliance['LASTCHECK']);
+            }
+         }
       }
    }
 

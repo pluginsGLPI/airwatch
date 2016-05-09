@@ -32,7 +32,7 @@
 define ('AIRWATCH_API_RESULT_OK',    'ok');
 define ('AIRWATCH_API_RESULT_ERROR', 'ko');
 define ('AIRWATCH_USER_AGENT', 'Airwatch-Connector-1.0');
-define ('AIRWATCH_PLUGIN_VERSION', '0.90+1.0');
+define ('AIRWATCH_PLUGIN_VERSION', '0.90+1.1');
 
 function plugin_init_airwatch() {
    global $PLUGIN_HOOKS,$CFG_GLPI,$LANG;

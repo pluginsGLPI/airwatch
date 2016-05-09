@@ -94,7 +94,7 @@ class PluginAirwatchRest {
       $ch_result = curl_exec($ch);
       //Get curl informations about the last call
       $infos = curl_getinfo($ch);
-      
+
       //If http_code is not 200, then there's an error
       if ($infos['http_code'] != 200) {
          $result['status'] = AIRWATCH_API_RESULT_ERROR;
@@ -106,6 +106,28 @@ class PluginAirwatchRest {
       curl_close($ch);
 
       return $result;
+   }
+
+   /**
+   * @since 0.90+1.1
+   *
+   * Get profies for a device using the Airwatch rest API
+   * @param the Airwatch Device ID
+   * @return profiles informations as an array
+   */
+   static function getDeviceProfiles($device_id) {
+      return self::callApiAndGetData('/mdm/devices/'.$device_id.'/profiles');
+   }
+
+   /**
+   * @since 0.90+1.1
+   *
+   * Get profile compliance for a device using the Airwatch rest API
+   * @param the Airwatch Device ID
+   * @return compliance informations as an array
+   */
+   static function getDeviceCompliance($device_id) {
+      return self::callApiAndGetData('/mdm/devices/'.$device_id.'/compliance');
    }
 
    /**

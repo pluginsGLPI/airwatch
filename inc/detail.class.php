@@ -36,11 +36,7 @@ if (!defined('GLPI_ROOT')){
 /**
 * Store and display Airwatch informations for a device
 */
-class PluginAirwatchDetail extends CommonDBChild {
-
-      // From CommonDBChild
-      static public $itemtype = 'Computer';
-      static public $items_id = 'computers_id';
+class PluginAirwatchDetail extends CommonDBTM {
 
       //Do not record historical, because details are deleted and recreated at each inventory
       public $dohistory       = false;
@@ -112,7 +108,7 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "<tr><th colspan='4'>" . __("General", "airwatch") . "</th></tr>";
 
          echo "<tr class='tab_bg_1' align='center'>";
-         echo "<td>" . __("Imei", "airwatch") . "</td>";
+         echo "<td>" . __("Serial number") . "</td>";
          echo "<td>";
          echo $detail->fields['imei'];
          echo "</td>";
@@ -130,7 +126,6 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo $detail->fields['phone_number'];
          echo "<td>" . __("Last seen", "airwatch") . "</td>";
          echo "<td>";
-         //echo Html::convDateTime($detail->fields['date_last_seen']);
          if ($detail->fields['date_last_seen']) {
             echo self::getHumanReadableDate($_SESSION['glpi_currenttime'],
                                             $detail->fields['date_last_seen'],
@@ -247,6 +242,8 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</td>";
          echo "</tr>";
 
+         PluginAirwatchCompliance::showForComputer($item, $withtemplate);
+
          //To refresh an inventory, you must be able to update a computer
          if (Computer::canUpdate()) {
             echo "<tr class='tab_bg_1' align='center'>";
@@ -260,7 +257,6 @@ class PluginAirwatchDetail extends CommonDBChild {
          echo "</table>";
          Html::closeForm();
          echo "</div>";
-
       }
 
       /**
@@ -383,6 +379,20 @@ class PluginAirwatchDetail extends CommonDBChild {
       	return implode( ", ", $times );
       }
 
+      /**
+      * since 0.90+1.1
+      *
+      * Delete all profiles informations for a device
+      * @param computers_id GLPi device ID
+      */
+      static function deleteForComputer($computers_id) {
+         global $DB;
+
+         $query = "DELETE FROM `glpi_plugin_airwatch_airwatchprofiles`
+                   WHERE `computers_id`='$computers_id'";
+         $DB->query($query);
+      }
+
       //----------------- Install & uninstall -------------------//
       public static function install(Migration $migration) {
          global $DB;
@@ -437,9 +447,8 @@ class PluginAirwatchDetail extends CommonDBChild {
       }
    }
 
-      public static function uninstall() {
-         global $DB;
-         $DB->query("DROP TABLE IF EXISTS `glpi_plugin_airwatch_details`");
+      public static function uninstall(Migration $migration) {
+         $migration->dropTable("glpi_plugin_airwatch_details");
       }
 
 }

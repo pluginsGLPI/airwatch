@@ -70,6 +70,7 @@ class PluginAirwatchXml {
       //$this->setSoftwares();
       $this->setNetwork();
       $this->setAirwatchInfos();
+      $this->setCompliance();
    }
 
    /**
@@ -150,7 +151,7 @@ class PluginAirwatchXml {
       $HARDWARE = $this->sxml->CONTENT[0]->HARDWARE;
       $HARDWARE->addChild('NAME',$this->data['name']);
       if (isset($this->username)) {
-         $HARDWARE->addChild('LASTLOGGEDUSER',$this->username);         
+         $HARDWARE->addChild('LASTLOGGEDUSER',$this->username);
       }
       $HARDWARE->addChild('UUID',$this->data['uuid']);
       $HARDWARE->addChild('CHASSIS_TYPE',$this->data['type']);
@@ -231,6 +232,28 @@ class PluginAirwatchXml {
                $ACCOUNTINFO->addChild($field, $this->data[$field]);
             }
          }
+      }
+   }
+
+   /**
+   * @since 0.90+1.1
+   *
+   * Export profiles informations in XML format
+   */
+   function setCompliance() {
+      $i = 0;
+      $CONTENT = $this->sxml->CONTENT[0];
+      foreach ($this->data['AIRWATCHCOMPLIANCE'] as $profile) {
+         $profile = Toolbox::addslashes_deep($profile);
+         if (!isset($profile['PolicyName']) || ! isset($profile['CompliantStatus'])) {
+            continue;
+         }
+         $CONTENT->addChild('AIRWATCHCOMPLIANCE');
+         $AIRWATCHCOMPLIANCE = $this->sxml->CONTENT[0]->AIRWATCHCOMPLIANCE[$i];
+         $AIRWATCHCOMPLIANCE->addChild('NAME', $profile['PolicyName']);
+         $AIRWATCHCOMPLIANCE->addChild('LASTCHECK', $profile['LastComplianceCheck']);
+         $AIRWATCHCOMPLIANCE->addChild('COMPLIANCESTATUS', $profile['CompliantStatus']);
+         $i++;
       }
    }
 

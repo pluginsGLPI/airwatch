@@ -167,16 +167,21 @@ function plugin_airwatch_install() {
    include (GLPI_ROOT."/plugins/airwatch/inc/config.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/airwatch.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/detail.class.php");
+   include (GLPI_ROOT."/plugins/airwatch/inc/compliance.class.php");
    PluginairwatchConfig::install($migration);
    PluginAirwatchAirwatch::install($migration);
    PluginAirwatchDetail::install($migration);
+   PluginAirwatchCompliance::install($migration);
    return true;
 }
 
 function plugin_airwatch_uninstall() {
+   $migration = new Migration(AIRWATCH_PLUGIN_VERSION);
    include (GLPI_ROOT."/plugins/airwatch/inc/config.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/detail.class.php");
-   PluginairwatchConfig::uninstall();
-   PluginairwatchDetail::uninstall();
+   include (GLPI_ROOT."/plugins/airwatch/inc/compliance.class.php");
+   PluginairwatchConfig::uninstall($migration);
+   PluginairwatchDetail::uninstall($migration);
+   PluginAirwatchCompliance::uninstall($migration);
    return true;
 }
