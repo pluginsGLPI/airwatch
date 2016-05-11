@@ -69,6 +69,11 @@ class PluginAirwatchRest {
       $config = new PluginAirwatchConfig();
       $config->getFromDB(1);
 
+      if (!isset($config->fields['airwatch_service_url'])
+         || $config->fields['airwatch_service_url'] == '') {
+            return false;
+      }
+
       //Encode auth informations in base64
       $basic_auth = base64_encode($config->fields['username'].':'.$config->fields['password']);
       $ch = curl_init();

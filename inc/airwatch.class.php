@@ -317,18 +317,13 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                          'ISCOMPLIANT'         => 'is_compliant',
                          'ISCOMPROMISED'       => 'is_compromised',
                          'ISENROLLED'          => 'is_enrolled',
-                         'AIRWATCHID'          => 'aw_device_id');
+                         'AIRWATCHID'          => 'aw_device_id',
+                         'DATAENCRYPTION'      => 'is_dataencryption');
          foreach ($fields as $xml_field => $glpifield) {
             if (isset($data['AIRWATCH'][$xml_field]) && $data['AIRWATCH'][$xml_field]) {
                $tmp[$glpifield] = $data['AIRWATCH'][$xml_field];
-            }
-         }
-
-         if (isset($data['AIRWATCH']['DATAENCRYPTION'])) {
-            if ($data['AIRWATCH']['DATAENCRYPTION']) {
-               $tmp['is_dataencryption'] = '1';
             } else {
-               $tmp['is_dataencryption'] = '0';
+               $tmp[$glpifield] = '-1';                  
             }
          }
 

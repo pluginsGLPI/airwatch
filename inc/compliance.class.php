@@ -66,20 +66,17 @@ class PluginAirwatchCompliance extends CommonDBTM {
 
       foreach ($data as $compliance) {
          echo "<tr class='tab_bg_1' align='center'>";
-         echo "<td colspan='2'>";
-         echo $compliance['name'];
-         echo "&nbsp;(".__("Last check date", "airwatch"). ": ".
-            PluginAirwatchDetail::getHumanReadableDate($_SESSION['glpi_currenttime'],
-                                                       $compliance['date_last_check'],
-                                                       1).")";
-
-         echo '</td>';
-
-         echo "<td>" . __("Compliance status", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($compliance['is_compliant']);
+         echo $compliance['name'];
+         echo "</td><td>";
+         echo PluginAirwatchDetail::showYesNoNotSet($compliance['is_compliant'], true);
          echo "</td>";
-         echo '</tr>';
+         echo "<td>";
+         echo __("Last check date", "airwatch"). "</td><td>";
+         echo PluginAirwatchDetail::getHumanReadableDate($_SESSION['glpi_currenttime'],
+                                                         $compliance['date_last_check'],
+                                                         1);
+         echo "</td>";
          echo '</tr>';
       }
 

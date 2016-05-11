@@ -137,7 +137,7 @@ class PluginAirwatchDetail extends CommonDBTM {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Data encryption enabled", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_dataencryption']);
+         echo self::showYesNoNotSet($detail->fields['is_dataencryption']);
          echo "</td>";
          echo "<td>" . __("Current SIM serial number", "airwatch") . "</td>";
          echo "<td>";
@@ -164,7 +164,7 @@ class PluginAirwatchDetail extends CommonDBTM {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Enrollment status", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_enrolled']);
+         echo self::showYesNoNotSet($detail->fields['is_enrolled']);
          echo "</td>";
          echo "<td>" . __("Last enrollment date", "airwatch") . "</td>";
          echo "<td>";
@@ -193,7 +193,8 @@ class PluginAirwatchDetail extends CommonDBTM {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Compliance status", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_compliant']);
+         Toolbox::logDebug($detail->fields['is_compliant']);
+         echo self::showYesNoNotSet($detail->fields['is_compliant'], true);
          echo "</td>";
          echo "<td>" . __("Last compliance check date", "airwatch") . "</td>";
          echo "<td>";
@@ -208,7 +209,7 @@ class PluginAirwatchDetail extends CommonDBTM {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Compromised status", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_compromised']);
+         echo self::showYesNoNotSet($detail->fields['is_compromised']);
          echo "</td>";
          echo "<td>" . __("Last compromised check date", "airwatch") . "</td>";
          echo "<td>";
@@ -225,18 +226,18 @@ class PluginAirwatchDetail extends CommonDBTM {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Roaming enabled", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_roaming_enabled']);
+         echo self::showYesNoNotSet($detail->fields['is_roaming_enabled']);
          echo "</td>";
          echo "<td>" . __("Data roaming enabled", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_data_roaming_enabled']);
+         echo self::showYesNoNotSet($detail->fields['is_data_roaming_enabled']);
          echo "</td>";
          echo "</tr>";
 
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Voice roaming enabled", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_voice_roaming_enabled']);
+         echo self::showYesNoNotSet($detail->fields['is_voice_roaming_enabled']);
          echo "</td>";
          echo "<td colspan='2'>";
          echo "</td>";
@@ -245,7 +246,7 @@ class PluginAirwatchDetail extends CommonDBTM {
          PluginAirwatchCompliance::showForComputer($item, $withtemplate);
 
          //To refresh an inventory, you must be able to update a computer
-         if (Computer::canUpdate()) {
+         if (self::canRefresh()) {
             echo "<tr class='tab_bg_1' align='center'>";
             echo "<td colspan='4' align='center'>";
             echo "<input type='submit' name='update' value=\"" .
@@ -300,7 +301,7 @@ class PluginAirwatchDetail extends CommonDBTM {
          echo "<tr class='tab_bg_1'>";
          echo "<td>" . __("Compliance status", "airwatch") . "</td>";
          echo "<td>";
-         echo Dropdown::getYesNo($detail->fields['is_compliant']);
+         echo self::showYesNoNotSet($detail->fields['is_compliant']);
          echo "</td>";
          echo '</tr>';
 
@@ -393,6 +394,24 @@ class PluginAirwatchDetail extends CommonDBTM {
          $DB->query($query);
       }
 
+      static function canRefresh() {
+         return (PluginAirwatchRest::testConnection() && Computer::canUpdate());
+      }
+
+      static function showYesNoNotSet($value, $show_warning = false) {
+         switch ($value) {
+            case -1:
+               return "<img src='../pics/ok2.png' title='".__('None')."'>";
+            case 0:
+               if ($show_warning) {
+                  return "<img src='../pics/ko_min.png' title='".__('Error')."'>";
+               }
+               return "<img src='../pics/reset.png' title='".__('No')."'>";
+            case 1:
+               return "<img src='../pics/ok_min.png' title='".__('Yes')."'>";
+         }
+      }
+
       //----------------- Install & uninstall -------------------//
       public static function install(Migration $migration) {
          global $DB;
@@ -419,12 +438,12 @@ class PluginAirwatchDetail extends CommonDBTM {
                         `date_last_compliance_check` datetime DEFAULT NULL,
                         `date_last_compromised_check` datetime DEFAULT NULL,
                         `is_enrolled`  tinyint(1) NOT NULL DEFAULT '0',
-                        `is_compliant`  tinyint(1) NOT NULL DEFAULT '0',
-                        `is_compromised`  tinyint(1) NOT NULL DEFAULT '0',
-                        `is_dataencryption` tinyint(1) NOT NULL DEFAULT '0',
-                        `is_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
-                        `is_data_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
-                        `is_voice_roaming_enabled` tinyint(1) NOT NULL DEFAULT '0',
+                        `is_compliant`  tinyint(1) NOT NULL DEFAULT '-1',
+                        `is_compromised`  tinyint(1) NOT NULL DEFAULT '-1',
+                        `is_dataencryption` tinyint(1) NOT NULL DEFAULT '-1',
+                        `is_roaming_enabled` tinyint(1) NOT NULL DEFAULT '-1',
+                        `is_data_roaming_enabled` tinyint(1) NOT NULL DEFAULT '-1',
+                        `is_voice_roaming_enabled` tinyint(1) NOT NULL DEFAULT '-1',
                         PRIMARY KEY  (`id`),
                         KEY `computers_id` (`computers_id`),
                         KEY `aw_device_id` (`aw_device_id`),
