@@ -464,17 +464,17 @@ class PluginAirwatchDetail extends CommonDBTM {
             $DB->query($query) or die ($DB->error());
       } else {
          $migration->changeField('glpi_plugin_airwatch_details', 'is_compliant', 'is_compliant',
-                                 'bool', array('value' => -'1'));
+                                 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
          $migration->changeField('glpi_plugin_airwatch_details', 'is_compromised', 'is_compromised',
-                                 'bool', array('value' => -'1'));
+                                 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
          $migration->changeField('glpi_plugin_airwatch_details', 'is_dataencryption',
-                                 'is_dataencryption', 'bool', array('value' => -'1'));
+                                 'is_dataencryption', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
          $migration->changeField('glpi_plugin_airwatch_details', 'is_roaming_enabled',
-                                 'is_roaming_enabled', 'bool', array('value' => -'1'));
+                                 'is_roaming_enabled', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
          $migration->changeField('glpi_plugin_airwatch_details', 'is_data_roaming_enabled',
-                                 'is_data_roaming_enabled', 'bool', array('value' => -'1'));
+                                 'is_data_roaming_enabled', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
          $migration->changeField('glpi_plugin_airwatch_details', 'is_voice_roaming_enabled',
-                                 'is_voice_roaming_enabled', 'bool', array('value' => -'1'));
+                                 'is_voice_roaming_enabled', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
          $migration->migrationOneTable('glpi_plugin_airwatch_details');
       }
    }
