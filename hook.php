@@ -169,14 +169,14 @@
          $sopt[6016]['name']          = __('Airwatch', 'airwatch').'-'.
                                           __('Profile', 'airwatch').'-'.
                                           __('Compliance status', 'airwatch');
-         $sopt[6016]['datatype']      = 'bool';
+         $sopt[6016]['datatype']      = 'airwatch_bool';
          $sopt[6016]['joinparams']    = array('jointype' => 'child');
          $sopt[6016]['massiveaction'] = false;
          $sopt[6016]['forcegroupby']  = true;
          $sopt[6016]['searchtype']    = array('equals', 'notequals');
 
          $sopt[6017]['table']         = 'glpi_plugin_airwatch_compliances';
-         $sopt[6017]['field']         = 'last_check_date';
+         $sopt[6017]['field']         = 'date_last_check';
          $sopt[6017]['name']          = __('Airwatch', 'airwatch').'-'.
                                           __('Profile', 'airwatch').'-'.
                                           __('Last check date', 'airwatch');
@@ -187,6 +187,48 @@
        }
 
    return $sopt;
+}
+
+function plugin_airwatch_giveItem($type, $ID, $data, $num) {
+   global $CFG_GLPI;
+   $searchopt = &Search::getOptions($type);
+   $table     = $searchopt[$ID]["table"];
+   $field     = $searchopt[$ID]["field"];
+
+   switch ($table . '.' . $field) {
+      case "glpi_plugin_airwatch_details.is_enrolled":
+      case "glpi_plugin_airwatch_details.is_compromised":
+      case "glpi_plugin_airwatch_details.is_compliant":
+      case "glpi_plugin_airwatch_compliances.is_compliant":
+         $message = "";
+         if ($data['raw']["ITEM_" . $num]) {
+            $message = PluginAirwatchDetail::showYesNoNotSet($data['raw']["ITEM_" . $num]);
+         }
+         return $message;
+   }
+}
+
+function plugin_airwatch_searchOptionsValues($type, $ID, $data, $num) {
+   global $CFG_GLPI;
+   $searchopt = &Search::getOptions($type);
+   $table     = $searchopt[$ID]["table"];
+   $field     = $searchopt[$ID]["field"];
+
+   switch ($table . '.' . $field) {
+      case "glpi_plugin_airwatch_details.is_enrolled":
+      case "glpi_plugin_airwatch_details.is_compromised":
+      case "glpi_plugin_airwatch_details.is_compliant":
+      case "glpi_plugin_airwatch_compliances.is_compliant":
+         switch($data['raw']["ITEM_" . $num]) {
+            case -1:
+               return __('None');
+            case 0:
+               return __('No');
+            case 1:
+               return __('Yes');
+         }
+         return '';
+   }
 }
 
 /***************** Install / uninstall functions **************/
