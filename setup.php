@@ -43,6 +43,8 @@ function plugin_init_airwatch() {
 
       Plugin::registerClass('PluginAirwatchDetail', array('addtabon' => array('Computer')));
 
+      $PLUGIN_HOOKS['use_massive_action']['airwatch'] = 1;
+
       $PLUGIN_HOOKS['config_page']['airwatch'] = 'front/config.form.php';
       $PLUGIN_HOOKS['item_purge']['order']  = array(
             'Computer' => array('PluginAirwatchDetail', 'cleanOnPurge'));

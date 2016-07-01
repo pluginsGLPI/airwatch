@@ -157,6 +157,10 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                break;
             case 'Android':
                $inventory['osname'] = 'Android';
+               if (preg_match('/^(.*) (.*)$/', $aw_data['Model'], $results)) {
+                  $inventory['manufacturer']  = $results[1];
+                  $inventory['model']         = $results[2];
+               }
                break;
 
          }
@@ -323,7 +327,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
             if (isset($data['AIRWATCH'][$xml_field]) && $data['AIRWATCH'][$xml_field]) {
                $tmp[$glpifield] = $data['AIRWATCH'][$xml_field];
             } else {
-               $tmp[$glpifield] = '-1';                  
+               $tmp[$glpifield] = '-1';
             }
          }
 

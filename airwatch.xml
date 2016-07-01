@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+   <name>Airwatch connector</name>
+   <key>airwatch</key>
+   <state>stable</state>
+   <logo>https://raw.githubusercontent.com/pluginsGLPI/airwatch/master/airwatch.png</logo>
+   <description>
+      <short>
+         <fr><![CDATA[Connecteur pour récupérer les données d'inventaire depuis Airwatch]]></fr>
+         <en><![CDATA[Connector to gather inventory information from Airwatch]]></en>
+      </short>
+      <long>
+	 <fr><![CDATA[Récupération des données d'inventaire de l'outil de MDM Airwatch. Import des données au format XML FusionInventory. Possibilité de forcer l'inventaire manuellement d'un device. Ce plugin fait partie de la souscription GLPi Network.]]></fr>
+         <en><![CDATA[Gather inventory data from Airwatch MDM tool. Data import using FusionInventory XML format. Ability to manually force a device inventory. This plugin is part of the GLPi Network subscription.]]></en>
+      </long>
+   </description>
+   <homepage>https://github.com/pluginsGLPI/airwatch</homepage>
+   <download>https://github.com/pluginsGLPI/airwatch/releases</download>
+   <issues>https://github.com/pluginsGLPI/airwatch/issues</issues>
+   <readme>https://raw.githubusercontent.com/pluginsGLPI/airwatch/master/README.md</readme>
+   <authors>
+      <author>Teclib'</author>
+   </authors>
+   <versions>
+    <version>
+          <num>0.90+1.0</num>
+          <compatibility>0.85</compatibility>
+          <compatibility>0.90</compatibility>
+      </version>
+   </versions>
+   <langs>
+      <lang>fr_FR</lang>
+      <lang>en_GB</lang>
+   </langs>
+   <category></category>
+   <tags>
+         <fr>
+            <tag>inventaire</tag>
+            <tag>smartphone</tag>
+            <tag>connecteur</tag>
+            <tag>airwatch</tag>
+            <tag>helpdesk</tag>
+            <tag>réservations</tag>
+         </fr>
+         <en>
+            <tag>inventory</tag>
+            <tag>smartphone</tag>
+            <tag>connector</tag>
+            <tag>airwatch</tag>
+            <tag>helpdesk</tag>
+            <tag>loans</tag>
+         </en>
+   </tags>
+   <license>GPL v2+</license>
+</root>

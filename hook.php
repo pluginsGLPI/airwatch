@@ -189,6 +189,26 @@
    return $sopt;
 }
 
+function plugin_airwatch_displayConfigItem($type, $ID, $data, $num) {
+   global $CFG_GLPI;
+
+   $searchopt = &Search::getOptions($type);
+   $table = $searchopt[$ID]["table"];
+   $field = $searchopt[$ID]["field"];
+Toolbox::logDebug($table . '.' . $field);
+   switch ($table . '.' . $field) {
+      case "glpi_plugin_airwatch_details.is_enrolled":
+      case "glpi_plugin_airwatch_details.is_compromised":
+      case "glpi_plugin_airwatch_details.is_compliant":
+      case "glpi_plugin_airwatch_compliances.is_compliant":
+         $message = "";
+         if ($data['raw']["ITEM_" . $num]) {
+            $message = PluginAirwatchDetail::showYesNoNotSet($data['raw']["ITEM_" . $num]);
+         }
+         return $message;
+   }
+}
+
 /***************** Install / uninstall functions **************/
 
 function plugin_airwatch_install() {
