@@ -193,7 +193,6 @@ class PluginAirwatchDetail extends CommonDBTM {
          echo "<tr class='tab_bg_1' align='center'>";
          echo "<td>" . __("Compliance status", "airwatch") . "</td>";
          echo "<td>";
-         Toolbox::logDebug($detail->fields['is_compliant']);
          echo self::showYesNoNotSet($detail->fields['is_compliant'], true);
          echo "</td>";
          echo "<td>" . __("Last compliance check date", "airwatch") . "</td>";
@@ -463,6 +462,20 @@ class PluginAirwatchDetail extends CommonDBTM {
                         KEY `is_voice_roaming_enabled` (`is_voice_roaming_enabled`)
                      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
             $DB->query($query) or die ($DB->error());
+      } else {
+         $migration->changeField('glpi_plugin_airwatch_details', 'is_compliant', 'is_compliant',
+                                 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
+         $migration->changeField('glpi_plugin_airwatch_details', 'is_compromised', 'is_compromised',
+                                 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
+         $migration->changeField('glpi_plugin_airwatch_details', 'is_dataencryption',
+                                 'is_dataencryption', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
+         $migration->changeField('glpi_plugin_airwatch_details', 'is_roaming_enabled',
+                                 'is_roaming_enabled', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
+         $migration->changeField('glpi_plugin_airwatch_details', 'is_data_roaming_enabled',
+                                 'is_data_roaming_enabled', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
+         $migration->changeField('glpi_plugin_airwatch_details', 'is_voice_roaming_enabled',
+                                 'is_voice_roaming_enabled', 'TINYINT(1) NOT NULL DEFAULT \'-1\'');
+         $migration->migrationOneTable('glpi_plugin_airwatch_details');
       }
    }
 

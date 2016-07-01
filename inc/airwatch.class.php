@@ -321,8 +321,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                          'ISCOMPLIANT'         => 'is_compliant',
                          'ISCOMPROMISED'       => 'is_compromised',
                          'ISENROLLED'          => 'is_enrolled',
-                         'AIRWATCHID'          => 'aw_device_id',
-                         'DATAENCRYPTION'      => 'is_dataencryption');
+                         'AIRWATCHID'          => 'aw_device_id');
          foreach ($fields as $xml_field => $glpifield) {
             if (isset($data['AIRWATCH'][$xml_field]) && $data['AIRWATCH'][$xml_field]) {
                $tmp[$glpifield] = $data['AIRWATCH'][$xml_field];
@@ -331,6 +330,13 @@ class PluginAirwatchAirwatch extends CommonDBTM {
             }
          }
 
+         if (isset($data['AIRWATCH']['DATAENCRYPTION'])) {
+            if ($data['AIRWATCH']['DATAENCRYPTION'] == 'Y') {
+               $tmp['is_dataencryption'] = '1';
+            } else {
+               $tmp['is_dataencryption'] = '0';
+            }
+         }
          $dates = array('LASTSEEN'                 => 'date_last_seen',
                         'LASTENROLLEDON'           => 'date_last_enrollment',
                         'LASTENROLLMENTCHECKEDON'  => 'date_last_enrollment_check',
@@ -346,12 +352,27 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          }
          $detail->add($tmp);
 
-         if (isset($data['AIRWATCHCOMPLIANCE']) && is_array($data['AIRWATCHCOMPLIANCE'])) {
-            foreach ($data['AIRWATCHCOMPLIANCE'] as $compliance) {
-               PluginAirwatchCompliance::addProfile($computers_id,
-                                                    $compliance['NAME'],
-                                                    $compliance['COMPLIANCESTATUS'],
-                                                    $compliance['LASTCHECK']);
+         if (isset($data['AIRWATCHCOMPLIANCE'])) {
+            $compliances = array();
+            $go          = true;
+
+            if (isset($data['AIRWATCHCOMPLIANCE']['NAME'])) {
+               $compliances = array($data['AIRWATCHCOMPLIANCE']);
+            } elseif (is_array($data['AIRWATCHCOMPLIANCE'])) {
+               $compliances = $data['AIRWATCHCOMPLIANCE'];
+            } else {
+               $go = false;
+            }
+
+            if ($go) {
+               foreach ($compliances as $compliance) {
+                  $tmpdate = self::convertAirwatchDate($compliance['LASTCHECK']);
+
+                  PluginAirwatchCompliance::addProfile($computers_id,
+                                                       $compliance['NAME'],
+                                                       $compliance['COMPLIANCESTATUS'],
+                                                       $tmpdate);
+               }
             }
          }
       }
