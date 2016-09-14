@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<xml version="1.0" encoding="UTF-8"?>
 <root>
    <name>Airwatch connector</name>
    <key>airwatch</key>
@@ -27,13 +27,13 @@
           <num>0.90+1.0</num>
           <compatibility>0.85</compatibility>
           <compatibility>0.90</compatibility>
+          <compatibility>9.1</compatibility>
       </version>
    </versions>
    <langs>
       <lang>fr_FR</lang>
       <lang>en_GB</lang>
    </langs>
-   <category></category>
    <tags>
          <fr>
             <tag>inventaire</tag>
