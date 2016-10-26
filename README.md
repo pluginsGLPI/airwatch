@@ -1,4 +1,4 @@
-# airwatch
+# Airwatch GLPi plugin
 
 Airwatch connector for GLPi made by Teclib'.
 
@@ -12,10 +12,12 @@ To help translating the plugin, please join  [Transifex](http://transifex.com).
 
 ## Prerequisites
 
-php curl extension must be installed.
-GLPi 0.90 or higher is required. FusionInventory plugin must be installed and enabled.
-FI4GLPI version 0.90+1.3 or lated is required, otherwise you must patch the source code with the following commit :
+* php curl extension must be installed.
+* GLPi 0.90 or higher is required. 
+* FusionInventory plugin must be installed and enabled.
+* FI4GLPI version 0.90+1.3 or lated is required, otherwise you must patch the source code with the following commit :
 
+```
 diff --git a/inc/formatconvert.class.php b/inc/formatconvert.class.php
 index b8b39ca..99301e9 100644
 --- a/inc/formatconvert.class.php
@@ -46,6 +48,7 @@ index 7297b0b..2365ade 100644
 +                                                        'computers_id'   => $computers_id ));
        $this->addLog();
     }
+```
 
 ## How does it work
 
@@ -59,7 +62,7 @@ The plugin requests Airwatch REST API for:
 A XML inventory file is done using the data above, and send to FusionInventory, using curl.
 Computers are then created, representing Airwatch devices.
 
-For each device managed by Airwatch, an "Airwatch" tab is display in GLPi. This tab shows Airwatch specific informtions, and allows user to force an inventory
+For each device managed by Airwatch, an "Airwatch" tab is displayed in GLPi. This tab shows Airwatch specific informtions, and allows user to force an inventory
 
 ## Rights
 
@@ -71,10 +74,18 @@ To force an Airwatch inventory, you need the right to update a computer.
 
 Configuration options:
 
-* Service URL: URL to send inventories to FusionInventory (by default http://glpi/plugins/fusioninventory/)
+* Service URL: URL to send inventories to FusionInventory (by default `http://glpi/plugins/fusioninventory/`)
 * Airwatch web service URL: the REST API URL
 * Airwatch console URL: Airwatch web console URL (used to generate a direct Airwatch link for each Airwatch device)
-*  Username: Aiwatch user used to access the API
+* Username: Aiwatch user used to access the API
 * Password: the password for the user
 * API Key: a string defined in the Airwatch administration panel
 * Skip SSL checks: access REST API without checking for SSL certificate
+
+## Contributing
+
+* Open a ticket for each bug/feature so it can be discussed
+* Follow [development guidelines](http://glpi-developer-documentation.readthedocs.io/en/latest/plugins.html)
+* Refer to [GitFlow](http://git-flow.readthedocs.io/) process for branching
+* Work on a new branch on your own fork
+* Open a PR that will be reviewed by a developer
