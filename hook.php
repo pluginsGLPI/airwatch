@@ -184,6 +184,14 @@
          $sopt[6017]['joinparams']    = array('jointype' => 'child');
          $sopt[6017]['forcegroupby']  = false;
          $sopt[6017]['massiveaction'] = true;
+
+         $sopt[6018]['table']         = 'glpi_plugin_airwatch_details';
+         $sopt[6018]['field']         = 'phone_number';
+         $sopt[6018]['name']          = __('Airwatch', 'airwatch').'-'.__('Phone number');
+         $sopt[6018]['joinparams']    = array('jointype' => 'child');
+         $sopt[6018]['massiveaction'] = false;
+         $sopt[6018]['forcegroupby']  = true;
+
        }
 
    return $sopt;
