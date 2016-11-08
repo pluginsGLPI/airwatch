@@ -98,7 +98,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $fields = array('LocationGroupName'      => 'tag',
                       'Platform'               => 'manufacturer',
                       'Model'                  => 'model',
-                      'SerialNumber'           => 'IMEI',
+                      'SerialNumber'           => 'serial',
                       'PhoneNumber'            => 'PHONENUMBER',
                       'LastSeen'               => 'LASTSEEN',
                       "LastEnrolledOn"         => 'LASTENROLLEDON',
@@ -106,7 +106,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                       "LastEnrollmentCheckOn"  => 'LASTENROLLMENTCHECKEDON',
                       "LastComplianceCheckOn"  => 'LASTCOMPLIANCECHECKEDON',
                       'DataEncryptionYN'       => 'DATAENCRYPTION',
-                      'Imei'                   => 'serial',
+                      'Imei'                   => 'IMEI',
                       'DeviceFriendlyName'     => 'name',
                       'OperatingSystem'        => 'osversion',
                       'UserName'               => 'userid',
@@ -295,13 +295,14 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    * @param params Airwatch section in the XML file
    */
    static function updateInventory($params = array()) {
+      //Toolbox::logDebug("updateInventory", $params);
       global $DB;
 
       if (!empty($params)
          && isset($params['inventory_data']) && !empty($params['inventory_data'])) {
 
          //Get data to be processed
-         $data         = $params['inventory_data']['source'];
+         $data         = $params['inventory_data'];
          $computers_id = $params['computers_id'];
 
          //Always delete details
@@ -326,7 +327,11 @@ class PluginAirwatchAirwatch extends CommonDBTM {
             if (isset($data['AIRWATCH'][$xml_field]) && $data['AIRWATCH'][$xml_field]) {
                $tmp[$glpifield] = $data['AIRWATCH'][$xml_field];
             } else {
-               $tmp[$glpifield] = '-1';
+               if (preg_match('/is_/', $glpifield)) {
+                  $tmp[$glpifield] = '-1';
+               } else {
+                  $tmp[$glpifield] = '';
+               }
             }
          }
 
@@ -381,11 +386,17 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    static function addInventoryInfos($params = array()) {
       $values = array();
       if (isset($params['source'])
-         && is_array($params['source'])
-            && !empty($params['source']) && isset($params['source']['imei'])) {
+         && isset($params['source']['AIRWATCH'])
+            && is_array($params['source']['AIRWATCH'])
+               && !empty($params['source']['AIRWATCH'])) {
          //Add airwatch info to the list of data to be processed
-         foreach ($params['source'] as $field => $value) {
+         foreach ($params['source']['AIRWATCH'] as $field => $value) {
             $values['AIRWATCH'][$field] = $value;
+         }
+         if (isset($params['source']['AIRWATCHCOMPLIANCE'])) {
+            foreach ($params['source']['AIRWATCHCOMPLIANCE'] as $field => $value) {
+               $values['AIRWATCHCOMPLIANCE'][$field] = $value;
+            }
          }
       }
       return $values;

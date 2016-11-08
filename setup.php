@@ -31,8 +31,8 @@
 
 define ('AIRWATCH_API_RESULT_OK',    'ok');
 define ('AIRWATCH_API_RESULT_ERROR', 'ko');
-define ('AIRWATCH_USER_AGENT', 'Airwatch-Connector-1.0');
-define ('AIRWATCH_PLUGIN_VERSION', '0.90+1.1');
+define ('AIRWATCH_USER_AGENT', 'Airwatch-Connector-1.1');
+define ('AIRWATCH_PLUGIN_VERSION', '1.1');
 
 function plugin_init_airwatch() {
    global $PLUGIN_HOOKS,$CFG_GLPI,$LANG;
@@ -69,12 +69,12 @@ function plugin_version_airwatch() {
                    'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
                    'license'        => 'GPLv2+',
                    'homepage'       => 'https://github.com/pluginsglpi/airwatch',
-                   'minGlpiVersion' => "0.90");
+                   'minGlpiVersion' => "9.1");
 }
 
 function plugin_airwatch_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '0.90', 'lt')) {
-      echo "This plugin requires GLPI 0.90 or higher";
+   if (version_compare(GLPI_VERSION, '9.1', 'lt')) {
+      echo "This plugin requires GLPI 9.1 or higher";
       return false;
    }
    if (!function_exists('curl_init')) {
