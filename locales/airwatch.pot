@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-09 12:14+0200\n"
+"POT-Creation-Date: 2016-11-21 08:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: hook.php:38 hook.php:45 hook.php:52 hook.php:60 hook.php:68 hook.php:76
-#: hook.php:84 hook.php:92 hook.php:100 hook.php:108 hook.php:116 hook.php:124
-#: hook.php:133 hook.php:142 hook.php:151 front/config.form.php:51
-#: inc/detail.class.php:288
+#: front/config.form.php:51 hook.php:38 hook.php:45 hook.php:52 hook.php:60
+#: hook.php:68 hook.php:76 hook.php:84 hook.php:92 hook.php:100 hook.php:108
+#: hook.php:116 hook.php:124 hook.php:133 hook.php:142 hook.php:151
+#: hook.php:160 hook.php:169 hook.php:180 hook.php:190 inc/detail.class.php:288
 msgid "Airwatch"
 msgstr ""
 
@@ -60,8 +60,7 @@ msgstr ""
 msgid "Enrollment status"
 msgstr ""
 
-#: hook.php:109 inc/compliance.class.php:76 inc/detail.class.php:194
-#: inc/detail.class.php:301
+#: hook.php:109 hook.php:171 inc/detail.class.php:194 inc/detail.class.php:301
 msgid "Compliance status"
 msgstr ""
 
@@ -85,24 +84,16 @@ msgstr ""
 msgid "Voice roaming enabled"
 msgstr ""
 
-#: setup.php:65 inc/config.class.php:40
-msgid "GLPi Airwatch Connector"
-msgstr ""
-
-#: inc/airwatch.class.php:65
-msgid "Import devices informations from Airwatch"
-msgstr ""
-
-#: inc/compliance.class.php:64
-msgid "Compliance details"
-msgstr ""
-
-#: inc/compliance.class.php:70
+#: hook.php:161 hook.php:170 hook.php:181
 msgid "Profile"
 msgstr ""
 
-#: inc/compliance.class.php:84
+#: hook.php:182 inc/compliance.class.php:75
 msgid "Last check date"
+msgstr ""
+
+#: inc/config.class.php:40 setup.php:67
+msgid "GLPi Airwatch Connector"
 msgstr ""
 
 #: inc/config.class.php:53
@@ -135,6 +126,10 @@ msgstr ""
 
 #: inc/config.class.php:98
 msgid "Skip SSL check"
+msgstr ""
+
+#: inc/airwatch.class.php:65
+msgid "Import devices informations from Airwatch"
 msgstr ""
 
 #: inc/detail.class.php:108
@@ -171,4 +166,8 @@ msgstr ""
 
 #: inc/detail.class.php:223
 msgid "Roaming"
+msgstr ""
+
+#: inc/compliance.class.php:64
+msgid "Compliance details"
 msgstr ""
