@@ -242,7 +242,7 @@ function plugin_airwatch_searchOptionsValues($type, $ID, $data, $num) {
 /***************** Install / uninstall functions **************/
 
 function plugin_airwatch_install() {
-   $migration = new Migration(AIRWATCH_PLUGIN_VERSION);
+   $migration = new Migration(PLUGIN_AIRWATCH_VERSION);
    include (GLPI_ROOT."/plugins/airwatch/inc/config.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/airwatch.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/detail.class.php");
@@ -255,7 +255,7 @@ function plugin_airwatch_install() {
 }
 
 function plugin_airwatch_uninstall() {
-   $migration = new Migration(AIRWATCH_PLUGIN_VERSION);
+   $migration = new Migration(PLUGIN_AIRWATCH_VERSION);
    include (GLPI_ROOT."/plugins/airwatch/inc/config.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/detail.class.php");
    include (GLPI_ROOT."/plugins/airwatch/inc/compliance.class.php");
