@@ -29,7 +29,7 @@
  @since     2016
  ---------------------------------------------------------------------- */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
@@ -363,7 +363,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
             if (isset($data['AIRWATCHCOMPLIANCE']['NAME'])) {
                $compliances = array($data['AIRWATCHCOMPLIANCE']);
-            } elseif (is_array($data['AIRWATCHCOMPLIANCE'])) {
+            } else if (is_array($data['AIRWATCHCOMPLIANCE'])) {
                $compliances = $data['AIRWATCHCOMPLIANCE'];
             } else {
                $go = false;

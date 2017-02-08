@@ -29,7 +29,7 @@
  @since     2016
  ---------------------------------------------------------------------- */
 
-define ('AIRWATCH_API_RESULT_OK',    'ok');
+define ('AIRWATCH_API_RESULT_OK', 'ok');
 define ('AIRWATCH_API_RESULT_ERROR', 'ko');
 define ('AIRWATCH_USER_AGENT', 'Airwatch-Connector-1.1');
 define ('PLUGIN_AIRWATCH_VERSION', '1.2.0');

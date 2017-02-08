@@ -29,7 +29,7 @@
  @since     2016
  ---------------------------------------------------------------------- */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
@@ -115,7 +115,7 @@ class PluginAirwatchCompliance extends CommonDBTM {
            KEY `is_compliant` (`is_compliant`),
            KEY `date_last_check` (`date_last_check`)
          ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-         $DB->queryOrDie($query,$DB->error());
+         $DB->queryOrDie($query, $DB->error());
       }
    }
 

@@ -29,7 +29,7 @@
  @since     2016
  ---------------------------------------------------------------------- */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
@@ -83,11 +83,11 @@ class PluginAirwatchXml {
       $CONTENT->addChild('ACCESSLOG');
 
       $ACCESSLOG = $this->sxml->CONTENT[0]->ACCESSLOG;
-      $ACCESSLOG->addChild('LOGDATE',date('Y-m-d h:i:s'));
+      $ACCESSLOG->addChild('LOGDATE', date('Y-m-d h:i:s'));
 
-      if(isset($this->data['userid']) && !empty($this->data['userid'])) {
+      if (isset($this->data['userid']) && !empty($this->data['userid'])) {
          $this->username = $this->data['userid'];
-         $ACCESSLOG->addChild('USERID',$this->username);
+         $ACCESSLOG->addChild('USERID', $this->username);
       }
    }
 
@@ -104,20 +104,20 @@ class PluginAirwatchXml {
          $CONTENT->addChild('NETWORKS');
          $NETWORK = $this->sxml->CONTENT[$i]->NETWORKS;
          if (isset($this->data['wifi_ipaddress'])) {
-            $NETWORK->addChild('IPADDRESS',$this->data['wifi_ipaddress']);
+            $NETWORK->addChild('IPADDRESS', $this->data['wifi_ipaddress']);
          }
          if (isset($this->data['wifi_macaddress'])) {
-            $NETWORK->addChild('MACADDR',$this->data['wifi_macaddress']);
+            $NETWORK->addChild('MACADDR', $this->data['wifi_macaddress']);
          }
-         $NETWORK->addChild('TYPE','wifi');
+         $NETWORK->addChild('TYPE', 'wifi');
          $i++;
       }
       if (isset($this->data['cellular_ipaddress'])) {
          $CONTENT->addChild('NETWORKS');
 
          $NETWORK = $this->sxml->CONTENT[$i]->NETWORKS;
-         $NETWORK->addChild('IPADDRESS',$this->data['cellular_ipaddress']);
-         $NETWORK->addChild('TYPE','ethernet');
+         $NETWORK->addChild('IPADDRESS', $this->data['cellular_ipaddress']);
+         $NETWORK->addChild('TYPE', 'ethernet');
       }
    }
 
@@ -134,8 +134,8 @@ class PluginAirwatchXml {
          $CONTENT->addChild('ACCOUNTINFO');
 
          $ACCOUNTINFO = $this->sxml->CONTENT[0]->ACCOUNTINFO;
-         $ACCOUNTINFO->addChild('KEYNAME','TAG');
-         $ACCOUNTINFO->addChild('KEYVALUE',$this->data['tag']);
+         $ACCOUNTINFO->addChild('KEYNAME', 'TAG');
+         $ACCOUNTINFO->addChild('KEYVALUE', $this->data['tag']);
       }
    }
 
@@ -149,12 +149,12 @@ class PluginAirwatchXml {
       $CONTENT->addChild('HARDWARE');
 
       $HARDWARE = $this->sxml->CONTENT[0]->HARDWARE;
-      $HARDWARE->addChild('NAME',$this->data['name']);
+      $HARDWARE->addChild('NAME', $this->data['name']);
       if (isset($this->username)) {
-         $HARDWARE->addChild('LASTLOGGEDUSER',$this->username);
+         $HARDWARE->addChild('LASTLOGGEDUSER', $this->username);
       }
-      $HARDWARE->addChild('UUID',$this->data['uuid']);
-      $HARDWARE->addChild('CHASSIS_TYPE',$this->data['type']);
+      $HARDWARE->addChild('UUID', $this->data['uuid']);
+      $HARDWARE->addChild('CHASSIS_TYPE', $this->data['type']);
    }
 
    /**
@@ -164,8 +164,8 @@ class PluginAirwatchXml {
    */
    function setOS() {
       $HARDWARE = $this->sxml->CONTENT[0]->HARDWARE;
-      $HARDWARE->addChild('OSNAME'    ,$this->data['osname']);
-      $HARDWARE->addChild('OSVERSION' ,$this->data['osversion']);
+      $HARDWARE->addChild('OSNAME', $this->data['osname']);
+      $HARDWARE->addChild('OSVERSION', $this->data['osversion']);
    }
 
    /**
@@ -178,9 +178,9 @@ class PluginAirwatchXml {
       $CONTENT->addChild('BIOS');
 
       $BIOS = $this->sxml->CONTENT[0]->BIOS;
-      $BIOS->addChild('SMODEL'          ,$this->data['model']);
-      $BIOS->addChild('SMANUFACTURER'   ,$this->data['manufacturer']);
-      $BIOS->addChild('SSN'             ,$this->data['serial']);
+      $BIOS->addChild('SMODEL', $this->data['model']);
+      $BIOS->addChild('SMANUFACTURER', $this->data['manufacturer']);
+      $BIOS->addChild('SSN', $this->data['serial']);
    }
 
    /**
