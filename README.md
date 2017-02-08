@@ -13,42 +13,8 @@ To help translating the plugin, please join  [Transifex](http://transifex.com).
 ## Prerequisites
 
 * php curl extension must be installed.
-* GLPi 0.90 or higher is required. 
+* GLPi 9.1 or higher is required.
 * FusionInventory plugin must be installed and enabled.
-* FI4GLPI version 0.90+1.3 or lated is required, otherwise you must patch the source code with the following commit :
-
-```
-diff --git a/inc/formatconvert.class.php b/inc/formatconvert.class.php
-index b8b39ca..99301e9 100644
---- a/inc/formatconvert.class.php
-+++ b/inc/formatconvert.class.php
-@@ -311,6 +311,13 @@ class PluginFusioninventoryFormatconvert {
-          $a_inventory['fusioninventorycomputer']['operatingsystem_installationdate'] = "NULL";
-       }
-
-+      $plugin_values = Plugin::doHook("fusioninventory_addinventoryinfos",
-+                                       array('inventory' => $a_inventory,
-+                                             'source'    => $array));
-+      if (is_array($plugin_values)) {
-+         $a_inventory = array_merge($a_inventory, $plugin_values);         
-+      }
-+
-       // * BIOS
-       if (isset($array['BIOS'])) {
-          if (isset($array['BIOS']['ASSETTAG'])) {
-diff --git a/inc/inventorycomputerlib.class.php b/inc/inventorycomputerlib.class.php
-index 7297b0b..2365ade 100644
---- a/inc/inventorycomputerlib.class.php
-+++ b/inc/inventorycomputerlib.class.php
-@@ -1788,6 +1788,8 @@ FALSE);
- //
- //         }
-
-+      Plugin::doHook("fusioninventory_inventory", array('inventory_data' => $a_computerinventory,
-+                                                        'computers_id'   => $computers_id ));
-       $this->addLog();
-    }
-```
 
 ## How does it work
 

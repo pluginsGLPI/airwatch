@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPi Plugin - Airwatch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-09 12:14+0200\n"
-"PO-Revision-Date: 2016-05-09 10:17+0000\n"
-"Last-Translator: Walid Nouh\n"
+"POT-Creation-Date: 2016-11-21 08:34+0100\n"
+"PO-Revision-Date: 2016-11-21 07:38+0000\n"
+"Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
 "Language-Team: French (France) (http://www.transifex.com/teclib/glpi-plugin-airwatch/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,9 +19,10 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: hook.php:38 hook.php:45 hook.php:52 hook.php:60 hook.php:68 hook.php:76
-#: hook.php:84 hook.php:92 hook.php:100 hook.php:108 hook.php:116 hook.php:124
-#: hook.php:133 hook.php:142 hook.php:151 front/config.form.php:51
+#: front/config.form.php:51 hook.php:38 hook.php:45 hook.php:52 hook.php:60
+#: hook.php:68 hook.php:76 hook.php:84 hook.php:92 hook.php:100 hook.php:108
+#: hook.php:116 hook.php:124 hook.php:133 hook.php:142 hook.php:151
+#: hook.php:160 hook.php:169 hook.php:180 hook.php:190
 #: inc/detail.class.php:288
 msgid "Airwatch"
 msgstr "Airwatch"
@@ -62,8 +63,7 @@ msgstr "Date de dernière vérification de compromission"
 msgid "Enrollment status"
 msgstr "Est enrôlé"
 
-#: hook.php:109 inc/compliance.class.php:76 inc/detail.class.php:194
-#: inc/detail.class.php:301
+#: hook.php:109 hook.php:171 inc/detail.class.php:194 inc/detail.class.php:301
 msgid "Compliance status"
 msgstr "Est conforme"
 
@@ -87,25 +87,17 @@ msgstr "Itinérance des données activée"
 msgid "Voice roaming enabled"
 msgstr "Itinérance de la voix activée"
 
-#: setup.php:65 inc/config.class.php:40
-msgid "GLPi Airwatch Connector"
-msgstr "Connecteur Airwatch pour GLPi"
-
-#: inc/airwatch.class.php:65
-msgid "Import devices informations from Airwatch"
-msgstr "Import des matériels depuis Airwatch"
-
-#: inc/compliance.class.php:64
-msgid "Compliance details"
-msgstr "Détails de conformité"
-
-#: inc/compliance.class.php:70
+#: hook.php:161 hook.php:170 hook.php:181
 msgid "Profile"
 msgstr "Profil"
 
-#: inc/compliance.class.php:84
+#: hook.php:182 inc/compliance.class.php:75
 msgid "Last check date"
 msgstr "Dernière vérification"
+
+#: inc/config.class.php:40 setup.php:67
+msgid "GLPi Airwatch Connector"
+msgstr "Connecteur Airwatch pour GLPi"
 
 #: inc/config.class.php:53
 msgid "Plugin configuration"
@@ -138,6 +130,10 @@ msgstr "Clef d'API"
 #: inc/config.class.php:98
 msgid "Skip SSL check"
 msgstr "Passer les vérifications SSL"
+
+#: inc/airwatch.class.php:65
+msgid "Import devices informations from Airwatch"
+msgstr "Import des matériels depuis Airwatch"
 
 #: inc/detail.class.php:108
 msgid "General"
@@ -174,3 +170,7 @@ msgstr "Autres vérifications de statuts"
 #: inc/detail.class.php:223
 msgid "Roaming"
 msgstr "Itinérance"
+
+#: inc/compliance.class.php:64
+msgid "Compliance details"
+msgstr "Détails de conformité"
