@@ -103,7 +103,7 @@ class PluginAirwatchCompliance extends CommonDBTM {
    static function install(Migration $migration) {
       global $DB;
 
-      if (!TableExists('glpi_plugin_airwatch_compliances')) {
+      if (!$DB->tableExists('glpi_plugin_airwatch_compliances')) {
          $query = "CREATE TABLE `glpi_plugin_airwatch_compliances` (
            `id` int(11) NOT NULL AUTO_INCREMENT,
            `computers_id` int(11) NOT NULL DEFAULT '0',

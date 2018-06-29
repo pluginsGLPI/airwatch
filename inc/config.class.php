@@ -121,7 +121,7 @@ class PluginAirwatchConfig extends CommonDBTM {
       $config = new self();
 
       //This class is available since version 1.3.0
-      if (!TableExists("glpi_plugin_airwatch_configs")) {
+      if (!$DB->tableExists("glpi_plugin_airwatch_configs")) {
          $migration->displayMessage("Install glpi_plugin_airwatch_configs");
 
          //Install

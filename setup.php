@@ -69,12 +69,12 @@ function plugin_version_airwatch() {
                    'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
                    'license'        => 'GPLv2+',
                    'homepage'       => 'https://github.com/pluginsglpi/airwatch',
-                   'minGlpiVersion' => "9.1");
+                   'minGlpiVersion' => "9.2");
 }
 
 function plugin_airwatch_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.1', 'lt')) {
-      echo "This plugin requires GLPI 9.1 or higher";
+   if (version_compare(GLPI_VERSION, '9.2', 'lt')) {
+      echo "This plugin requires GLPI 9.2 or higher";
       return false;
    }
    if (!function_exists('curl_init')) {
