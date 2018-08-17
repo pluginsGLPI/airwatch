@@ -54,8 +54,10 @@ class PluginAirwatchDetail extends CommonDBTM {
       // can exists for template
       if (($item->getType() == 'Computer')
        && Computer::canView()) {
-         $nb = countElementsInTable('glpi_plugin_airwatch_details',
-                                    "computers_id = '".$item->getID()."'");
+         $nb = countElementsInTable(
+            'glpi_plugin_airwatch_details',
+            ['computers_id' => $item->getID()]
+         );
          if (!$nb) {
             return '';
          } else {
