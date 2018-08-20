@@ -63,7 +63,7 @@ class PluginAirwatchRest {
    static function callApi($endpoint) {
 
       //Array to return API call informations
-      $result = array();
+      $result = [];
 
       //Get airwatch access configuration
       $config = new PluginAirwatchConfig();
@@ -82,9 +82,9 @@ class PluginAirwatchRest {
       $url = $config->fields['airwatch_service_url'].$endpoint;
       curl_setopt($ch, CURLOPT_URL, $url);
 
-      $headers = array('aw-tenant-code: '.$config->fields['api_key'],
-                       'Authorization: Basic '.$basic_auth,
-                       'Accept: application/json');
+      $headers = ['aw-tenant-code: '.$config->fields['api_key'],
+                  'Authorization: Basic '.$basic_auth,
+                  'Accept: application/json'];
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_VERBOSE, 1);
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -192,7 +192,7 @@ class PluginAirwatchRest {
          $data = json_decode($results['data'], true);
          $results['array_data'] = $data;
       } else {
-         $results['array_data'] = array();
+         $results['array_data'] = [];
       }
       return $results;
    }

@@ -41,35 +41,35 @@ function plugin_init_airwatch() {
    $plugin = new Plugin();
    if ($plugin->isActivated('airwatch')) {
 
-      Plugin::registerClass('PluginAirwatchDetail', array('addtabon' => array('Computer')));
+      Plugin::registerClass('PluginAirwatchDetail', ['addtabon' => ['Computer']]);
 
       $PLUGIN_HOOKS['use_massive_action']['airwatch'] = 1;
 
       $PLUGIN_HOOKS['config_page']['airwatch'] = 'front/config.form.php';
-      $PLUGIN_HOOKS['item_purge']['order']  = array(
-            'Computer' => array('PluginAirwatchDetail', 'cleanOnPurge'));
+      $PLUGIN_HOOKS['item_purge']['order']  = [
+            'Computer' => ['PluginAirwatchDetail', 'cleanOnPurge']];
       $PLUGIN_HOOKS['import_item']['airwatch']
-         = array('Computer' => array('Plugin'));
+         = ['Computer' => ['Plugin']];
       $PLUGIN_HOOKS['autoinventory_information']['airwatch']
-         = array('Computer' =>  array('PluginAirwatchDetail', 'showInfo'));
+         = ['Computer' =>  ['PluginAirwatchDetail', 'showInfo']];
 
       //FusionInventory hooks
       $PLUGIN_HOOKS['fusioninventory_inventory']['airwatch']
-         = array('PluginAirwatchAirwatch', 'updateInventory');
+         = ['PluginAirwatchAirwatch', 'updateInventory'];
       $PLUGIN_HOOKS['fusioninventory_addinventoryinfos']['airwatch']
-         = array('PluginAirwatchAirwatch', 'addInventoryInfos');
+         = ['PluginAirwatchAirwatch', 'addInventoryInfos'];
    }
 }
 
 function plugin_version_airwatch() {
    global $LANG;
 
-   return array ('name'           => __("GLPi Airwatch Connector", 'airwatch'),
-                   'version'        => PLUGIN_AIRWATCH_VERSION,
-                   'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
-                   'license'        => 'GPLv2+',
-                   'homepage'       => 'https://github.com/pluginsglpi/airwatch',
-                   'minGlpiVersion' => "9.2");
+   return  ['name'           => __("GLPi Airwatch Connector", 'airwatch'),
+            'version'        => PLUGIN_AIRWATCH_VERSION,
+            'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
+            'license'        => 'GPLv2+',
+            'homepage'       => 'https://github.com/pluginsglpi/airwatch',
+            'minGlpiVersion' => "9.2"];
 }
 
 function plugin_airwatch_check_prerequisites() {

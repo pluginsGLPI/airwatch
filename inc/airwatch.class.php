@@ -62,7 +62,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    }
 
    static function cronInfo($name) {
-      return array('description' => __("Import devices informations from Airwatch", "airwatch"));
+      return ['description' => __("Import devices informations from Airwatch", "airwatch")];
    }
 
    /**
@@ -88,29 +88,29 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    * @param aw_data device infomations, as sent by the REST API
    * @return
    */
-   static function importDevice($aw_data = array()) {
+   static function importDevice($aw_data = []) {
       //Array to store device inventory, as requested by FusionInventory
-      $inventory = array();
+      $inventory = [];
 
       $inventory['VERSIONCLIENT'] = AIRWATCH_USER_AGENT;
       $inventory['type']          = 'Smartphone';
 
-      $fields = array('LocationGroupName'      => 'tag',
-                      'Platform'               => 'manufacturer',
-                      'Model'                  => 'model',
-                      'SerialNumber'           => 'serial',
-                      'PhoneNumber'            => 'PHONENUMBER',
-                      'LastSeen'               => 'LASTSEEN',
-                      "LastEnrolledOn"         => 'LASTENROLLEDON',
-                      "LastCompromisedCheckOn" => 'LASTCOMPROMISEDCHECKEDON',
-                      "LastEnrollmentCheckOn"  => 'LASTENROLLMENTCHECKEDON',
-                      "LastComplianceCheckOn"  => 'LASTCOMPLIANCECHECKEDON',
-                      'DataEncryptionYN'       => 'DATAENCRYPTION',
-                      'Imei'                   => 'IMEI',
-                      'DeviceFriendlyName'     => 'name',
-                      'OperatingSystem'        => 'osversion',
-                      'UserName'               => 'userid',
-                      'Udid'                   => 'uuid');
+      $fields = ['LocationGroupName'      => 'tag',
+                 'Platform'               => 'manufacturer',
+                 'Model'                  => 'model',
+                 'SerialNumber'           => 'serial',
+                 'PhoneNumber'            => 'PHONENUMBER',
+                 'LastSeen'               => 'LASTSEEN',
+                 "LastEnrolledOn"         => 'LASTENROLLEDON',
+                 "LastCompromisedCheckOn" => 'LASTCOMPROMISEDCHECKEDON',
+                 "LastEnrollmentCheckOn"  => 'LASTENROLLMENTCHECKEDON',
+                 "LastComplianceCheckOn"  => 'LASTCOMPLIANCECHECKEDON',
+                 'DataEncryptionYN'       => 'DATAENCRYPTION',
+                 'Imei'                   => 'IMEI',
+                 'DeviceFriendlyName'     => 'name',
+                 'OperatingSystem'        => 'osversion',
+                 'UserName'               => 'userid',
+                 'Udid'                   => 'uuid'];
       foreach ($fields as $aw => $fusion) {
          if (isset($aw_data[$aw])) {
             //Check if data is encodeded in utf8.
@@ -170,7 +170,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          $inventory['airwatchid'] = $aw_data['Id']['Value'];
       }
 
-      $inventory['applications'] = array();
+      $inventory['applications'] = [];
 
       //Get applications from Airwatch
       $applications = PluginAirwatchRest::getDeviceApplications($inventory['airwatchid']);
@@ -184,8 +184,8 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                if (!Toolbox::seems_utf8($application['Version'])) {
                   $application['Version'] = Toolbox::encodeInUtf8($application['Version']);
                }
-               $inventory['applications'][] = array('name' => $application['ApplicationName'],
-                                                    'version' => $application['Version']);
+               $inventory['applications'][] = ['name' => $application['ApplicationName'],
+                                               'version' => $application['Version']];
             }
          }
       }
@@ -194,7 +194,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $networks = PluginAirwatchRest::getDeviceNetworkInfo($inventory['airwatchid']);
       if ($networks['status'] == AIRWATCH_API_RESULT_OK) {
          $network = $networks['array_data'];
-         $fields  = array('RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled');
+         $fields  = ['RoamingStatus', 'DataRoamingEnabled', 'VoiceRoamingEnabled'];
          foreach ($fields as $field) {
             if (isset($network[$field])) {
                $inventory[strtoupper($field)] = $network[$field];
@@ -256,7 +256,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       }
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $config->getField('fusioninventory_url'));
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+      curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: text/xml']);
       curl_setopt($ch, CURLOPT_USERAGENT, AIRWATCH_USER_AGENT);
       curl_setopt($ch, CURLOPT_HEADER, 0);
       curl_setopt($ch, CURLOPT_POST, 1);
@@ -294,7 +294,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
    * Add Airwatch informations coming from the XML inventory
    * @param params Airwatch section in the XML file
    */
-   static function updateInventory($params = array()) {
+   static function updateInventory($params = []) {
       //Toolbox::logDebug("updateInventory", $params);
       global $DB;
 
@@ -307,22 +307,22 @@ class PluginAirwatchAirwatch extends CommonDBTM {
 
          //Always delete details
          $detail = new PluginAirwatchDetail();
-         $detail->deletebyCriteria(array('computers_id' => $computers_id));
+         $detail->deletebyCriteria(['computers_id' => $computers_id]);
 
          //Delete airwatch profiles
          PluginAirwatchCompliance::deleteForComputer($computers_id);
 
          $tmp['computers_id'] = $computers_id;
-         $fields = array('ROAMINGSTATUS'       => 'is_roaming_enabled',
-                         'DATAROAMINGENABLED'  => 'is_data_roaming_enabled',
-                         'VOICEROAMINGENABLED' => 'is_voice_roaming_enabled',
-                         'CURRENTSIM'          => 'simcard_serial',
-                         'IMEI'                => 'imei',
-                         'PHONENUMBER'         => 'phone_number',
-                         'ISCOMPLIANT'         => 'is_compliant',
-                         'ISCOMPROMISED'       => 'is_compromised',
-                         'ISENROLLED'          => 'is_enrolled',
-                         'AIRWATCHID'          => 'aw_device_id');
+         $fields = ['ROAMINGSTATUS'       => 'is_roaming_enabled',
+                    'DATAROAMINGENABLED'  => 'is_data_roaming_enabled',
+                    'VOICEROAMINGENABLED' => 'is_voice_roaming_enabled',
+                    'CURRENTSIM'          => 'simcard_serial',
+                    'IMEI'                => 'imei',
+                    'PHONENUMBER'         => 'phone_number',
+                    'ISCOMPLIANT'         => 'is_compliant',
+                    'ISCOMPROMISED'       => 'is_compromised',
+                    'ISENROLLED'          => 'is_enrolled',
+                    'AIRWATCHID'          => 'aw_device_id'];
          foreach ($fields as $xml_field => $glpifield) {
             if (isset($data['AIRWATCH'][$xml_field]) && $data['AIRWATCH'][$xml_field]) {
                $tmp[$glpifield] = $data['AIRWATCH'][$xml_field];
@@ -342,11 +342,11 @@ class PluginAirwatchAirwatch extends CommonDBTM {
                $tmp['is_dataencryption'] = '0';
             }
          }
-         $dates = array('LASTSEEN'                 => 'date_last_seen',
-                        'LASTENROLLEDON'           => 'date_last_enrollment',
-                        'LASTENROLLMENTCHECKEDON'  => 'date_last_enrollment_check',
-                        'LASTCOMPLIANCECHECKEDON'  => 'date_last_compliance_check',
-                        'LASTCOMPROMISEDCHECKEDON' => 'date_last_compromised_check');
+         $dates = ['LASTSEEN'                 => 'date_last_seen',
+                   'LASTENROLLEDON'           => 'date_last_enrollment',
+                   'LASTENROLLMENTCHECKEDON'  => 'date_last_enrollment_check',
+                   'LASTCOMPLIANCECHECKEDON'  => 'date_last_compliance_check',
+                   'LASTCOMPROMISEDCHECKEDON' => 'date_last_compromised_check'];
          foreach ($dates as $xmldate => $glpidate) {
             if (isset($data['AIRWATCH'][$xmldate])) {
                $tmpdate = self::convertAirwatchDate($data['AIRWATCH'][$xmldate]);
@@ -358,11 +358,11 @@ class PluginAirwatchAirwatch extends CommonDBTM {
          $detail->add($tmp);
 
          if (isset($data['AIRWATCHCOMPLIANCE'])) {
-            $compliances = array();
+            $compliances = [];
             $go          = true;
 
             if (isset($data['AIRWATCHCOMPLIANCE']['NAME'])) {
-               $compliances = array($data['AIRWATCHCOMPLIANCE']);
+               $compliances = [$data['AIRWATCHCOMPLIANCE']];
             } else if (is_array($data['AIRWATCHCOMPLIANCE'])) {
                $compliances = $data['AIRWATCHCOMPLIANCE'];
             } else {
@@ -383,8 +383,8 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       }
    }
 
-   static function addInventoryInfos($params = array()) {
-      $values = array();
+   static function addInventoryInfos($params = []) {
+      $values = [];
       if (isset($params['source'])
          && isset($params['source']['AIRWATCH'])
             && is_array($params['source']['AIRWATCH'])
@@ -406,7 +406,7 @@ class PluginAirwatchAirwatch extends CommonDBTM {
       $cron = new CronTask;
       if (!$cron->getFromDBbyName(__CLASS__, 'airwatchImport')) {
          CronTask::Register(__CLASS__, 'airwatchImport', DAY_TIMESTAMP,
-                            array('param' => 24, 'mode' => CronTask::MODE_EXTERNAL));
+                            ['param' => 24, 'mode' => CronTask::MODE_EXTERNAL]);
       }
    }
 }

@@ -42,14 +42,14 @@ class PluginAirwatchDetail extends CommonDBTM {
    public $dohistory       = false;
 
 
-   static function getTypeName($nb=0) {
+   static function getTypeName($nb = 0) {
       return __('Airwatch');
    }
 
       /**
        * @see CommonGLPI::getTabNameForItem()
       **/
-   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       // can exists for template
       if (($item->getType() == 'Computer')
@@ -73,7 +73,7 @@ class PluginAirwatchDetail extends CommonDBTM {
        * @param $tabnum          (default 1)
        * @param $withtemplate    (default 0)
        */
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       self::showForComputer($item, $withtemplate);
       return true;
    }
@@ -95,7 +95,7 @@ class PluginAirwatchDetail extends CommonDBTM {
       }
    }
 
-   static function showForComputer(CommonDBTM $item, $withtemplate='') {
+   static function showForComputer(CommonDBTM $item, $withtemplate = '') {
 
       $detail = new self();
       if (!$detail->getFromDBbComputerID($item->getID())) {
@@ -269,7 +269,7 @@ class PluginAirwatchDetail extends CommonDBTM {
       */
    static function cleanOnPurge(Computer $computer) {
       $detail = new self();
-      $detail->deleteByCriteria(array('computers_id' => $computer->getID()));
+      $detail->deleteByCriteria(['computers_id' => $computer->getID()]);
    }
 
       /**
@@ -326,7 +326,7 @@ class PluginAirwatchDetail extends CommonDBTM {
        * @param integer $precision Optional precision
        * @return string time difference
        */
-   static function getHumanReadableDate( $time1, $time2, $precision = 2 ) {
+   static function getHumanReadableDate($time1, $time2, $precision = 2) {
       // If not numeric then convert timestamps
       if (!is_int( $time1 )) {
               $time1 = strtotime( $time1 );
@@ -337,12 +337,12 @@ class PluginAirwatchDetail extends CommonDBTM {
 
       // If time1 > time2 then swap the 2 values
       if ($time1 > $time2) {
-              list( $time1, $time2 ) = array( $time2, $time1 );
+              list( $time1, $time2 ) = [ $time2, $time1 ];
       }
 
       // Set up intervals and diffs arrays
-      $intervals = array('year', 'month', 'day', 'hour', 'minute', 'second' );
-      $diffs = array();
+      $intervals = ['year', 'month', 'day', 'hour', 'minute', 'second' ];
+      $diffs = [];
 
       foreach ($intervals as $interval) {
               // Create temp time from time1 and interval
@@ -363,7 +363,7 @@ class PluginAirwatchDetail extends CommonDBTM {
       }
 
       $count = 0;
-      $times = array();
+      $times = [];
       foreach ($diffs as $interval => $value) {
               // Break if we have needed precission
          if ($count >= $precision) {
