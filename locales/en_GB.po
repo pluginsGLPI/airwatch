@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPi Plugin - Airwatch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 08:34+0100\n"
-"PO-Revision-Date: 2016-11-21 07:39+0000\n"
-"Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
+"POT-Creation-Date: 2018-08-20 10:01+0000\n"
+"PO-Revision-Date: 2017-09-23 22:26+0000\n"
+"Last-Translator: Johan Cwiklinski <jcwiklinski@teclib.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/teclib/glpi-plugin-airwatch/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 #: hook.php:68 hook.php:76 hook.php:84 hook.php:92 hook.php:100 hook.php:108
 #: hook.php:116 hook.php:124 hook.php:133 hook.php:142 hook.php:151
 #: hook.php:160 hook.php:169 hook.php:180 hook.php:190
-#: inc/detail.class.php:288
+#: inc/detail.class.php:290
 msgid "Airwatch"
 msgstr "Airwatch"
 
-#: hook.php:38 inc/detail.class.php:116
+#: hook.php:38 inc/detail.class.php:118
 msgid "Airwatch ID"
 msgstr "Airwatch ID"
 
@@ -38,11 +38,11 @@ msgstr "IMEI"
 msgid "Simcard serial number"
 msgstr "Simcard serial number"
 
-#: hook.php:61 inc/detail.class.php:127
+#: hook.php:61 inc/detail.class.php:129
 msgid "Last seen"
 msgstr "Last seen"
 
-#: hook.php:69 inc/detail.class.php:169
+#: hook.php:69 inc/detail.class.php:171
 msgid "Last enrollment date"
 msgstr "Last enrollment date"
 
@@ -50,23 +50,23 @@ msgstr "Last enrollment date"
 msgid "Last enrollment check date"
 msgstr "Last enrollment check date"
 
-#: hook.php:85 inc/detail.class.php:198
+#: hook.php:85 inc/detail.class.php:200
 msgid "Last compliance check date"
 msgstr "Last compliance check date"
 
-#: hook.php:93 inc/detail.class.php:213
+#: hook.php:93 inc/detail.class.php:215
 msgid "Last compromised check date"
 msgstr "Last compromised check date"
 
-#: hook.php:101 inc/detail.class.php:165
+#: hook.php:101 inc/detail.class.php:167
 msgid "Enrollment status"
 msgstr "Is enrolled"
 
-#: hook.php:109 hook.php:171 inc/detail.class.php:194 inc/detail.class.php:301
+#: hook.php:109 hook.php:171 inc/detail.class.php:196 inc/detail.class.php:303
 msgid "Compliance status"
 msgstr "Is compliant"
 
-#: hook.php:117 inc/detail.class.php:209
+#: hook.php:117 inc/detail.class.php:211
 msgid "Compromised status"
 msgstr "Is compromised"
 
@@ -74,15 +74,15 @@ msgstr "Is compromised"
 msgid "Data encryption"
 msgstr "Data encryption"
 
-#: hook.php:134 inc/detail.class.php:226
+#: hook.php:134 inc/detail.class.php:228
 msgid "Roaming enabled"
 msgstr "Roaming enabled"
 
-#: hook.php:143 inc/detail.class.php:230
+#: hook.php:143 inc/detail.class.php:232
 msgid "Data roaming enabled"
 msgstr "Data roaming enabled"
 
-#: hook.php:152 inc/detail.class.php:237
+#: hook.php:152 inc/detail.class.php:239
 msgid "Voice roaming enabled"
 msgstr "Voice roaming enabled"
 
@@ -90,11 +90,15 @@ msgstr "Voice roaming enabled"
 msgid "Profile"
 msgstr "Profile"
 
-#: hook.php:182 inc/compliance.class.php:75
+#: hook.php:182 inc/compliance.class.php:77
 msgid "Last check date"
 msgstr "Last check date"
 
-#: inc/config.class.php:40 setup.php:67
+#: inc/airwatch.class.php:65
+msgid "Import devices informations from Airwatch"
+msgstr "Import devices informations from Airwatch"
+
+#: inc/config.class.php:40 setup.php:71
 msgid "GLPi Airwatch Connector"
 msgstr "GLPi Airwatch Connector"
 
@@ -130,46 +134,42 @@ msgstr "API Key"
 msgid "Skip SSL check"
 msgstr "Skip SSL check"
 
-#: inc/airwatch.class.php:65
-msgid "Import devices informations from Airwatch"
-msgstr "Import devices informations from Airwatch"
-
-#: inc/detail.class.php:108
+#: inc/detail.class.php:110
 msgid "General"
 msgstr "General"
 
-#: inc/detail.class.php:124 inc/detail.class.php:293
+#: inc/detail.class.php:126 inc/detail.class.php:295
 msgid "Phone number"
 msgstr "Phone number"
 
-#: inc/detail.class.php:138
+#: inc/detail.class.php:140
 msgid "Data encryption enabled"
 msgstr "Data encryption enabled"
 
-#: inc/detail.class.php:142
+#: inc/detail.class.php:144
 msgid "Current SIM serial number"
 msgstr "Current SIM serial number"
 
-#: inc/detail.class.php:158
+#: inc/detail.class.php:160
 msgid "See device in Airwatch console"
 msgstr "See device in Airwatch console"
 
-#: inc/detail.class.php:162
+#: inc/detail.class.php:164
 msgid "Enrollment process"
 msgstr "Enrollment process"
 
-#: inc/detail.class.php:180
+#: inc/detail.class.php:182
 msgid "Last enrollment check"
 msgstr "Last enrollment check"
 
-#: inc/detail.class.php:191
+#: inc/detail.class.php:193
 msgid "Other status checks"
 msgstr "Other status checks"
 
-#: inc/detail.class.php:223
+#: inc/detail.class.php:225
 msgid "Roaming"
 msgstr "Roaming"
 
-#: inc/compliance.class.php:64
+#: inc/compliance.class.php:66
 msgid "Compliance details"
 msgstr "Compliance details"

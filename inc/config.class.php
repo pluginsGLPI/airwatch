@@ -145,15 +145,15 @@ class PluginAirwatchConfig extends CommonDBTM {
                   ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
          $DB->query($query) or die ($DB->error());
 
-         $tmp = array('id'                   => 1,
-                      'fusioninventory_url' => 'http://localhost/glpi/plugins/fusioninventory/',
-                      'airwatch_service_url' => '',
-                      'airwatch_console_url' => '',
-                      'username'             => '',
-                      'password'             => '',
-                      'api_key'              => '',
-                      'skip_ssl_check'       => 0);
-               $config->add($tmp);
+         $tmp = ['id'                   => 1,
+                 'fusioninventory_url' => 'http://localhost/glpi/plugins/fusioninventory/',
+                 'airwatch_service_url' => '',
+                 'airwatch_console_url' => '',
+                 'username'             => '',
+                 'password'             => '',
+                 'api_key'              => '',
+                 'skip_ssl_check'       => 0];
+         $config->add($tmp);
       }
    }
 

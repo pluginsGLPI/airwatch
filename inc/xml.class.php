@@ -219,11 +219,11 @@ class PluginAirwatchXml {
          $CONTENT = $this->sxml->CONTENT[0];
          $CONTENT->addChild('AIRWATCH');
 
-         $fields = array('PHONENUMBER', 'LASTSEEN', 'ISENROLLED', "LASTENROLLEDON",
-                         'ISCOMPLIANT', 'ISCOMPROMISED', 'IMEI', 'airwatchid',
-                         'CURRENTSIM', 'LASTENROLLMENTCHECKEDON', 'LASTCOMPLIANCECHECKEDON',
-                         'LASTCOMPROMISEDCHECKEDON', 'DATAENCRYPTION', 'ROAMINGSTATUS',
-                         'DATAROAMINGENABLED', 'VOICEROAMINGENABLED');
+         $fields = ['PHONENUMBER', 'LASTSEEN', 'ISENROLLED', "LASTENROLLEDON",
+                    'ISCOMPLIANT', 'ISCOMPROMISED', 'IMEI', 'airwatchid',
+                    'CURRENTSIM', 'LASTENROLLMENTCHECKEDON', 'LASTCOMPLIANCECHECKEDON',
+                    'LASTCOMPROMISEDCHECKEDON', 'DATAENCRYPTION', 'ROAMINGSTATUS',
+                    'DATAROAMINGENABLED', 'VOICEROAMINGENABLED'];
 
          $ACCOUNTINFO = $this->sxml->CONTENT[0]->AIRWATCH;
 
