@@ -6,12 +6,14 @@
    <logo>https://raw.githubusercontent.com/pluginsGLPI/airwatch/master/airwatch.png</logo>
    <description>
       <short>
+	 <en><![CDATA[Connector to gather inventory information from Airwatch]]></en>
+         <cs><![CDATA[Napojení pro získávání inventárních údajů z Airwatch]]></cs>
          <fr><![CDATA[Connecteur pour récupérer les données d'inventaire depuis Airwatch]]></fr>
-         <en><![CDATA[Connector to gather inventory information from Airwatch]]></en>
       </short>
       <long>
+	 <en><![CDATA[Gather inventory data from Airwatch MDM tool. Data import using FusionInventory XML format. Ability to manually force a device inventory. This plugin is part of the GLPi Network subscription.]]></en>
+         <cs><![CDATA[Získávání inventárních údajů z MDM nástroje Ariwatch. Import dat ve formátu FusionInventory XML. Schopnost ručního vynucení inventarizace zařízení. Tento zásuvný modul je součástí předplatného služby GLPi Network.]]></cs>
 	 <fr><![CDATA[Récupération des données d'inventaire de l'outil de MDM Airwatch. Import des données au format XML FusionInventory. Possibilité de forcer l'inventaire manuellement d'un device. Ce plugin fait partie de la souscription GLPi Network.]]></fr>
-         <en><![CDATA[Gather inventory data from Airwatch MDM tool. Data import using FusionInventory XML format. Ability to manually force a device inventory. This plugin is part of the GLPi Network subscription.]]></en>
       </long>
    </description>
    <homepage>https://github.com/pluginsGLPI/airwatch</homepage>
@@ -41,10 +43,27 @@
       </version>
    </versions>
    <langs>
+      <lang>cs_CZ</lang>
+      <lang>en_GB</lang> 
       <lang>fr_FR</lang>
-      <lang>en_GB</lang>
    </langs>
    <tags>
+	 <en>
+            <tag>inventory</tag>
+            <tag>smartphone</tag>
+            <tag>connector</tag>
+            <tag>airwatch</tag>
+            <tag>helpdesk</tag>
+            <tag>loans</tag>
+         </en>
+	 <cs>
+            <tag>inventář</tag>
+            <tag>chytrý telefon</tag>
+            <tag>connector</tag>
+            <tag>airwatch</tag>
+            <tag>služba podpory</tag>
+            <tag>zápůjčky</tag>
+         </cs>
          <fr>
             <tag>inventaire</tag>
             <tag>smartphone</tag>
@@ -53,14 +72,6 @@
             <tag>helpdesk</tag>
             <tag>réservations</tag>
          </fr>
-         <en>
-            <tag>inventory</tag>
-            <tag>smartphone</tag>
-            <tag>connector</tag>
-            <tag>airwatch</tag>
-            <tag>helpdesk</tag>
-            <tag>loans</tag>
-         </en>
    </tags>
    <license>GPL v2+</license>
 </root>
