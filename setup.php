@@ -34,6 +34,11 @@ define ('AIRWATCH_API_RESULT_ERROR', 'ko');
 define ('AIRWATCH_USER_AGENT', 'Airwatch-Connector-1.1');
 define ('PLUGIN_AIRWATCH_VERSION', '1.2.0');
 
+// Minimal GLPI version, inclusive
+define('PLUGIN_AIRWATCH_MIN_GLPI', '9.2');
+// Maximum GLPI version, exclusive
+define('PLUGIN_AIRWATCH_MAX_GLPI', '9.4');
+
 function plugin_init_airwatch() {
    global $PLUGIN_HOOKS,$CFG_GLPI,$LANG;
    $PLUGIN_HOOKS['csrf_compliant']['airwatch'] = true;
@@ -62,29 +67,60 @@ function plugin_init_airwatch() {
 }
 
 function plugin_version_airwatch() {
-   global $LANG;
-
-   return  ['name'           => __("GLPi Airwatch Connector", 'airwatch'),
-            'version'        => PLUGIN_AIRWATCH_VERSION,
-            'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
-            'license'        => 'GPLv2+',
-            'homepage'       => 'https://github.com/pluginsglpi/airwatch',
-            'minGlpiVersion' => "9.2"];
+   return [
+      'name'           => __("GLPi Airwatch Connector", 'airwatch'),
+      'version'        => PLUGIN_AIRWATCH_VERSION,
+      'author'         => "<a href='http://www.teclib-edition.com'>Teclib'</a>",
+      'license'        => 'GPLv2+',
+      'homepage'       => 'https://github.com/pluginsglpi/airwatch',
+      'requirements'   => [
+         'glpi' => [
+            'min'     => PLUGIN_AIRWATCH_MIN_GLPI,
+            'max'     => PLUGIN_AIRWATCH_MAX_GLPI,
+            'plugins' => [
+               'fusioninventory',
+            ],
+         ],
+         'php' => [
+            'exts' => [
+               'curl' => [
+                  'required' => true,
+               ]
+            ]
+         ]
+      ]
+   ];
 }
 
 function plugin_airwatch_check_prerequisites() {
-   if (version_compare(GLPI_VERSION, '9.2', 'lt')) {
-      echo "This plugin requires GLPI 9.2 or higher";
-      return false;
-   }
-   if (!function_exists('curl_init')) {
-      echo "cURL extension (PHP) is required.";
-      return false;
-   }
-   $plugin = new Plugin();
-   if (!$plugin->isActivated('fusioninventory')) {
-      echo "Fusioninventory plugin must be enabled";
-      return false;
+
+   //Requirements check is not done by core in GLPI < 9.2 but has to be delegated to core in GLPI >= 9.2.
+   if (!method_exists('Plugin', 'checkGlpiVersion')) {
+      $version = preg_replace('/^((\d+\.?)+).*$/', '$1', GLPI_VERSION);
+      $matchMinGlpiReq = version_compare($version, PLUGIN_AIRWATCH_MIN_GLPI, '>=');
+      $matchMaxGlpiReq = version_compare($version, PLUGIN_AIRWATCH_MAX_GLPI, '<');
+
+      if (!$matchMinGlpiReq || !$matchMaxGlpiReq) {
+         echo vsprintf(
+            'This plugin requires GLPI >= %1$s and < %2$s.',
+            [
+               PLUGIN_AIRWATCH_MIN_GLPI,
+               PLUGIN_AIRWATCH_MAX_GLPI,
+            ]
+         );
+         return false;
+      }
+
+      if (!function_exists('curl_init')) {
+         echo "cURL extension (PHP) is required.";
+         return false;
+      }
+
+      $plugin = new Plugin();
+      if (!$plugin->isActivated('fusioninventory')) {
+         echo "Fusioninventory plugin must be enabled";
+         return false;
+      }
    }
 
    return true;
