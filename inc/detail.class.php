@@ -462,7 +462,7 @@ class PluginAirwatchDetail extends CommonDBTM {
                         KEY `is_roaming_enabled` (`is_roaming_enabled`),
                         KEY `is_data_roaming_enabled` (`is_data_roaming_enabled`),
                         KEY `is_voice_roaming_enabled` (`is_voice_roaming_enabled`)
-                     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
          $DB->query($query) or die ($DB->error());
       } else {
          $migration->changeField('glpi_plugin_airwatch_details', 'is_compliant', 'is_compliant',

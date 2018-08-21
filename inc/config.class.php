@@ -142,7 +142,7 @@ class PluginAirwatchConfig extends CommonDBTM {
                      KEY `password` (`password`),
                      KEY `api_key` (`api_key`),
                      KEY `skip_ssl_check` (`skip_ssl_check`)
-                  ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
          $DB->query($query) or die ($DB->error());
 
          $tmp = ['id'                   => 1,
