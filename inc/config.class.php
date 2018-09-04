@@ -29,7 +29,7 @@
  @since     2016
  ---------------------------------------------------------------------- */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
@@ -121,7 +121,7 @@ class PluginAirwatchConfig extends CommonDBTM {
       $config = new self();
 
       //This class is available since version 1.3.0
-      if (!TableExists("glpi_plugin_airwatch_configs")) {
+      if (!$DB->tableExists("glpi_plugin_airwatch_configs")) {
          $migration->displayMessage("Install glpi_plugin_airwatch_configs");
 
          //Install
@@ -142,18 +142,18 @@ class PluginAirwatchConfig extends CommonDBTM {
                      KEY `password` (`password`),
                      KEY `api_key` (`api_key`),
                      KEY `skip_ssl_check` (`skip_ssl_check`)
-                  ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
          $DB->query($query) or die ($DB->error());
 
-         $tmp = array('id'                   => 1,
-                      'fusioninventory_url' => 'http://localhost/glpi/plugins/fusioninventory/',
-                      'airwatch_service_url' => '',
-                      'airwatch_console_url' => '',
-                      'username'             => '',
-                      'password'             => '',
-                      'api_key'              => '',
-                      'skip_ssl_check'       => 0);
-               $config->add($tmp);
+         $tmp = ['id'                   => 1,
+                 'fusioninventory_url' => 'http://localhost/glpi/plugins/fusioninventory/',
+                 'airwatch_service_url' => '',
+                 'airwatch_console_url' => '',
+                 'username'             => '',
+                 'password'             => '',
+                 'api_key'              => '',
+                 'skip_ssl_check'       => 0];
+         $config->add($tmp);
       }
    }
 

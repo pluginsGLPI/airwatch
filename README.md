@@ -15,6 +15,9 @@ To help translating the plugin, please join  [Transifex](http://transifex.com).
 * php curl extension must be installed.
 * GLPi 9.1 or higher is required.
 * FusionInventory plugin must be installed and enabled.
+* FI4GLPI version 0.90+1.3 or lated is required, otherwise you must patch the source code with the following commit :
+```
+```
 
 ## How does it work
 

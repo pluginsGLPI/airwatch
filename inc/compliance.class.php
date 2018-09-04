@@ -29,7 +29,7 @@
  @since     2016
  ---------------------------------------------------------------------- */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access directly to this file");
 }
 
@@ -54,8 +54,10 @@ class PluginAirwatchCompliance extends CommonDBTM {
 
    static function showForComputer(CommonDBTM $item) {
       $computers_id = $item->getID();
-      $data = getAllDatasFromTable('glpi_plugin_airwatch_compliances',
-                                   "`computers_id`='$computers_id'");
+      $data = getAllDatasFromTable(
+         'glpi_plugin_airwatch_compliances',
+         ['computers_id' => $computers_id]
+      );
       if (empty($data)) {
          return true;
       }
@@ -94,16 +96,16 @@ class PluginAirwatchCompliance extends CommonDBTM {
    */
    static function addProfile($computers_id, $name, $is_compliant, $date_last_check) {
       $compliance = new self();
-      return $compliance->add(array('computers_id'    => $computers_id,
-                                    'name'            => $name,
-                                    'is_compliant'    => ($is_compliant?'1':'0'),
-                                    'date_last_check' => $date_last_check));
+      return $compliance->add(['computers_id'    => $computers_id,
+                               'name'            => $name,
+                               'is_compliant'    => ($is_compliant?'1':'0'),
+                               'date_last_check' => $date_last_check]);
    }
 
    static function install(Migration $migration) {
       global $DB;
 
-      if (!TableExists('glpi_plugin_airwatch_compliances')) {
+      if (!$DB->tableExists('glpi_plugin_airwatch_compliances')) {
          $query = "CREATE TABLE `glpi_plugin_airwatch_compliances` (
            `id` int(11) NOT NULL AUTO_INCREMENT,
            `computers_id` int(11) NOT NULL DEFAULT '0',
@@ -114,8 +116,8 @@ class PluginAirwatchCompliance extends CommonDBTM {
            KEY `computers_id` (`computers_id`),
            KEY `is_compliant` (`is_compliant`),
            KEY `date_last_check` (`date_last_check`)
-         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-         $DB->queryOrDie($query,$DB->error());
+         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+         $DB->queryOrDie($query, $DB->error());
       }
    }
 

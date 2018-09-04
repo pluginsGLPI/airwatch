@@ -48,12 +48,12 @@ if (isset($_POST["update"])) {
    Html::back();
 } else {
 
-Html::header(__("Airwatch", "airwatch"), $_SERVER['PHP_SELF'], "plugins", "airwatch",
+   Html::header(__("Airwatch", "airwatch"), $_SERVER['PHP_SELF'], "plugins", "airwatch",
              "config");
 
-Session::checkRight("config", UPDATE);
-$config->showForm();
+   Session::checkRight("config", UPDATE);
+   $config->showForm();
 
-Html::footer();
+   Html::footer();
 
 }
