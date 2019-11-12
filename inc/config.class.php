@@ -76,6 +76,8 @@ class PluginAirwatchConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Username", "airwatch") . "</td>";
       echo "<td>";
+      // FIXME This is a credential field so it is not in autocomplete whitelist
+      // Replace with a simple text input.
       Html::autocompletionTextField($this, "username");
       echo "</td>";
       echo "</tr>";
@@ -83,6 +85,8 @@ class PluginAirwatchConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Password", "airwatch") . "</td>";
       echo "<td>";
+      // FIXME This is a credential field so it is not in autocomplete whitelist
+      // Replace with a password text input, crypt it, and handle ability to "blank" it.
       Html::autocompletionTextField($this, "password");
       echo "</td>";
       echo "</tr>";
@@ -90,6 +94,8 @@ class PluginAirwatchConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("API Key", "airwatch") . "</td>";
       echo "<td>";
+      // FIXME This is a credential field so it is not in autocomplete whitelist
+      // Replace with a simple text input.
       Html::autocompletionTextField($this, "api_key");
       echo "</td>";
       echo "</tr>";
@@ -160,5 +166,47 @@ class PluginAirwatchConfig extends CommonDBTM {
    public static function uninstall() {
       global $DB;
       $DB->query("DROP TABLE IF EXISTS `glpi_plugin_airwatch_configs`");
+   }
+
+   function rawSearchOptions() {
+
+      $tab = [];
+
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __('Characteristics')
+      ];
+
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'fusioninventory_url',
+         'name'               => __('Service URL', 'fusioninventory'),
+         'datatype'           => 'string',
+         'massiveaction'      => false,
+         'autocomplete'       => true,
+      ];
+
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => $this->getTable(),
+         'field'              => 'airwatch_service_url',
+         'name'               => __('Airwatch Service URL', 'airwatch'),
+         'datatype'           => 'string',
+         'massiveaction'      => false,
+         'autocomplete'       => true,
+      ];
+
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'airwatch_console_url',
+         'name'               => __('Airwatch Console URL', 'airwatch'),
+         'datatype'           => 'string',
+         'massiveaction'      => false,
+         'autocomplete'       => true,
+      ];
+
+      return $tab;
    }
 }
