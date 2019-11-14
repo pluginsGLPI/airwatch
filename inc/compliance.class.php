@@ -54,7 +54,8 @@ class PluginAirwatchCompliance extends CommonDBTM {
 
    static function showForComputer(CommonDBTM $item) {
       $computers_id = $item->getID();
-      $data = getAllDatasFromTable(
+      $getAllFct = function_exists('getAllDataFromTable') ? 'getAllDataFromTable' : 'getAllDatasFromTable';
+      $data = $getAllFct(
          'glpi_plugin_airwatch_compliances',
          ['computers_id' => $computers_id]
       );
