@@ -37,7 +37,7 @@ define ('PLUGIN_AIRWATCH_VERSION', '1.4.1');
 // Minimal GLPI version, inclusive
 define('PLUGIN_AIRWATCH_MIN_GLPI', '9.2');
 // Maximum GLPI version, exclusive
-define('PLUGIN_AIRWATCH_MAX_GLPI', '9.5');
+define('PLUGIN_AIRWATCH_MAX_GLPI', '9.6');
 
 function plugin_init_airwatch() {
    global $PLUGIN_HOOKS,$CFG_GLPI,$LANG;
