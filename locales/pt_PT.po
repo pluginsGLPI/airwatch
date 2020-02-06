@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPi Plugin - Airwatch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-08 14:31+0000\n"
+"POT-Creation-Date: 2020-02-06 14:44+0000\n"
 "PO-Revision-Date: 2019-03-01 10:57+0000\n"
 "Last-Translator: Rui Melo <viper5000pt@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/teclib/glpi-plugin-airwatch/language/pt_PT/)\n"
@@ -17,29 +17,129 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: inc/compliance.class.php:66
-msgid "Compliance details"
-msgstr "Detalhes de conformidade"
+#: front/config.form.php:51 hook.php:38 hook.php:45 hook.php:52 hook.php:60
+#: hook.php:68 hook.php:76 hook.php:84 hook.php:92 hook.php:100 hook.php:108
+#: hook.php:116 hook.php:124 hook.php:133 hook.php:142 hook.php:151
+#: hook.php:160 hook.php:169 hook.php:180 hook.php:190
+#: inc/detail.class.php:290
+msgid "Airwatch"
+msgstr "Airwatch"
 
-#: inc/compliance.class.php:77 hook.php:182
+#: hook.php:38 inc/detail.class.php:118
+msgid "Airwatch ID"
+msgstr "IDAirwatch"
+
+#: hook.php:45
+msgid "IMEI"
+msgstr "IMEI"
+
+#: hook.php:53
+msgid "Simcard serial number"
+msgstr "Número de série Simcard"
+
+#: hook.php:61 inc/detail.class.php:129
+msgid "Last seen"
+msgstr "Última vez visto"
+
+#: hook.php:69 inc/detail.class.php:171
+msgid "Last enrollment date"
+msgstr "Última data de inscrição"
+
+#: hook.php:77
+msgid "Last enrollment check date"
+msgstr "Data da última verificação de inscrição"
+
+#: hook.php:85 inc/detail.class.php:200
+msgid "Last compliance check date"
+msgstr "Data da última verificação de conformidade"
+
+#: hook.php:93 inc/detail.class.php:215
+msgid "Last compromised check date"
+msgstr "Data da última verificação comprometida"
+
+#: hook.php:101 inc/detail.class.php:167
+msgid "Enrollment status"
+msgstr "Estado da inscrição"
+
+#: hook.php:109 hook.php:171 inc/detail.class.php:196 inc/detail.class.php:303
+msgid "Compliance status"
+msgstr "Status de conformidade"
+
+#: hook.php:117 inc/detail.class.php:211
+msgid "Compromised status"
+msgstr "Estado comprometido"
+
+#: hook.php:125
+msgid "Data encryption"
+msgstr "Criptografia de dados"
+
+#: hook.php:134 inc/detail.class.php:228
+msgid "Roaming enabled"
+msgstr "Roaming ativo"
+
+#: hook.php:143 inc/detail.class.php:232
+msgid "Data roaming enabled"
+msgstr "Roaming de dados ativo"
+
+#: hook.php:152 inc/detail.class.php:239
+msgid "Voice roaming enabled"
+msgstr "Roaming de voz ativado"
+
+#: hook.php:161 hook.php:170 hook.php:181
+msgid "Profile"
+msgstr "Perfil"
+
+#: hook.php:182 inc/compliance.class.php:77
 msgid "Last check date"
 msgstr "Última data de verificação"
+
+#: inc/airwatch.class.php:65
+msgid "Import devices informations from Airwatch"
+msgstr "Informações sobre a importação de dispositivos do Airwatch"
+
+#: inc/config.class.php:40 setup.php:71
+msgid "GLPi Airwatch Connector"
+msgstr "Conector do Airwatch GLPI"
+
+#: inc/config.class.php:53
+msgid "Plugin configuration"
+msgstr "Configuração do plugin"
+
+#: inc/config.class.php:56 inc/config.class.php:184
+msgid "Service URL"
+msgstr "URL do serviço"
+
+#: inc/config.class.php:63 inc/config.class.php:194
+msgid "Airwatch Service URL"
+msgstr "URL do serviço do Airwatch"
+
+#: inc/config.class.php:70 inc/config.class.php:204
+msgid "Airwatch Console URL"
+msgstr "URL da Consola do Airwatch"
+
+#: inc/config.class.php:77
+msgid "Username"
+msgstr "Nome de utilizador"
+
+#: inc/config.class.php:86
+msgid "Password"
+msgstr "Senha"
+
+#: inc/config.class.php:95
+msgid "API Key"
+msgstr "Chave API"
+
+#: inc/config.class.php:104
+msgid "Skip SSL check"
+msgstr "Ignorar verificação SSL"
 
 #: inc/detail.class.php:110
 msgid "General"
 msgstr "Geral"
 
-#: inc/detail.class.php:118 hook.php:38
-msgid "Airwatch ID"
-msgstr "IDAirwatch"
-
 #: inc/detail.class.php:126 inc/detail.class.php:295
 msgid "Phone number"
 msgstr "Número de Telemóvel"
-
-#: inc/detail.class.php:129 hook.php:61
-msgid "Last seen"
-msgstr "Última vez visto"
 
 #: inc/detail.class.php:140
 msgid "Data encryption enabled"
@@ -57,14 +157,6 @@ msgstr "Veja o dispositivo no console do Airwatch"
 msgid "Enrollment process"
 msgstr "Processo de inscrição"
 
-#: inc/detail.class.php:167 hook.php:101
-msgid "Enrollment status"
-msgstr "Estado da inscrição"
-
-#: inc/detail.class.php:171 hook.php:69
-msgid "Last enrollment date"
-msgstr "Última data de inscrição"
-
 #: inc/detail.class.php:182
 msgid "Last enrollment check"
 msgstr "Última verificação de inscrição"
@@ -73,102 +165,10 @@ msgstr "Última verificação de inscrição"
 msgid "Other status checks"
 msgstr "Outras verificações de status"
 
-#: inc/detail.class.php:196 inc/detail.class.php:303 hook.php:109 hook.php:171
-msgid "Compliance status"
-msgstr "Status de conformidade"
-
-#: inc/detail.class.php:200 hook.php:85
-msgid "Last compliance check date"
-msgstr "Data da última verificação de conformidade"
-
-#: inc/detail.class.php:211 hook.php:117
-msgid "Compromised status"
-msgstr "Estado comprometido"
-
-#: inc/detail.class.php:215 hook.php:93
-msgid "Last compromised check date"
-msgstr "Data da última verificação comprometida"
-
 #: inc/detail.class.php:225
 msgid "Roaming"
 msgstr "Roaming"
 
-#: inc/detail.class.php:228 hook.php:134
-msgid "Roaming enabled"
-msgstr "Roaming ativo"
-
-#: inc/detail.class.php:232 hook.php:143
-msgid "Data roaming enabled"
-msgstr "Roaming de dados ativo"
-
-#: inc/detail.class.php:239 hook.php:152
-msgid "Voice roaming enabled"
-msgstr "Roaming de voz ativado"
-
-#: inc/detail.class.php:290 front/config.form.php:51 hook.php:38 hook.php:45
-#: hook.php:52 hook.php:60 hook.php:68 hook.php:76 hook.php:84 hook.php:92
-#: hook.php:100 hook.php:108 hook.php:116 hook.php:124 hook.php:133
-#: hook.php:142 hook.php:151 hook.php:160 hook.php:169 hook.php:180
-#: hook.php:190
-msgid "Airwatch"
-msgstr "Airwatch"
-
-#: inc/airwatch.class.php:65
-msgid "Import devices informations from Airwatch"
-msgstr "Informações sobre a importação de dispositivos do Airwatch"
-
-#: inc/config.class.php:40 setup.php:71
-msgid "GLPi Airwatch Connector"
-msgstr "Conector do Airwatch GLPI"
-
-#: inc/config.class.php:53
-msgid "Plugin configuration"
-msgstr "Configuração do plugin"
-
-#: inc/config.class.php:56
-msgid "Service URL"
-msgstr "URL do serviço"
-
-#: inc/config.class.php:63
-msgid "Airwatch Service URL"
-msgstr "URL do serviço do Airwatch"
-
-#: inc/config.class.php:70
-msgid "Airwatch Console URL"
-msgstr "URL da Consola do Airwatch"
-
-#: inc/config.class.php:77
-msgid "Username"
-msgstr "Nome de utilizador"
-
-#: inc/config.class.php:84
-msgid "Password"
-msgstr "Senha"
-
-#: inc/config.class.php:91
-msgid "API Key"
-msgstr "Chave API"
-
-#: inc/config.class.php:98
-msgid "Skip SSL check"
-msgstr "Ignorar verificação SSL"
-
-#: hook.php:45
-msgid "IMEI"
-msgstr "IMEI"
-
-#: hook.php:53
-msgid "Simcard serial number"
-msgstr "Número de série Simcard"
-
-#: hook.php:77
-msgid "Last enrollment check date"
-msgstr "Data da última verificação de inscrição"
-
-#: hook.php:125
-msgid "Data encryption"
-msgstr "Criptografia de dados"
-
-#: hook.php:161 hook.php:170 hook.php:181
-msgid "Profile"
-msgstr "Perfil"
+#: inc/compliance.class.php:66
+msgid "Compliance details"
+msgstr "Detalhes de conformidade"
