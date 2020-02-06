@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-20 10:01+0000\n"
+"POT-Creation-Date: 2020-02-06 14:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,15 +104,15 @@ msgstr ""
 msgid "Plugin configuration"
 msgstr ""
 
-#: inc/config.class.php:56
+#: inc/config.class.php:56 inc/config.class.php:184
 msgid "Service URL"
 msgstr ""
 
-#: inc/config.class.php:63
+#: inc/config.class.php:63 inc/config.class.php:194
 msgid "Airwatch Service URL"
 msgstr ""
 
-#: inc/config.class.php:70
+#: inc/config.class.php:70 inc/config.class.php:204
 msgid "Airwatch Console URL"
 msgstr ""
 
@@ -120,15 +120,15 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: inc/config.class.php:84
+#: inc/config.class.php:86
 msgid "Password"
 msgstr ""
 
-#: inc/config.class.php:91
+#: inc/config.class.php:95
 msgid "API Key"
 msgstr ""
 
-#: inc/config.class.php:98
+#: inc/config.class.php:104
 msgid "Skip SSL check"
 msgstr ""
 

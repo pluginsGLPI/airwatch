@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPi Plugin - Airwatch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-20 10:01+0000\n"
+"POT-Creation-Date: 2020-02-06 14:44+0000\n"
 "PO-Revision-Date: 2018-04-10 12:31+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/teclib/glpi-plugin-airwatch/language/cs_CZ/)\n"
@@ -106,15 +106,15 @@ msgstr "Napojení GLPi na Airwatch"
 msgid "Plugin configuration"
 msgstr "Nastavení zásuvného modulu"
 
-#: inc/config.class.php:56
+#: inc/config.class.php:56 inc/config.class.php:184
 msgid "Service URL"
 msgstr "URL adresa služby"
 
-#: inc/config.class.php:63
+#: inc/config.class.php:63 inc/config.class.php:194
 msgid "Airwatch Service URL"
 msgstr "URL adresa služby Airwatch"
 
-#: inc/config.class.php:70
+#: inc/config.class.php:70 inc/config.class.php:204
 msgid "Airwatch Console URL"
 msgstr "URL adresa Airwatch konzole"
 
@@ -122,15 +122,15 @@ msgstr "URL adresa Airwatch konzole"
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: inc/config.class.php:84
+#: inc/config.class.php:86
 msgid "Password"
 msgstr "Heslo"
 
-#: inc/config.class.php:91
+#: inc/config.class.php:95
 msgid "API Key"
 msgstr "Klíč k API"
 
-#: inc/config.class.php:98
+#: inc/config.class.php:104
 msgid "Skip SSL check"
 msgstr "Přeskočit kontrolu SSL"
 

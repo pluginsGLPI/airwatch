@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPi Plugin - Airwatch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-20 10:01+0000\n"
+"POT-Creation-Date: 2020-02-06 14:44+0000\n"
 "PO-Revision-Date: 2017-09-23 22:26+0000\n"
 "Last-Translator: Johan Cwiklinski <jcwiklinski@teclib.com>\n"
 "Language-Team: French (France) (http://www.transifex.com/teclib/glpi-plugin-airwatch/language/fr_FR/)\n"
@@ -107,15 +107,15 @@ msgstr "Connecteur Airwatch pour GLPi"
 msgid "Plugin configuration"
 msgstr "Configuration du plugin"
 
-#: inc/config.class.php:56
+#: inc/config.class.php:56 inc/config.class.php:184
 msgid "Service URL"
 msgstr "URL du service"
 
-#: inc/config.class.php:63
+#: inc/config.class.php:63 inc/config.class.php:194
 msgid "Airwatch Service URL"
 msgstr "URL du service Airwatch"
 
-#: inc/config.class.php:70
+#: inc/config.class.php:70 inc/config.class.php:204
 msgid "Airwatch Console URL"
 msgstr "URL de la console Airwatch"
 
@@ -123,15 +123,15 @@ msgstr "URL de la console Airwatch"
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: inc/config.class.php:84
+#: inc/config.class.php:86
 msgid "Password"
 msgstr "Mot de passe"
 
-#: inc/config.class.php:91
+#: inc/config.class.php:95
 msgid "API Key"
 msgstr "Clef d'API"
 
-#: inc/config.class.php:98
+#: inc/config.class.php:104
 msgid "Skip SSL check"
 msgstr "Passer les vérifications SSL"
 
