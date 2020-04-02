@@ -242,11 +242,13 @@ function plugin_airwatch_searchOptionsValues($type, $ID, $data, $num) {
 /***************** Install / uninstall functions **************/
 
 function plugin_airwatch_install() {
+   $airwatch_dir = Plugin::getPhpDir('airwatch');
+
    $migration = new Migration(PLUGIN_AIRWATCH_VERSION);
-   include (GLPI_ROOT."/plugins/airwatch/inc/config.class.php");
-   include (GLPI_ROOT."/plugins/airwatch/inc/airwatch.class.php");
-   include (GLPI_ROOT."/plugins/airwatch/inc/detail.class.php");
-   include (GLPI_ROOT."/plugins/airwatch/inc/compliance.class.php");
+   include ($airwatch_dir."/inc/config.class.php");
+   include ($airwatch_dir."/inc/airwatch.class.php");
+   include ($airwatch_dir."/inc/detail.class.php");
+   include ($airwatch_dir."/inc/compliance.class.php");
    PluginairwatchConfig::install($migration);
    PluginAirwatchAirwatch::install($migration);
    PluginAirwatchDetail::install($migration);
@@ -255,10 +257,12 @@ function plugin_airwatch_install() {
 }
 
 function plugin_airwatch_uninstall() {
+   $airwatch_dir = Plugin::getPhpDir('airwatch');
+
    $migration = new Migration(PLUGIN_AIRWATCH_VERSION);
-   include (GLPI_ROOT."/plugins/airwatch/inc/config.class.php");
-   include (GLPI_ROOT."/plugins/airwatch/inc/detail.class.php");
-   include (GLPI_ROOT."/plugins/airwatch/inc/compliance.class.php");
+   include ($airwatch_dir."/inc/config.class.php");
+   include ($airwatch_dir."/inc/detail.class.php");
+   include ($airwatch_dir."/inc/compliance.class.php");
    PluginairwatchConfig::uninstall($migration);
    PluginairwatchDetail::uninstall($migration);
    PluginAirwatchCompliance::uninstall($migration);
