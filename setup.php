@@ -32,12 +32,12 @@
 define ('AIRWATCH_API_RESULT_OK', 'ok');
 define ('AIRWATCH_API_RESULT_ERROR', 'ko');
 define ('AIRWATCH_USER_AGENT', 'Airwatch-Connector-1.1');
-define ('PLUGIN_AIRWATCH_VERSION', '1.4.1');
+define ('PLUGIN_AIRWATCH_VERSION', '1.5.0');
 
 // Minimal GLPI version, inclusive
-define('PLUGIN_AIRWATCH_MIN_GLPI', '9.2');
+define('PLUGIN_AIRWATCH_MIN_GLPI', '9.5');
 // Maximum GLPI version, exclusive
-define('PLUGIN_AIRWATCH_MAX_GLPI', '9.5');
+define('PLUGIN_AIRWATCH_MAX_GLPI', '9.6');
 
 function plugin_init_airwatch() {
    global $PLUGIN_HOOKS,$CFG_GLPI,$LANG;
@@ -90,43 +90,4 @@ function plugin_version_airwatch() {
          ]
       ]
    ];
-}
-
-function plugin_airwatch_check_prerequisites() {
-
-   //Requirements check is not done by core in GLPI < 9.2 but has to be delegated to core in GLPI >= 9.2.
-   if (!method_exists('Plugin', 'checkGlpiVersion')) {
-      $version = preg_replace('/^((\d+\.?)+).*$/', '$1', GLPI_VERSION);
-      $matchMinGlpiReq = version_compare($version, PLUGIN_AIRWATCH_MIN_GLPI, '>=');
-      $matchMaxGlpiReq = version_compare($version, PLUGIN_AIRWATCH_MAX_GLPI, '<');
-
-      if (!$matchMinGlpiReq || !$matchMaxGlpiReq) {
-         echo vsprintf(
-            'This plugin requires GLPI >= %1$s and < %2$s.',
-            [
-               PLUGIN_AIRWATCH_MIN_GLPI,
-               PLUGIN_AIRWATCH_MAX_GLPI,
-            ]
-         );
-         return false;
-      }
-
-      if (!function_exists('curl_init')) {
-         echo "cURL extension (PHP) is required.";
-         return false;
-      }
-
-      $plugin = new Plugin();
-      if (!$plugin->isActivated('fusioninventory')) {
-         echo "Fusioninventory plugin must be enabled";
-         return false;
-      }
-   }
-
-   return true;
-}
-
-function plugin_airwatch_check_config() {
-
-   return true;
 }

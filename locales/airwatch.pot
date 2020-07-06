@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-06 14:44+0000\n"
+"POT-Creation-Date: 2020-07-03 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: front/config.form.php:51 hook.php:38 hook.php:45 hook.php:52 hook.php:60
-#: hook.php:68 hook.php:76 hook.php:84 hook.php:92 hook.php:100 hook.php:108
-#: hook.php:116 hook.php:124 hook.php:133 hook.php:142 hook.php:151
-#: hook.php:160 hook.php:169 hook.php:180 hook.php:190 inc/detail.class.php:290
+#: hook.php:38 hook.php:45 hook.php:52 hook.php:60 hook.php:68 hook.php:76
+#: hook.php:84 hook.php:92 hook.php:100 hook.php:108 hook.php:116 hook.php:124
+#: hook.php:133 hook.php:142 hook.php:151 hook.php:160 hook.php:169
+#: hook.php:180 hook.php:190 front/config.form.php:51 inc/detail.class.php:290
 msgid "Airwatch"
 msgstr ""
 
@@ -92,8 +92,40 @@ msgstr ""
 msgid "Last check date"
 msgstr ""
 
-#: inc/airwatch.class.php:65
-msgid "Import devices informations from Airwatch"
+#: inc/detail.class.php:110
+msgid "General"
+msgstr ""
+
+#: inc/detail.class.php:126 inc/detail.class.php:295
+msgid "Phone number"
+msgstr ""
+
+#: inc/detail.class.php:140
+msgid "Data encryption enabled"
+msgstr ""
+
+#: inc/detail.class.php:144
+msgid "Current SIM serial number"
+msgstr ""
+
+#: inc/detail.class.php:160
+msgid "See device in Airwatch console"
+msgstr ""
+
+#: inc/detail.class.php:164
+msgid "Enrollment process"
+msgstr ""
+
+#: inc/detail.class.php:182
+msgid "Last enrollment check"
+msgstr ""
+
+#: inc/detail.class.php:193
+msgid "Other status checks"
+msgstr ""
+
+#: inc/detail.class.php:225
+msgid "Roaming"
 msgstr ""
 
 #: inc/config.class.php:40 setup.php:71
@@ -132,42 +164,10 @@ msgstr ""
 msgid "Skip SSL check"
 msgstr ""
 
-#: inc/detail.class.php:110
-msgid "General"
-msgstr ""
-
-#: inc/detail.class.php:126 inc/detail.class.php:295
-msgid "Phone number"
-msgstr ""
-
-#: inc/detail.class.php:140
-msgid "Data encryption enabled"
-msgstr ""
-
-#: inc/detail.class.php:144
-msgid "Current SIM serial number"
-msgstr ""
-
-#: inc/detail.class.php:160
-msgid "See device in Airwatch console"
-msgstr ""
-
-#: inc/detail.class.php:164
-msgid "Enrollment process"
-msgstr ""
-
-#: inc/detail.class.php:182
-msgid "Last enrollment check"
-msgstr ""
-
-#: inc/detail.class.php:193
-msgid "Other status checks"
-msgstr ""
-
-#: inc/detail.class.php:225
-msgid "Roaming"
-msgstr ""
-
 #: inc/compliance.class.php:66
 msgid "Compliance details"
+msgstr ""
+
+#: inc/airwatch.class.php:65
+msgid "Import devices informations from Airwatch"
 msgstr ""

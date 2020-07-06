@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GLPi Plugin - Airwatch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-06 14:44+0000\n"
+"POT-Creation-Date: 2020-07-03 13:05+0000\n"
 "PO-Revision-Date: 2019-03-01 10:57+0000\n"
 "Last-Translator: Rui Melo <viper5000pt@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/teclib/glpi-plugin-airwatch/language/pt_PT/)\n"
@@ -17,11 +17,10 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: front/config.form.php:51 hook.php:38 hook.php:45 hook.php:52 hook.php:60
-#: hook.php:68 hook.php:76 hook.php:84 hook.php:92 hook.php:100 hook.php:108
-#: hook.php:116 hook.php:124 hook.php:133 hook.php:142 hook.php:151
-#: hook.php:160 hook.php:169 hook.php:180 hook.php:190
-#: inc/detail.class.php:290
+#: hook.php:38 hook.php:45 hook.php:52 hook.php:60 hook.php:68 hook.php:76
+#: hook.php:84 hook.php:92 hook.php:100 hook.php:108 hook.php:116 hook.php:124
+#: hook.php:133 hook.php:142 hook.php:151 hook.php:160 hook.php:169
+#: hook.php:180 hook.php:190 front/config.form.php:51 inc/detail.class.php:290
 msgid "Airwatch"
 msgstr "Airwatch"
 
@@ -93,9 +92,41 @@ msgstr "Perfil"
 msgid "Last check date"
 msgstr "Última data de verificação"
 
-#: inc/airwatch.class.php:65
-msgid "Import devices informations from Airwatch"
-msgstr "Informações sobre a importação de dispositivos do Airwatch"
+#: inc/detail.class.php:110
+msgid "General"
+msgstr "Geral"
+
+#: inc/detail.class.php:126 inc/detail.class.php:295
+msgid "Phone number"
+msgstr "Número de Telemóvel"
+
+#: inc/detail.class.php:140
+msgid "Data encryption enabled"
+msgstr "Criptografia de dados ativada"
+
+#: inc/detail.class.php:144
+msgid "Current SIM serial number"
+msgstr "Número de série atual do SIM"
+
+#: inc/detail.class.php:160
+msgid "See device in Airwatch console"
+msgstr "Veja o dispositivo no console do Airwatch"
+
+#: inc/detail.class.php:164
+msgid "Enrollment process"
+msgstr "Processo de inscrição"
+
+#: inc/detail.class.php:182
+msgid "Last enrollment check"
+msgstr "Última verificação de inscrição"
+
+#: inc/detail.class.php:193
+msgid "Other status checks"
+msgstr "Outras verificações de status"
+
+#: inc/detail.class.php:225
+msgid "Roaming"
+msgstr "Roaming"
 
 #: inc/config.class.php:40 setup.php:71
 msgid "GLPi Airwatch Connector"
@@ -133,42 +164,10 @@ msgstr "Chave API"
 msgid "Skip SSL check"
 msgstr "Ignorar verificação SSL"
 
-#: inc/detail.class.php:110
-msgid "General"
-msgstr "Geral"
-
-#: inc/detail.class.php:126 inc/detail.class.php:295
-msgid "Phone number"
-msgstr "Número de Telemóvel"
-
-#: inc/detail.class.php:140
-msgid "Data encryption enabled"
-msgstr "Criptografia de dados ativada"
-
-#: inc/detail.class.php:144
-msgid "Current SIM serial number"
-msgstr "Número de série atual do SIM"
-
-#: inc/detail.class.php:160
-msgid "See device in Airwatch console"
-msgstr "Veja o dispositivo no console do Airwatch"
-
-#: inc/detail.class.php:164
-msgid "Enrollment process"
-msgstr "Processo de inscrição"
-
-#: inc/detail.class.php:182
-msgid "Last enrollment check"
-msgstr "Última verificação de inscrição"
-
-#: inc/detail.class.php:193
-msgid "Other status checks"
-msgstr "Outras verificações de status"
-
-#: inc/detail.class.php:225
-msgid "Roaming"
-msgstr "Roaming"
-
 #: inc/compliance.class.php:66
 msgid "Compliance details"
 msgstr "Detalhes de conformidade"
+
+#: inc/airwatch.class.php:65
+msgid "Import devices informations from Airwatch"
+msgstr "Informações sobre a importação de dispositivos do Airwatch"

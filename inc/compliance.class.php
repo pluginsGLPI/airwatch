@@ -54,7 +54,7 @@ class PluginAirwatchCompliance extends CommonDBTM {
 
    static function showForComputer(CommonDBTM $item) {
       $computers_id = $item->getID();
-      $data = getAllDatasFromTable(
+      $data = getAllDataFromTable(
          'glpi_plugin_airwatch_compliances',
          ['computers_id' => $computers_id]
       );
@@ -111,7 +111,7 @@ class PluginAirwatchCompliance extends CommonDBTM {
            `computers_id` int(11) NOT NULL DEFAULT '0',
            `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
            `is_compliant` tinyint(1) NOT NULL DEFAULT '0',
-           `date_last_check` datetime DEFAULT NULL,
+           `date_last_check` timestamp NULL DEFAULT NULL,
            PRIMARY KEY (`id`),
            KEY `computers_id` (`computers_id`),
            KEY `is_compliant` (`is_compliant`),
