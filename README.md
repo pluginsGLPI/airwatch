@@ -28,7 +28,7 @@ The plugin requests Airwatch REST API for:
 * software
 * airwatch specific information (enrollement, compliance and comprimse checks, etc)
 
-A XML inventory file is done using the data above, and send to FusionInventory, using curl.
+A XML inventory file is done using the data above, and sent to FusionInventory, using curl.
 Computers are then created, representing Airwatch devices.
 
 For each device managed by Airwatch, an "Airwatch" tab is displayed in GLPi. This tab shows Airwatch specific informtions, and allows user to force an inventory
