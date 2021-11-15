@@ -54,48 +54,74 @@ class PluginAirwatchConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Service URL", "fusioninventory") . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "fusioninventory_url");
+      echo Html::input(
+         'fusioninventory_url',
+         [
+            'value' => $this->fields['fusioninventory_url'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Airwatch Service URL", "airwatch") . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "airwatch_service_url");
+      echo Html::input(
+         'airwatch_service_url',
+         [
+            'value' => $this->fields['airwatch_service_url'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Airwatch Console URL", "airwatch") . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "airwatch_console_url");
+      echo Html::input(
+         'airwatch_console_url',
+         [
+            'value' => $this->fields['airwatch_console_url'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Username", "airwatch") . "</td>";
       echo "<td>";
-      // FIXME This is a credential field so it is not in autocomplete whitelist
-      // Replace with a simple text input.
-      Html::autocompletionTextField($this, "username");
+      echo Html::input(
+         'username',
+         [
+            'value' => $this->fields['username'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Password", "airwatch") . "</td>";
       echo "<td>";
-      // FIXME This is a credential field so it is not in autocomplete whitelist
-      // Replace with a password text input, crypt it, and handle ability to "blank" it.
-      Html::autocompletionTextField($this, "password");
+      // FIXME This is a credential field. Encrypt it, and handle ability to "blank" it.
+      echo Html::input(
+         'password',
+         [
+            'type'  => 'password',
+            'value' => $this->fields['password'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("API Key", "airwatch") . "</td>";
       echo "<td>";
-      // FIXME This is a credential field so it is not in autocomplete whitelist
-      // Replace with a simple text input.
-      Html::autocompletionTextField($this, "api_key");
+      echo Html::input(
+         'api_key',
+         [
+            'value' => $this->fields['api_key'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
