@@ -39,7 +39,7 @@ class PluginAirwatchConfig extends CommonDBTM {
       return __("GLPi Airwatch Connector", 'airwatch');
    }
 
-   public function showForm() {
+   public function showForm($ID, array $options = []) {
       $this->getFromDB(1);
 
       echo "<div class='center'>";
