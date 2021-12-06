@@ -118,7 +118,7 @@ class PluginAirwatchCompliance extends CommonDBTM {
            KEY `computers_id` (`computers_id`),
            KEY `is_compliant` (`is_compliant`),
            KEY `date_last_check` (`date_last_check`)
-         ) ENGINE=InnoDB DEFAULT CHARSET={$default_charset} COLLATE={$default_collation};";
+         ) ENGINE=InnoDB DEFAULT CHARSET={$default_charset} COLLATE={$default_collation} ROW_FORMAT=DYNAMIC;";
          $DB->queryOrDie($query, $DB->error());
       }
    }

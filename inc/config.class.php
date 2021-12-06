@@ -176,7 +176,7 @@ class PluginAirwatchConfig extends CommonDBTM {
                      KEY `password` (`password`),
                      KEY `api_key` (`api_key`),
                      KEY `skip_ssl_check` (`skip_ssl_check`)
-                  ) ENGINE=InnoDB  DEFAULT CHARSET={$default_charset} COLLATE={$default_collation};";
+                  ) ENGINE=InnoDB DEFAULT CHARSET={$default_charset} COLLATE={$default_collation} ROW_FORMAT=DYNAMIC;";
          $DB->query($query) or die ($DB->error());
 
          $tmp = ['id'                   => 1,
