@@ -157,14 +157,14 @@ class PluginAirwatchConfig extends CommonDBTM {
 
          //Install
          $query = "CREATE TABLE `glpi_plugin_airwatch_configs` (
-                     `id` int(11) NOT NULL auto_increment,
+                     `id` int NOT NULL auto_increment,
                      `fusioninventory_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `airwatch_service_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `airwatch_console_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `password` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
                      `api_key` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `skip_ssl_check` tinyint(1) NOT NULL default '0',
+                     `skip_ssl_check` tinyint NOT NULL default '0',
                      PRIMARY KEY  (`id`),
                      KEY `fusioninventory_url` (`fusioninventory_url`),
                      KEY `airwatch_service_url` (`airwatch_service_url`),

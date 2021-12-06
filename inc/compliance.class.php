@@ -106,10 +106,10 @@ class PluginAirwatchCompliance extends CommonDBTM {
 
       if (!$DB->tableExists('glpi_plugin_airwatch_compliances')) {
          $query = "CREATE TABLE `glpi_plugin_airwatch_compliances` (
-           `id` int(11) NOT NULL AUTO_INCREMENT,
-           `computers_id` int(11) NOT NULL DEFAULT '0',
+           `id` int NOT NULL AUTO_INCREMENT,
+           `computers_id` int NOT NULL DEFAULT '0',
            `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-           `is_compliant` tinyint(1) NOT NULL DEFAULT '0',
+           `is_compliant` tinyint NOT NULL DEFAULT '0',
            `date_last_check` timestamp NULL DEFAULT NULL,
            PRIMARY KEY (`id`),
            KEY `computers_id` (`computers_id`),
