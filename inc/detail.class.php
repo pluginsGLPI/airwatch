@@ -422,14 +422,17 @@ class PluginAirwatchDetail extends CommonDBTM {
       if (!$DB->tableExists("glpi_plugin_airwatch_details")) {
          $migration->displayMessage("Install glpi_plugin_airwatch_details");
 
+         $default_charset = DBConnection::getDefaultCharset();
+         $default_collation = DBConnection::getDefaultCollation();
+
          //Install
          $query = "CREATE TABLE `glpi_plugin_airwatch_details` (
                         `id` int NOT NULL auto_increment,
                         `computers_id` int NOT NULL DEFAULT '0',
                         `aw_device_id` int NOT NULL DEFAULT '0',
-                        `imei` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
-                        `simcard_serial` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
-                        `phone_number` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL DEFAULT '',
+                        `imei` varchar(255) NOT NULL DEFAULT '',
+                        `simcard_serial` varchar(255) NOT NULL DEFAULT '',
+                        `phone_number` varchar(255) NOT NULL DEFAULT '',
                         `date_mod` timestamp NULL DEFAULT NULL,
                         `date_creation` timestamp NULL DEFAULT NULL,
                         `date_last_seen` timestamp NULL DEFAULT NULL,
@@ -461,7 +464,7 @@ class PluginAirwatchDetail extends CommonDBTM {
                         KEY `is_roaming_enabled` (`is_roaming_enabled`),
                         KEY `is_data_roaming_enabled` (`is_data_roaming_enabled`),
                         KEY `is_voice_roaming_enabled` (`is_voice_roaming_enabled`)
-                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                     ) ENGINE=InnoDB  DEFAULT CHARSET={$default_charset} COLLATE={$default_collation};";
          $DB->query($query) or die ($DB->error());
       } else {
          $migration->changeField('glpi_plugin_airwatch_details', 'is_compliant', 'is_compliant',

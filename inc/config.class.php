@@ -155,15 +155,18 @@ class PluginAirwatchConfig extends CommonDBTM {
       if (!$DB->tableExists("glpi_plugin_airwatch_configs")) {
          $migration->displayMessage("Install glpi_plugin_airwatch_configs");
 
+         $default_charset = DBConnection::getDefaultCharset();
+         $default_collation = DBConnection::getDefaultCollation();
+
          //Install
          $query = "CREATE TABLE `glpi_plugin_airwatch_configs` (
                      `id` int NOT NULL auto_increment,
-                     `fusioninventory_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `airwatch_service_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `airwatch_console_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `password` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `api_key` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
+                     `fusioninventory_url` varchar(255) NOT NULL,
+                     `airwatch_service_url` varchar(255) NOT NULL,
+                     `airwatch_console_url` varchar(255) NOT NULL,
+                     `username` varchar(255) NOT NULL,
+                     `password` varchar(255) NOT NULL,
+                     `api_key` varchar(255) NOT NULL,
                      `skip_ssl_check` tinyint NOT NULL default '0',
                      PRIMARY KEY  (`id`),
                      KEY `fusioninventory_url` (`fusioninventory_url`),
@@ -173,7 +176,7 @@ class PluginAirwatchConfig extends CommonDBTM {
                      KEY `password` (`password`),
                      KEY `api_key` (`api_key`),
                      KEY `skip_ssl_check` (`skip_ssl_check`)
-                  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                  ) ENGINE=InnoDB  DEFAULT CHARSET={$default_charset} COLLATE={$default_collation};";
          $DB->query($query) or die ($DB->error());
 
          $tmp = ['id'                   => 1,

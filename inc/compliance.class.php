@@ -104,18 +104,21 @@ class PluginAirwatchCompliance extends CommonDBTM {
    static function install(Migration $migration) {
       global $DB;
 
+      $default_charset = DBConnection::getDefaultCharset();
+      $default_collation = DBConnection::getDefaultCollation();
+
       if (!$DB->tableExists('glpi_plugin_airwatch_compliances')) {
          $query = "CREATE TABLE `glpi_plugin_airwatch_compliances` (
            `id` int NOT NULL AUTO_INCREMENT,
            `computers_id` int NOT NULL DEFAULT '0',
-           `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+           `name` varchar(255) DEFAULT NULL,
            `is_compliant` tinyint NOT NULL DEFAULT '0',
            `date_last_check` timestamp NULL DEFAULT NULL,
            PRIMARY KEY (`id`),
            KEY `computers_id` (`computers_id`),
            KEY `is_compliant` (`is_compliant`),
            KEY `date_last_check` (`date_last_check`)
-         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+         ) ENGINE=InnoDB DEFAULT CHARSET={$default_charset} COLLATE={$default_collation};";
          $DB->queryOrDie($query, $DB->error());
       }
    }
