@@ -39,7 +39,7 @@ class PluginAirwatchConfig extends CommonDBTM {
       return __("GLPi Airwatch Connector", 'airwatch');
    }
 
-   public function showForm() {
+   public function showForm($ID, array $options = []) {
       $this->getFromDB(1);
 
       echo "<div class='center'>";
@@ -54,48 +54,74 @@ class PluginAirwatchConfig extends CommonDBTM {
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Service URL", "fusioninventory") . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "fusioninventory_url");
+      echo Html::input(
+         'fusioninventory_url',
+         [
+            'value' => $this->fields['fusioninventory_url'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Airwatch Service URL", "airwatch") . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "airwatch_service_url");
+      echo Html::input(
+         'airwatch_service_url',
+         [
+            'value' => $this->fields['airwatch_service_url'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Airwatch Console URL", "airwatch") . "</td>";
       echo "<td>";
-      Html::autocompletionTextField($this, "airwatch_console_url");
+      echo Html::input(
+         'airwatch_console_url',
+         [
+            'value' => $this->fields['airwatch_console_url'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Username", "airwatch") . "</td>";
       echo "<td>";
-      // FIXME This is a credential field so it is not in autocomplete whitelist
-      // Replace with a simple text input.
-      Html::autocompletionTextField($this, "username");
+      echo Html::input(
+         'username',
+         [
+            'value' => $this->fields['username'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("Password", "airwatch") . "</td>";
       echo "<td>";
-      // FIXME This is a credential field so it is not in autocomplete whitelist
-      // Replace with a password text input, crypt it, and handle ability to "blank" it.
-      Html::autocompletionTextField($this, "password");
+      // FIXME This is a credential field. Encrypt it, and handle ability to "blank" it.
+      echo Html::input(
+         'password',
+         [
+            'type'  => 'password',
+            'value' => $this->fields['password'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
       echo "<tr class='tab_bg_1' align='center'>";
       echo "<td>" . __("API Key", "airwatch") . "</td>";
       echo "<td>";
-      // FIXME This is a credential field so it is not in autocomplete whitelist
-      // Replace with a simple text input.
-      Html::autocompletionTextField($this, "api_key");
+      echo Html::input(
+         'api_key',
+         [
+            'value' => $this->fields['api_key'],
+         ]
+      );
       echo "</td>";
       echo "</tr>";
 
@@ -129,16 +155,19 @@ class PluginAirwatchConfig extends CommonDBTM {
       if (!$DB->tableExists("glpi_plugin_airwatch_configs")) {
          $migration->displayMessage("Install glpi_plugin_airwatch_configs");
 
+         $default_charset = DBConnection::getDefaultCharset();
+         $default_collation = DBConnection::getDefaultCollation();
+
          //Install
          $query = "CREATE TABLE `glpi_plugin_airwatch_configs` (
-                     `id` int(11) NOT NULL auto_increment,
-                     `fusioninventory_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `airwatch_service_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `airwatch_console_url` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `username` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `password` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `api_key` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL,
-                     `skip_ssl_check` tinyint(1) NOT NULL default '0',
+                     `id` int NOT NULL auto_increment,
+                     `fusioninventory_url` varchar(255) NOT NULL,
+                     `airwatch_service_url` varchar(255) NOT NULL,
+                     `airwatch_console_url` varchar(255) NOT NULL,
+                     `username` varchar(255) NOT NULL,
+                     `password` varchar(255) NOT NULL,
+                     `api_key` varchar(255) NOT NULL,
+                     `skip_ssl_check` tinyint NOT NULL default '0',
                      PRIMARY KEY  (`id`),
                      KEY `fusioninventory_url` (`fusioninventory_url`),
                      KEY `airwatch_service_url` (`airwatch_service_url`),
@@ -147,7 +176,7 @@ class PluginAirwatchConfig extends CommonDBTM {
                      KEY `password` (`password`),
                      KEY `api_key` (`api_key`),
                      KEY `skip_ssl_check` (`skip_ssl_check`)
-                  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+                  ) ENGINE=InnoDB DEFAULT CHARSET={$default_charset} COLLATE={$default_collation} ROW_FORMAT=DYNAMIC;";
          $DB->query($query) or die ($DB->error());
 
          $tmp = ['id'                   => 1,
